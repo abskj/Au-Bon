@@ -22,4 +22,11 @@ class loginController extends Controller
             echo 'unsuccesful';
         }
     }
+
+    public function signin(Request $req){
+        return response()->json([
+            'flag'=>'1'
+
+        ],200);
+    }
 }

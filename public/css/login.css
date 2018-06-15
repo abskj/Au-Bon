@@ -1,0 +1,15 @@
+body{
+
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/slider-2.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+#main{
+    min-height: 40vh;
+    margin-top: 25vh;
+    margin-bottom: auto;
+    color:black;
+}
+#main .col{
+padding:10px 10px 10px 10px;
+}

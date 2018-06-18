@@ -30,6 +30,7 @@ class CreateUserLoginTable extends Migration
             $table->foreign('restro_id')->references('id')->on('restro');
             $table->foreign('branch_id')->references('id')->on('branch');
             $table->primary('user_name');
+            $table->rememberToken();
 
 
 

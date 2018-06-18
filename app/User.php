@@ -2,9 +2,12 @@
 
 namespace App;
 
+use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+
+class User extends Authenticatable
 {
     //
     protected $table='user_login';
@@ -16,6 +19,10 @@ class User extends Model
         'status',
         'role',
         'aadhar_no'
+
+    ];
+    protected $hidden = [
+        'password','remember_token',
 
     ];
 }

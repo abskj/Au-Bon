@@ -21,6 +21,12 @@
                   </div>
             </div>
             <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" name="aadhar" id="aadhar" class="validate" v-model="aadhar">
+                    <label for="aadhar">Aadhar Number</label>
+                </div>
+            </div>
+            <div class="row">
                     <div class="input-field col s12">
                             <i class="material-icons prefix">lock</i>
                             <input name="password" id="password" type="password" class="validate" v-model="password">
@@ -36,19 +42,25 @@
 <script>
     import axios from 'axios';
     export default {
-        data:{
+        data(){
+            return {
             username:'',
             fullname:'',
-            password:''
+            password:'',
+            aadhar:''
+            }
+           
         },
         methods:{
             onFormSubmit(){
+                console.log(this.username);
                 axios.post('http://127.0.0.1:8000/api/user',{
-                    'username' : username,
-                    'password' : password,
-                    'fullname' : fullname,
-                    'status'   : 1,
-                    'role'     : 0
+                    user_name : this.username,
+                    password : this.password,
+                    user_fname : this.fullname,
+                    status   : 1,
+                    role     : 0,
+                    aadhar_no: this.aadhar
                 })
                 .then(function(response){
                     console.log(response);

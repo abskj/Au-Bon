@@ -25,7 +25,7 @@ class userController extends Controller
        
         $user = new User([
             'user_name' => $request->input('user_name'),
-            'user_fname' => $request->input('fullname'),
+            'user_fname' => $request->input('user_fname'),
             'password' => Hash::make($request->input('password')),
             'status' => $request->input('status'),
             'role' => $request->input('role'),

@@ -8,6 +8,14 @@ class User extends Model
 {
     //
     protected $table='user_login';
-    protected $keyType=string;
     protected $primaryKey='user_name';
+    protected $fillable = [
+        'user_name',
+        'password',
+        'user_fname',
+        'status',
+        'role',
+        'aadhar_no'
+
+    ];
 }

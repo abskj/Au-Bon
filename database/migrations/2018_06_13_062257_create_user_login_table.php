@@ -17,14 +17,14 @@ class CreateUserLoginTable extends Migration
 
             $table->timestamps();
             $table->string('user_name',15)->unique();
-            $table->string('password',32);
-            $table->string('user_fname',50);
-            $table->string('address',200);
-            $table->integer('restro_id')->unsigned();
-            $table->integer('branch_id')->unsigned();
-            $table->bigInteger('mobile');
-            $table->bigInteger('aadhar_no');
-            $table->bigInteger('voter_card_no');
+            $table->string('password',100);
+            $table->string('user_fname',50)->nullable();
+            $table->string('address',200)->nullable();
+            $table->integer('restro_id')->unsigned()->nullable();
+            $table->integer('branch_id')->unsigned()->nullable();
+            $table->bigInteger('mobile')->nullable();
+            $table->bigInteger('aadhar_no')->unique();
+            $table->bigInteger('voter_card_no')->nullable();
             $table->tinyInteger('status');
             $table->tinyInteger('role');
             $table->foreign('restro_id')->references('id')->on('restro');

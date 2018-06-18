@@ -20,7 +20,8 @@ Route::post('/login',[
     'uses'=> 'userController@login'
 ]);
 Route::post('/user',[
-    'uses' => 'userController@create'
+    'uses' => 'userController@create',
+    'auth.jwt' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class
 ]);
 Route::delete('/user/{username}',[
     'uses' => 'userController@delete'

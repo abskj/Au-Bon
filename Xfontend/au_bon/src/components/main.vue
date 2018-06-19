@@ -14,9 +14,9 @@ components:{
     'app-login':Login
 },
 methods:{
-    loginSuccess($event){
+    loginSuccess(event){
         console.log('Hahahaha');
-        document.getElementById('main').innerHTML=$event+'<h1>Now the dashboard will open</h1>';
+        document.getElementById('main').innerHTML=event+'<h1>Welcome '+event.full_name+'</h1>';
 
     }
 }

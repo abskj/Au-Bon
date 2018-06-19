@@ -61,6 +61,10 @@
 
 
 <script>
+var full_name;
+var role;
+
+
 import axios from 'axios';
 export default {
 data(){
@@ -79,11 +83,21 @@ methods:{
         }).then(
             (reponse) =>{
                 const token= reponse.data.token;
+                console.log(token)
+                full_name=response.data.full_name;
+                role=reponse.data.role;
                 console.log('Successfully logged in');
                 localStorage.setItem('token',token);
+               
+                
         }).catch(function(error){
             console.log(error);
         })
+         this.$emit('login-successful',{
+                    'full_name': full_name,
+                    'username':  this.username,
+                    'role': role
+                });
     }
 }
 }

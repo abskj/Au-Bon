@@ -27,9 +27,14 @@ class userController extends Controller
         }catch (JWTException $e){
             return response('Server Error',500);
         }
+        $user= User::where('user_name',$request->input('user_name'))->get()->first();
         return \response()->json([
             'message'=>'success',
-            'token'=>$token
+            'token'=>$token,
+            'status'=>$user->status,
+            'role'=>$user->role,
+            'full_name'=>$user->user_fname
+
         ],201);
 
 

@@ -73,9 +73,14 @@ methods:{
     onSubmitted(){
         axios.post('http://127.0.0.1:8000/api/login',{
             'user_name': this.username,
-            'password' : this.password
-        }).then(function(reponse){
-            console.log(reponse);
+            'password' : this.password,
+        },{
+            headers:{}
+        }).then(
+            (reponse) =>{
+                const token= reponse.data.token;
+                console.log('Successfully logged in');
+                localStorage.setItem('token',token);
         }).catch(function(error){
             console.log(error);
         })

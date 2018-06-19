@@ -71,12 +71,14 @@ data(){
 },
 methods:{
     onSubmitted(){
-        axios.get('http://127.0.0.1:8000/api/user')
-        .then(
-            (response)=>console.log(response)
-        ).catch(
-            (error)=>console.log(error)
-        )
+        axios.post('http://127.0.0.1:8000/api/login',{
+            'user_name': this.username,
+            'password' : this.password
+        }).then(function(reponse){
+            console.log(reponse);
+        }).catch(function(error){
+            console.log(error);
+        })
     }
 }
 }

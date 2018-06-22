@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('login');
+    return view('welcome');
 });
 Route::post('/login', 'loginController@login');
 Route::get('dashboard', function () {

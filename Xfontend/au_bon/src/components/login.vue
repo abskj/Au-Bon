@@ -78,28 +78,20 @@ methods:{
         axios.post('http://127.0.0.1:8000/api/login',{
             'user_name': this.username,
             'password' : this.password,
+            
+            
         },{
             headers:{}
-        }).then(
-            (reponse) =>{
-                const token= reponse.data.token;
-                console.log(token)
-                full_name=response.data.full_name;
-                role=reponse.data.role;
-                console.log('Successfully logged in');
-                localStorage.setItem('token',token);
-               
-                
+        }).then(response => {this.flag=true,
+        this.fullname=response.data.full_name,
+        this.role=response.data.role,
+        this.$emit('login-successful',this.fullname,this.role)
         }).catch(function(error){
             console.log(error);
-        })
-         this.$emit('login-successful',{
-                    'full_name': full_name,
-                    'username':  this.username,
-                    'role': role
-                });
+        });
+        }
     }
-}
+
 }
 </script>
 

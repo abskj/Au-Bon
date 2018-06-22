@@ -14,9 +14,9 @@ components:{
     'app-login':Login
 },
 methods:{
-    loginSuccess(event){
+    loginSuccess(fullname,role){
         console.log('Hahahaha');
-        document.getElementById('main').innerHTML=event+'<h1>Welcome '+event.full_name+'</h1>';
+        document.getElementById('main').innerHTML=role+'<h1>Welcome '+fullname+'</h1>';
 
     }
 }

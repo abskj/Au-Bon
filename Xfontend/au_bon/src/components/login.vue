@@ -5,7 +5,7 @@
            <div class="col m4">
 
            </div>
-           <div class="col m2 login-form">
+           <div class="col m2 login-form ">
                           <div class="row">
                                <div class="login__check center">
                                    <i class="material-icons">check</i>
@@ -23,7 +23,7 @@
                               </div>
                               <div class="col s10">
                                   
-                            <input name="username" id="user_name" type="text" class="validate" v-model="username" placeholder="Username">
+                            <input name="username" id="user_name" type="text" class="validate white-text" v-model="username" placeholder="Username">
                         
                               </div>
                               </div>   
@@ -118,6 +118,12 @@ svg path{
     color: white;
     font-size: 10em;
     font-weight: bold;
+}
+input:focus{
+    color: white!important;
+}
+input{
+    color:white!important;
 }
 
 </style>

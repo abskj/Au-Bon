@@ -62,8 +62,8 @@
                                               Item:
                                       </div>
                                         <div class="col m4">
-                                              <input type="text" id="autocomplete-input" class="autocomplete">
-                                             <label for="autocomplete-input">Autocomplete</label>
+                                              <input @focus="getItems" type="text" id="items" class="autocomplete">
+                                             
   
                                         </div>
                                         <div class="col m6">
@@ -108,7 +108,27 @@
                             </div>
                         </form>
 
+
                     </div>
+                                 <div class="row">
+                                    <div class="row">
+                                       <div class="col m3 label">
+                                              Discount Rate:
+                                      </div>
+                                        <div class="col m3">
+                                                <input type="number" step="0.01" name="" id=""   v-model="discount_rate">
+                                        </div>
+                                        <div class="col m3">Customer Type</div>
+                                        <div class="col m3">
+                                            <select class="browser-default" name="" id="">
+                                                <option value="">Student</option>
+                                                <option value="">Special</option>
+                                                <option value="">Student</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                   
                     <div class="row">
                         <div class="center">
                             <button id="trans-submit" type="submit" class="btn waves green">Finish Transaction</button>
@@ -127,15 +147,6 @@
 </template>
 
 <script>
-$(document).ready(function(){
-    $('input.autocomplete').autocomplete({
-      data: {
-        "Apple": null,
-        "Microsoft": null,
-        "Google": 'https://placehold.it/250x250'
-      },
-    });
-  });
 export default {
     methods:{
         transactionSubmit(){
@@ -145,7 +156,39 @@ export default {
             }
             document.getElementById("trans-submit").innerHTML='Done'
 
-        }
+        },
+        getItems(){
+           
+                    var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+            ];
+            $('#items').autocomplete({
+            source: availableTags
+            });
+            
+
+         }
     }
 
 }

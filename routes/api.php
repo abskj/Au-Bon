@@ -34,4 +34,8 @@ Route::get('/user',[
     'uses'=>'userController@test'
 ]);
 
+Route::post('/restro',[
+    'uses' => 'dashboardController@addRestro'
+]);
+
 

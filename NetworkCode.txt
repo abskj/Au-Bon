@@ -1,0 +1,6 @@
+//These codes are convention followed in the response from the server
+
+1   success
+2   permission denied
+3   not found
+4   some other error

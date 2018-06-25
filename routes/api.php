@@ -34,8 +34,31 @@ Route::get('/user',[
     'uses'=>'userController@test'
 ]);
 
+//CRUD for Restro model
+
 Route::post('/restro',[
     'uses' => 'dashboardController@addRestro'
+]);
+
+Route::get('/restro',[
+    'uses' => 'dashboardController@getRestro'
+]);
+Route::delete('/restro',[
+    'uses' => 'dashboardController@delRestro'
+]);
+Route::put('/restro',[
+    'uses' => 'dashboardController@updateRestro'
+]);
+
+
+
+
+
+Route::get('/branch',[
+    'uses' =>'dashboardController@getRestro'
+]);
+Route::post('/foodCategory',[
+    'uses' => 'dashboardController@addFoodCategory'
 ]);
 
 

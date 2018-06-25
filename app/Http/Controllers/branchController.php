@@ -100,7 +100,11 @@ class branchController extends Controller
         $this->validate($request, [
             'user_name' => 'required',
             'role' => 'required',
-            'restro_id' =>'required'
+            'restro_id' =>'required',
+            'address' =>'required',
+            'pin' =>'required',
+            'phone' =>'required',
+
         ]);
         if($request->input('role')>=1){
             return response()->json([
@@ -109,16 +113,29 @@ class branchController extends Controller
 
             ],401);
         }
+        $addr=$request->input('address');
+        $pin=$request->input('pin');
+        $phone=$request->input('phone');
         try{
             $branch=Branch::find($request->input('branch_id'));
-            $branch->update('');
+            $branch->update([
+                'address' => $addr,
+                'pin' => $pin,
+                'phone' =>$phone
+            ]);
 
-        }catch (\Throwable $exception){
+        }catch (\Throwable $e) {
             return response()->json([
                 'code' => 3,
-                'message' =>'Branch not found in Database'
-            ],404);
+                'message' => 'Branch not found in Database',
+                'error' => $e->getMessage(),
+
+
+            ], 404);
         }
-        $
+        return response()->json([
+            'code' => 1,
+            'message' => 'updated'
+        ],201);
     }
 }

@@ -65,6 +65,55 @@ class userController extends Controller
         ],205);
 
     }
+    public function createManager(Request $request){
+
+        $this->validate($request, [
+            'user_name' => 'required|unique:user_login',
+            'password' => 'required',
+            'aadhar_no' => 'required',
+            'user_fname' => 'required',
+            'admin_name' =>'required',
+            'restro_id' => 'required',
+            'address' => 'nullable',
+            'mobile' => 'required',
+            'voter_id' => 'nullable',
+            'branch_id' => 'nullable',
+
+        ]);
+        $username=$request->input('admin_name');
+
+        $admin=User::find($username);
+        if(($admin->role)!=0){
+            return \response()->json([
+                'code' => 2,
+                'message' => 'unauthorized request'
+            ],403);
+        }
+        $manager= new User([
+            'user_name' => $request->input('user_name'),
+            'password' => $request->input('password'),
+            'user_fname' => $request->input('user_fname'),
+            'restro_id' => $request->input('restro_id'),
+            'aadhar_no' => $request->input('aadhar_no'),
+            'address' => $request->input('address'),
+            'voter_card_no' => $request->input('voter_id'),
+            'mobile' => $request->input('mobile'),
+            'status' => 1,
+            'role' => 1,
+
+        ]);
+        $manager->save();
+        return response()->json(
+            [
+                'code' => 1,
+                'message' => 'New Manager created',
+            ],201
+        );
+
+
+
+    }
+
     public function delete(Request $request){
 
     }

@@ -16,7 +16,7 @@ class CreateRestroTable extends Migration
         Schema::create('restro', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-           
+            
             $table->string('restro_name',50);
             $table->string('gstin',15);
 

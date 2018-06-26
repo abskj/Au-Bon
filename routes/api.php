@@ -34,8 +34,55 @@ Route::get('/user',[
     'uses'=>'userController@test'
 ]);
 
+//CRUD for Restro model
+
 Route::post('/restro',[
     'uses' => 'dashboardController@addRestro'
+]);
+
+Route::get('/restro',[
+    'uses' => 'dashboardController@getRestro'
+]);
+Route::delete('/restro',[
+    'uses' => 'dashboardController@delRestro'
+]);
+Route::put('/restro',[
+    'uses' => 'dashboardController@updateRestro'
+]);
+
+//CRUD for branch
+//all operations should be done by manager or admins
+
+/*
+ * Takes a restro(restro_id) and return all its branches
+ */
+Route::post('/get-branches',[
+    'uses' =>'branchController@get'
+]);
+/*
+ * create a branch
+ */
+Route::post('/branch',[
+    'uses' =>'branchController@create'
+]);
+
+/*
+ * delete a branch from a particular restro
+ */
+Route::delete('/branch',[
+    'uses' => 'branchController@del'
+]);
+
+/*
+ * Update a branch
+ */
+
+Route::put('/branch',[
+    'uses' => 'branchController@update'
+]);
+
+Route::post('/foodCategory',[
+    'uses' => 'branchController@create'
 ]);
 
 

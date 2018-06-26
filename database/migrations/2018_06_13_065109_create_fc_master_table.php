@@ -16,7 +16,7 @@ class CreateFcMasterTable extends Migration
         Schema::create('food_category_master', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('cat_id',10);
+            $table->string('cat_id',15)->unique();
             $table->string('cat_name',15);
             $table->string('type',20);
             $table->string('user_name',15);

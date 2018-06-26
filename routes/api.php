@@ -23,6 +23,9 @@ Route::post('/user',[
     'uses' => 'userController@create',
     'auth.jwt' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class
 ]);
+Route::post('/manager',[
+    'uses' => 'userController@createManager'
+    ]);
 Route::delete('/user/{username}',[
     'uses' => 'userController@delete'
 ]);
@@ -37,7 +40,8 @@ Route::get('/user',[
 //CRUD for Restro model
 
 Route::post('/restro',[
-    'uses' => 'dashboardController@addRestro'
+    'uses' => 'dashboardController@addRestro',
+    'middleware' => 'auth.jwt'
 ]);
 
 Route::get('/restro',[

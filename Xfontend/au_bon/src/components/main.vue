@@ -1,8 +1,7 @@
 <template>
-
 <div id="main">
      <div v-if="logged_in">
-        <app-dashboard></app-dashboard>
+        <app-dashboard v-bind:user='user'></app-dashboard>
 
     </div>
     <div v-else >
@@ -20,6 +19,11 @@ export default {
     data(){
         return {
             logged_in:false,
+             user: [{
+                user_name:'abcd',
+                role:0,
+                user_fullname:'abcdefg'
+            }],
 
         }
     },

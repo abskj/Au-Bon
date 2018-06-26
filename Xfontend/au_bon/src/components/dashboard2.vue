@@ -6,9 +6,12 @@
             <sidebar class="red"></sidebar>
         </div>
         <div class="col m10">
-            <activities></activities>
+            <activities v-bind:user="user"></activities>
             
         </div>
+    </div>
+    <div>
+        <p>role_d{{user}}</p>
     </div>
     </div>
 </template>
@@ -22,6 +25,11 @@ components:{
     'navbar': Nav,
     'sidebar': Sidebar,
     'activities': Activities,
+},
+props: {
+    user: {
+        type: Array
+    }
 }
 }
 </script>

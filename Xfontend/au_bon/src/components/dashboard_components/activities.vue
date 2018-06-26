@@ -13,7 +13,7 @@
                    <hr>
                <div class="col m9">
                    <div class="row container">
-                        <app-restro-add></app-restro-add>
+                        <app-restro-add v-bind:user="user"></app-restro-add>
                    </div>
                    <hr>
                    <div class="row container">
@@ -23,6 +23,9 @@
 
                </div>
             </div>
+        </div>
+        <div>
+            <p>in activities{{user}}</p>
         </div>
     </div>
 
@@ -37,6 +40,11 @@ export default {
         'app-restro-add':RestroAdd,
         'app-manager-add':MangAdd,
         'app-transaction' :Transaction,
+    },
+    props: {
+        user: {
+            type: Array
+        }
     }
 
 }

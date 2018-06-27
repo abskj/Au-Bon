@@ -9,8 +9,8 @@ au_ban
     7. Use your id to login into dashboard from homepage
     
 # Things to Do:
-    [ ]Add restro
-    [ ]add branch
+    [*]Add restro
+    [*]add branch
     [ ]add items
     [ ]add tables
     [ ]add staffs

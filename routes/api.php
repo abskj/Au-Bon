@@ -26,6 +26,7 @@ Route::post('/user',[
 Route::post('/manager',[
     'uses' => 'userController@createManager'
     ]);
+
 Route::delete('/user/{username}',[
     'uses' => 'userController@delete'
 ]);
@@ -36,6 +37,13 @@ Route::put('/user/{username}',[
 Route::get('/user',[
     'uses'=>'userController@test'
 ]);
+/*
+ * CRUD for staff
+ */
+Route::post('/staff',[
+    'uses' => 'userController@createStaff'
+]);
+
 
 //CRUD for Restro model
 
@@ -106,7 +114,7 @@ Route::delete('/foodCategory',[
 ]);
 
 /*
- * CRUD for food Item for a particilar branch and category
+ * CRUD for food Item for a particilar branch
  */
 
 Route::post('/get-foodItem',[

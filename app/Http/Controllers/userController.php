@@ -74,20 +74,29 @@ class userController extends Controller
             'user_fname' => 'required',
             'admin_name' =>'required',
             'restro_id' => 'required',
-            'address' => 'nullable',
+            'address' => 'required',
             'mobile' => 'required',
             'voter_id' => 'nullable',
-            'branch_id' => 'nullable',
+            'branch_id' => 'required',
 
         ]);
         $username=$request->input('admin_name');
-
-        $admin=User::find($username);
-        if(($admin->role)!=0){
-            return \response()->json([
-                'code' => 2,
-                'message' => 'unauthorized request'
-            ],403);
+        try {
+            $admin = User::find($username);
+            if (($admin->role) != 0) {
+                return \response()->json([
+                    'code' => 2,
+                    'message' => 'unauthorized request'
+                ], 403);
+            }
+        }
+        catch(\Throwable $e){
+            return response()->json(
+                [
+                    'code' => 2,
+                    'message' => 'admin record not found'
+                ],404
+            );
         }
         $manager= new User([
             'user_name' => $request->input('user_name'),

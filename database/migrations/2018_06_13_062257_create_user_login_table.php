@@ -27,6 +27,8 @@ class CreateUserLoginTable extends Migration
             $table->bigInteger('voter_card_no')->nullable();
             $table->tinyInteger('status');
             $table->tinyInteger('role');
+            $table->foreign('restro_id')->references('id')->on('restro');
+            $table->foreign('branch_id')->references('id')->on('branch');
             $table->primary('user_name');
             $table->rememberToken();
 

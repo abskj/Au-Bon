@@ -11,10 +11,11 @@ au_ban
 # Things to Do:
     [*]Add restro
     [*]add branch
+    [*]add Category
     [ ]add items
     [ ]add tables
     [ ]add staffs
-    [ ]add managers
+    [*]add managers
     [ ]transaction window
     [ ]print billing
     

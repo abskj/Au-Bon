@@ -8,14 +8,13 @@ au_ban
     6. create a  admin entry from localhost:8080/create-admin
     7. Use your id to login into dashboard from homepage
     
-## 
- Things to Do:
+## Things to Do:
     [*]Add restro
     [*]add branch
     [*]add Category
     [*]add items
     [ ]add tables
-    [ ]add staffs
+    [*]add staffs
     [*]add managers
     [ ]transaction window
     [ ]print billing

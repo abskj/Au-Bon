@@ -85,8 +85,44 @@ Route::put('/branch',[
     'uses' => 'branchController@update'
 ]);
 
+/*
+ * CRUD for food Category for a particular branch
+ */
+
+Route::post('/get-foodCategory',[
+    'uses' => 'foodCategoryController@get'
+]);
+
 Route::post('/foodCategory',[
-    'uses' => 'branchController@create'
+    'uses' => 'foodCategoryController@create'
+]);
+
+Route::put('/foodCategory',[
+    'uses' => 'foodCategoryController@update'
+]);
+
+Route::delete('/foodCategory',[
+    'uses' => 'foodCategoryController@delete'
+]);
+
+/*
+ * CRUD for food Item for a particilar branch and category
+ */
+
+Route::post('/get-foodItem',[
+    'uses' => 'foodItemController@get'
+]);
+
+Route::post('/foodItem',[
+    'uses' => 'foodItemController@create'
+]);
+
+Route::put('/foodItem',[
+    'uses' => 'foodItemController@update'
+]);
+
+Route::delete('/foodItem',[
+    'uses' => 'foodItemController@delete'
 ]);
 
 

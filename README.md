@@ -1,5 +1,5 @@
 au_ban
-##Running this project
+## Running this project
     1. run `php artisan serve` at the root
     2. run `npm run dev` at Xfontend/au_bon
     3. configure the database in .env of root

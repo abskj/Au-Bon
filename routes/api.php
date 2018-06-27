@@ -41,7 +41,7 @@ Route::get('/user',[
 
 Route::post('/restro',[
     'uses' => 'dashboardController@addRestro',
-    'middleware' => 'auth.jwt'
+    //'middleware' => 'auth.jwt'
 ]);
 
 Route::get('/restro',[

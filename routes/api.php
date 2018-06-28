@@ -26,6 +26,7 @@ Route::post('/user',[
 Route::post('/manager',[
     'uses' => 'userController@createManager'
     ]);
+
 Route::delete('/user/{username}',[
     'uses' => 'userController@delete'
 ]);
@@ -36,12 +37,19 @@ Route::put('/user/{username}',[
 Route::get('/user',[
     'uses'=>'userController@test'
 ]);
+/*
+ * CRUD for staff
+ */
+Route::post('/staff',[
+    'uses' => 'userController@createStaff'
+]);
+
 
 //CRUD for Restro model
 
 Route::post('/restro',[
     'uses' => 'dashboardController@addRestro',
-    'middleware' => 'auth.jwt'
+    //'middleware' => 'auth.jwt'
 ]);
 
 Route::get('/restro',[
@@ -85,8 +93,44 @@ Route::put('/branch',[
     'uses' => 'branchController@update'
 ]);
 
+/*
+ * CRUD for food Category for a particular branch
+ */
+
+Route::post('/get-foodCategory',[
+    'uses' => 'foodCategoryController@get'
+]);
+
 Route::post('/foodCategory',[
-    'uses' => 'branchController@create'
+    'uses' => 'foodCategoryController@create'
+]);
+
+Route::put('/foodCategory',[
+    'uses' => 'foodCategoryController@update'
+]);
+
+Route::delete('/foodCategory',[
+    'uses' => 'foodCategoryController@delete'
+]);
+
+/*
+ * CRUD for food Item for a particilar branch
+ */
+
+Route::post('/get-foodItem',[
+    'uses' => 'foodItemController@get'
+]);
+
+Route::post('/foodItem',[
+    'uses' => 'foodItemController@create'
+]);
+
+Route::put('/foodItem',[
+    'uses' => 'foodItemController@update'
+]);
+
+Route::delete('/foodItem',[
+    'uses' => 'foodItemController@delete'
 ]);
 
 

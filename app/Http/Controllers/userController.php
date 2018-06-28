@@ -74,20 +74,29 @@ class userController extends Controller
             'user_fname' => 'required',
             'admin_name' =>'required',
             'restro_id' => 'required',
-            'address' => 'nullable',
+            'address' => 'required',
             'mobile' => 'required',
             'voter_id' => 'nullable',
-            'branch_id' => 'nullable',
+            'branch_id' => 'required',
 
         ]);
         $username=$request->input('admin_name');
-
-        $admin=User::find($username);
-        if(($admin->role)!=0){
-            return \response()->json([
-                'code' => 2,
-                'message' => 'unauthorized request'
-            ],403);
+        try {
+            $admin = User::find($username);
+            if (($admin->role) != 0) {
+                return \response()->json([
+                    'code' => 2,
+                    'message' => 'unauthorized request'
+                ], 403);
+            }
+        }
+        catch(\Throwable $e){
+            return response()->json(
+                [
+                    'code' => 2,
+                    'message' => 'admin record not found'
+                ],404
+            );
         }
         $manager= new User([
             'user_name' => $request->input('user_name'),
@@ -98,6 +107,7 @@ class userController extends Controller
             'address' => $request->input('address'),
             'voter_card_no' => $request->input('voter_id'),
             'mobile' => $request->input('mobile'),
+            'branch_id' => $request->input('branch_id'),
             'status' => 1,
             'role' => 1,
 
@@ -126,6 +136,64 @@ class userController extends Controller
             'request'=>$request,
             'read'=>'true'
         ],201);
+    }
+
+    public function createStaff(Request $request){
+        $this->validate($request, [
+            'user_name' => 'required|unique:user_login',
+            'password' => 'required',
+            'aadhar_no' => 'required',
+            'user_fname' => 'required',
+            'admin_name' =>'required',
+            'restro_id' => 'required',
+            'address' => 'required',
+            'mobile' => 'required',
+            'voter_id' => 'nullable',
+            'branch_id' => 'required',
+
+        ]);
+        $username=$request->input('admin_name');
+        try {
+            $admin = User::find($username);
+            if (($admin->role) > 2) {
+                return \response()->json([
+                    'code' => 2,
+                    'message' => 'unauthorized request'
+                ], 403);
+            }
+        }
+        catch(\Throwable $e){
+            return response()->json(
+                [
+                    'code' => 2,
+                    'message' => 'admin record not found'
+                ],404
+            );
+        }
+        $staff= new User([
+            'user_name' => $request->input('user_name'),
+            'password' => $request->input('password'),
+            'user_fname' => $request->input('user_fname'),
+            'restro_id' => $request->input('restro_id'),
+            'aadhar_no' => $request->input('aadhar_no'),
+            'address' => $request->input('address'),
+            'voter_card_no' => $request->input('voter_id'),
+            'mobile' => $request->input('mobile'),
+            'branch_id' => $request->input('branch_id'),
+            'status' => 1,
+            'role' => 3,
+
+        ]);
+        $staff->save();
+        return response()->json(
+            [
+                'code' => 1,
+                'message' => 'New Staff created',
+            ],201
+        );
+
+
+
     }
 
 }

@@ -18,6 +18,7 @@ class CreateCustomersTable extends Migration
             $table->timestamps();
             $table->bigInteger('mobile')->unique();
             $table->string('name',50);
+            $table->string('address',200)->nullable();
         });
     }
 

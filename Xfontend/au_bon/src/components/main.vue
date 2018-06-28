@@ -20,7 +20,7 @@ export default {
         return {
             logged_in:false,
              user: [{
-                user_name:'abcd',
+                user_name:'admin',
                 role:0,
                 user_fullname:'abcdefg'
             }],

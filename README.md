@@ -19,7 +19,22 @@ au_ban
     [ ]transaction window
     [ ]print billing
     [ ]steward table
+    [ ]customer table
     
 #issues
     [ ] on create branch if restro id is wrong
         send error response
+/*
+ * Routes for billing
+ * 1.add to bill an item
+ * 2.finish transaction
+ * check if customer exist in DB based on mobile number
+ * fetch his data if he does
+ * add him if he doesn't
+ * create select based on get category
+ * fetch items based on branch display according to category
+ *  * with item details
+ * with add item send it to bill transaction and with the transaction id create tran_detail
+ *
+ *
+ */

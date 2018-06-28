@@ -8,29 +8,31 @@
         <div class="row ">
             <div class="col s12 m6">
                 <form action="" class="" @submit.prevent="transactionSubmit">
+                     <div class="row ">
+                        <div class="col m3 label">
+                            Customer Mobile Number:
+                        </div>
+                        <div class="col m9">
+                            <input @blur="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
+                        </div>
+                    </div>
+
                     <div class="row ">
                         <div class="col m3 label">
                             Customer Name:
                         </div>
                         <div class="col m9">
-                            <input type="text" name="" id="" v-model="customer_name">
+                            <input type="text" name="" id="customer_name" v-model="cust_name">
                         </div>
                     </div>
-                    
-                    <div class="row ">
-                        <div class="col m3 label">
-                            Customer Mobile Number:
-                        </div>
-                        <div class="col m9">
-                            <input type="number" minlength="10" name="" id="" v-model="customer_no">
-                        </div>
-                    </div>
+                    <input type="hidden" id="customer_exists" v-model="cust_exists" >
+                   
                     <div class="row">
                         <div class="col m3 label">
                             Customer Address:
                         </div>
                         <div class="col m9">
-                            <input type="text" minlength="10" maxlength="200" name="" id="" v-model="customer_addr">
+                            <input type="text" id="customer_addr"  minlength="10" maxlength="200" name="" v-model="cust_addr">
                         </div>
                     </div>
                     <div class="row">
@@ -38,7 +40,7 @@
                             Table:
                         </div>
                         <div class="col m3">
-                            <input type="text" minlength="10" maxlength="200" name="" id="" v-model="customer_table">
+                            <input type="text" minlength="10" maxlength="200" name=""  v-model="customer_table">
                         </div>
                     </div>
                     <div class="row green lighten-3">
@@ -52,7 +54,7 @@
                                               Food Category:
                                       </div>
                                         <div class="col m3">
-                                                <input disabled type="text" minlength="10" maxlength="200" name="" id=""   v-mod el="food_cat">
+                                                <input disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +64,7 @@
                                               Item:
                                       </div>
                                         <div class="col m4">
-                                              <input @focus="getItems" type="text" id="items" class="autocomplete">
+                                              <input type="text" >
                                              
   
                                         </div>
@@ -85,7 +87,7 @@
                                               Item Quantity:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number"  name="" id=""   v-model="item_quantity">
+                                                <input type="number"  name=""    v-model="item_quantity">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +97,7 @@
                                               Item Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name="" id=""   v-model="item_rate">
+                                                <input type="number" step="0.01" name=""    v-model="item_rate">
                                         </div>
                                     </div>
                                 </div>
@@ -116,11 +118,11 @@
                                               Discount Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name="" id=""   v-model="discount_rate">
+                                                <input type="number" step="0.01" name=""    v-model="discount_rate">
                                         </div>
                                         <div class="col m3">Customer Type</div>
                                         <div class="col m3">
-                                            <select class="browser-default" name="" id="">
+                                            <select class="browser-default" name="" >
                                                 <option value="">Student</option>
                                                 <option value="">Special</option>
                                                 <option value="">Student</option>
@@ -147,48 +149,44 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+    data(){
+        return{
+            cust_no:'',
+            cust_addr:'',
+            cust_exists:'',
+            cust_name:'',
+
+        }
+    },
     methods:{
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
-            for(i=0;i<50;i++){
-
-            }
+            
             document.getElementById("trans-submit").innerHTML='Done'
 
         },
-        getItems(){
-           
-                    var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-            ];
-            $('#items').autocomplete({
-            source: availableTags
-            });
-            
+        getCustomerInfo(){
 
-         }
+            axios.post('http://127.0.0.1:8000/api/customer', {
+                'mobile': this.cust_no,
+            },{
+                headers:[]
+            }).then(
+                function (response) {
+                    if(response.data.code===1){
+                        document.getElementById("customer_name").value=response.data.customer_name;
+                        document.getElementById("customer_addr").value=response.data.customer_addr;
+                        document.getElementById("customer_exists").value=true;
+                    }
+                }
+
+            ).catch(function (error) {
+                console.log(error);
+            })
+        }
+      
     }
 
 }

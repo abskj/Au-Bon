@@ -18,7 +18,13 @@ class User extends Authenticatable
         'user_fname',
         'status',
         'role',
-        'aadhar_no'
+        'aadhar_no',
+        'restro_id',
+        'branch_id',
+        'address',
+        'mobile',
+        'voter_card_no',
+
 
     ];
     protected $hidden = [

@@ -75,7 +75,7 @@ data(){
 },
 methods:{
     onSubmitted(){
-        axios.post('http://192.168.0.105:8001/api/login',{
+        axios.post('http://127.0.0.1:8000/api/login',{
             'user_name': this.username,
             'password' : this.password,
             

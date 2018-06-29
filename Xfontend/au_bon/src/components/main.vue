@@ -22,7 +22,9 @@ export default {
              user: [{
                 user_name:'admin',
                 role:0,
-                user_fullname:'abcdefg'
+                user_fullname:'abcdefg',
+                branch_id:'1',
+
             }],
 
         }

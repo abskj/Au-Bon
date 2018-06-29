@@ -13,7 +13,7 @@
                             Customer Mobile Number:
                         </div>
                         <div class="col m9">
-                            <input @blur="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
+                            <input @blur="getCustomerInfo" @keypress.enter="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="row green lighten-3">
-                        <form id="" action="">
+                        <form action="">
                             <div class="col m12">
                                 
                                 
@@ -60,25 +60,37 @@
                                 </div>
                                 <div class="row">
                                     <div class="row">
-                                       <div class="col m2 label">
-                                              Item:
-                                      </div>
+                                        <div class="col m2 label">
+                                                Item:
+                                        </div>
                                         <div class="col m4">
-                                              <input type="text" >
                                              
+                                             <item-input v-bind:user="user" v-on:got-items="showItems" @keyup='nextItem'></item-input>
   
                                         </div>
+
                                         <div class="col m6">
                                             <div class="row">
-                                       <div class="col m2 label">
-                                              Code:
-                                      </div>
-                                        <div class="col m4">
-                                               <input disabled type="text" v-model="item_code">
-  
+                                                <div class="col m2 label">
+                                                        Code:
+                                                </div>
+                                                <div class="col m4">
+                                                    <input   v-model="item_code">
+        
+                                                </div>
+                                             </div>
                                         </div>
                                     </div>
-                                        </div>
+                                    <div class="row white ">
+                                      
+                                        <ul >
+                                            <li v-for="item in items" @click="selectItem(item)" class="">
+                                                <hr>
+                                                {{item.item_name}}
+                                                 <hr>
+                                            </li>
+                                           
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -150,23 +162,62 @@
 
 <script>
 import axios from 'axios';
+import itemInput from './transaction/item_input.vue';
 export default {
+     props:{
+        user:{
+            type: Array
+        }
+    },
+    components:{
+        'item-input':itemInput,
+    },
     data(){
         return{
             cust_no:'',
             cust_addr:'',
             cust_exists:'',
             cust_name:'',
+            item_name:'',
+            items:[{}],
+            item_code:'',
+            item_rate:'',
+            item_quantity:0,
 
         }
     },
     methods:{
+        selectItem(item){
+           this.item_name=item.item_name;
+           this.item_code=item.item_id;
+           this.food_cat=item.cat_id;
+           this.item_rate=item.item_rate;
+          this.items=[{}];
+          document.getElementById('item-search-text').value=item.item_name;
+        },
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
             
             document.getElementById("trans-submit").innerHTML='Done'
 
         },
+        showItems(code,array,key){
+             this.items=[{}];
+            if(code===1){
+               
+                for(var i=0;i< array.length;i++){
+                   var temp=array[i].item_name.indexOf(key);
+                   if(temp>-1){
+                       this.items.push(array[i])
+                   }
+                }
+                
+            }
+        }
+       ,
+       nextItem(){
+
+       },
         getCustomerInfo(){
 
             axios.post('http://127.0.0.1:8000/api/customer', {
@@ -175,11 +226,9 @@ export default {
                 headers:[]
             }).then(
                 function (response) {
-                    if(response.data.code===1){
-                        document.getElementById("customer_name").value=response.data.customer_name;
+                  document.getElementById("customer_name").value=response.data.customer_name;
                         document.getElementById("customer_addr").value=response.data.customer_addr;
                         document.getElementById("customer_exists").value=true;
-                    }
                 }
 
             ).catch(function (error) {

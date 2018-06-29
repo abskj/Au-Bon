@@ -8,7 +8,7 @@
             <div class="row">
                 
                    <div class="row">
-                       <app-transaction></app-transaction>
+                       <app-transaction v-bind:user="user"></app-transaction>
                    </div>
                    <hr>
                <div class="col m9">

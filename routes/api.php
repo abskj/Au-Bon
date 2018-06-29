@@ -157,5 +157,11 @@ Route::delete('/foodItem',[
 Route::post('/customer',[
     'uses' => 'billController@customer'
 ]);
+Route::post('/start-transaction',[
+    'uses' => 'billController@initiateTransaction'
+]);
+Route::post('/full-transaction',[
+    'uses' => 'billController@fullTransaction'
+]);
 
 

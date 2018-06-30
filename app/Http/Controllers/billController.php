@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\bill_transaction;
 use App\customer;
+use App\foodItem;
 use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -48,10 +49,13 @@ class billController extends Controller
             'cat_id' => 'required',
             'item_id' => 'required',
             'qty' => 'required',
-            'rate' => 'required',
+
             'branch_id' => 'required',
         ]);
-        $rate=$request->input('rate');
+        $iid=$request->input('item_id');
+        $item=foodItem::where(['item_id'=>$iid])->first();
+
+        $rate=$item->item_rate;
         $qty=$request->input('qty');
         $total=$rate*$qty;
         $tran=new tran_detail([
@@ -59,7 +63,7 @@ class billController extends Controller
             'cat_id' => $request->input('cat_id'),
             'item_id' => $request->input('item_id'),
             'qty' => $request->input('qty'),
-            'rate' => $request->input('rate'),
+            'rate' => $rate,
             'total' => $total,
             'branch_id' => $request->input('branch_id'),
 

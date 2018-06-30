@@ -163,5 +163,12 @@ Route::post('/start-transaction',[
 Route::post('/full-transaction',[
     'uses' => 'billController@fullTransaction'
 ]);
+Route::post('/part-transaction',[
+    'uses' => 'billController@partTransaction'
+]);
+
+Route::post('/customerCreate',[
+    'uses'=>'custController@create'
+]);
 
 

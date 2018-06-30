@@ -16,7 +16,10 @@
                             <input @blur="getCustomerInfo" @keypress.enter="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
-
+                    <!--
+                        hidden input for tranid
+                        -->
+                        <input type="hidden" id="transactionId" v-model="tran_id">
                     <div class="row ">
                         <div class="col m3 label">
                             Customer Name:
@@ -44,84 +47,8 @@
                         </div>
                     </div>
                     <div class="row green lighten-3">
-                        <form action="">
-                            <div class="col m12">
-                                
-                                
-                                <div class="row">
-                                    <div class="row">
-                                       <div class="col m3 label">
-                                              Food Category:
-                                      </div>
-                                        <div class="col m3">
-                                                <input disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col m2 label">
-                                                Item:
-                                        </div>
-                                        <div class="col m4">
-                                             
-                                             <item-input v-bind:user="user" v-on:got-items="showItems" @keyup='nextItem'></item-input>
-  
-                                        </div>
-
-                                        <div class="col m6">
-                                            <div class="row">
-                                                <div class="col m2 label">
-                                                        Code:
-                                                </div>
-                                                <div class="col m4">
-                                                    <input   v-model="item_code">
-        
-                                                </div>
-                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row white ">
-                                      
-                                        <ul >
-                                            <li v-for="item in items" @click="selectItem(item)" class="">
-                                                <hr>
-                                                {{item.item_name}}
-                                                 <hr>
-                                            </li>
-                                           
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="row">
-                                       <div class="col m3 label">
-                                              Item Quantity:
-                                      </div>
-                                        <div class="col m3">
-                                                <input type="number"  name=""    v-model="item_quantity">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="row">
-                                       <div class="col m3 label">
-                                              Item Rate:
-                                      </div>
-                                        <div class="col m3">
-                                                <input type="number" step="0.01" name=""    v-model="item_rate">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="center">
-                                        <button type="submit" class="btn red">Add to Bill</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-
+                       <!--  -->
+                    <add-to-bill v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
                     </div>
                                  <div class="row">
@@ -161,8 +88,10 @@
 </template>
 
 <script>
+
 import axios from 'axios';
-import itemInput from './transaction/item_input.vue';
+
+import addtoBill from './transaction/addToBill.vue';
 export default {
      props:{
         user:{
@@ -170,51 +99,106 @@ export default {
         }
     },
     components:{
-        'item-input':itemInput,
+       
+        'add-to-bill':addtoBill,
     },
     data(){
         return{
             cust_no:'',
             cust_addr:'',
-            cust_exists:'',
+            cust_exists:false,
             cust_name:'',
             item_name:'',
             items:[{}],
             item_code:'',
             item_rate:'',
             item_quantity:0,
+            first_tran:1,
+            tran_id:'',
+            food_cat:'',
 
         }
     },
     methods:{
-        selectItem(item){
-           this.item_name=item.item_name;
-           this.item_code=item.item_id;
-           this.food_cat=item.cat_id;
-           this.item_rate=item.item_rate;
-          this.items=[{}];
-          document.getElementById('item-search-text').value=item.item_name;
+        addToBill(){
+            
+            if(this.first_tran===1){
+                
+               if(this.cust_exists===false){
+                   //add customer
+                            axios.post('http://127.0.0.1:8000/api/customerCreate', {
+                            'mobile': this.cust_no,
+                            'name' :this.cust_name,
+                            'address':this.cust_addr,
+                        },{
+                            headers:[]
+                        }).then(
+                            function (response) {
+                            if(response.data.code===1){
+                                M.toast({html: 'Customer added'})
+                            }
+                            }
+
+                        ).catch(function (error) {
+                            console.log(error);
+                        })
+                        this.cust_exists=true;
+               }  
+                 //initialize transaction
+                 axios.post('http://127.0.0.1:8000/api/start-transaction', {
+                            'cust_id': this.cust_no,
+                            'user_name' :this.user[0]['user_name'],
+                            'branch_id':this.user[0]['branch_id'],
+                        },{
+                            headers:[]
+                        }).then(
+                            function (response) {
+                            if(response.data.code===1){
+                                document.getElementById('transactionId').value=response.data.id;
+                                M.toast({html: 'Transaction started'})
+                            }
+                            }
+
+                        ).catch(function (error) {
+                            console.log(error);
+                        })
+                        this.first_tran=0;
+
+            }
+            else{
+                 axios.post('http://127.0.0.1:8000/api/part-transaction', {
+                            'cust_id': this.cust_no,
+                            'user_name' :this.user[0]['user_name'],
+                            'branch_id':this.user[0]['branch_id'],
+                            'cat_id':this.food_cat,
+                            'qty':this.item_quantity,
+                            'rate':this.item_rate,
+                            'tran_id':this.tran_id,
+
+
+                        },{
+                            headers:[]
+                        }).then(
+                            function (response) {
+                            if(response.data.code===1){
+                                
+                                M.toast({html: 'Added to bill'})
+                            }
+                            }
+
+                        ).catch(function (error) {
+                            console.log(error);
+                        })
+            }
+
         },
+       
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
             
             document.getElementById("trans-submit").innerHTML='Done'
 
         },
-        showItems(code,array,key){
-             this.items=[{}];
-            if(code===1){
-               
-                for(var i=0;i< array.length;i++){
-                   var temp=array[i].item_name.indexOf(key);
-                   if(temp>-1){
-                       this.items.push(array[i])
-                   }
-                }
-                
-            }
-        }
-       ,
        nextItem(){
 
        },
@@ -268,4 +252,5 @@ export default {
 #trans-submit{
     
 }
+
 </style>

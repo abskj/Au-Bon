@@ -22,7 +22,6 @@ class CreateTranDetail extends Migration
             $table->integer('qty');
             $table->decimal('rate',8,2);
             $table->decimal('total',8,2);
-            $table->dateTime('date_time');
             $table->integer('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branch');
         });

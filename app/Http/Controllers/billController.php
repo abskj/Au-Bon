@@ -43,6 +43,33 @@ class billController extends Controller
     }
 
     public function partTransaction(Request $request){
+        $this->validate($request,[
+            'tran_id' => 'required',
+            'cat_id' => 'required',
+            'item_id' => 'required',
+            'qty' => 'required',
+            'rate' => 'required',
+            'branch_id' => 'required',
+        ]);
+        $rate=$request->input('rate');
+        $qty=$request->input('qty');
+        $total=$rate*$qty;
+        $tran=new tran_detail([
+            'tran_id' => $request->input('tran_id'),
+            'cat_id' => $request->input('cat_id'),
+            'item_id' => $request->input('item_id'),
+            'qty' => $request->input('qty'),
+            'rate' => $request->input('rate'),
+            'total' => $total,
+            'branch_id' => $request->input('branch_id'),
+
+        ]);
+
+        $tran->save();
+        return response()->json([
+            'code'=>1,
+            'message'=>'bill updated'
+        ]);
 
 }
 
@@ -51,7 +78,11 @@ class billController extends Controller
             'cust_id' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
+
         ]);
+
+
+
         $id=null;
         while (true){
             $y=mt_rand(0,999);
@@ -67,7 +98,6 @@ class billController extends Controller
             'tran_id'=> $id,
             'cust_id'=>$request->input('cust_id'),
             'bill_amount'=>0,
-            'date_time'=>'20'.date('y-m-d h:i:s'),
             'branch_id'=>$request->input('branch_id'),
             'user_name'=>$request->input('user_name'),
             'discount'=>0,

@@ -120,7 +120,9 @@ export default {
         }
     },
     methods:{
-        addToBill(){
+        fillitems(code,qty){
+            this.item_code=code;
+            this.item_quantity=qty;
             
             if(this.first_tran===1){
                 

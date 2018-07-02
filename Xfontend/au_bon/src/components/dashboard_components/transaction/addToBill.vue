@@ -1,6 +1,6 @@
 <template>
     <div>
-         <form @submit.prevent="addToBill">
+         <form @submit.prevent="addItems">
                             <div class="col m12">
                                 
                                 
@@ -131,11 +131,12 @@ export default {
           this.items=[{}];
           document.getElementById('item-search-text').value=item.item_name;
         },
-    },
-    addToBill(){
+    
+   addItems(){
         this.$emit('item-added',this.item_code,this.item_quantity);
     }
     
+}
 }
 </script>
 

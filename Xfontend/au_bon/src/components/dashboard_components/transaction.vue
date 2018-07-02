@@ -28,7 +28,7 @@
                             <input type="text" name="" id="customer_name" v-model="cust_name">
                         </div>
                     </div>
-                    <input type="hidden" id="customer_exists" v-model="cust_exists" >
+                   
                    
                     <div class="row">
                         <div class="col m3 label">
@@ -80,6 +80,14 @@
             <div class="col s12 m6 container">
                 <div class="center">
                     <h3 class="heading">Preview</h3>
+                </div>
+                <div>
+                    Status
+                    <div class="thin container">
+                        Transaction id: {{tran_id}}<br>
+                        first_tran: {{first_tran}}<br>
+                        Cutomer exists : {{cust_exists}}
+                    </div>
                 </div>
             </div>
             
@@ -211,15 +219,23 @@ export default {
             },{
                 headers:[]
             }).then(
-                function (response) {
-                  document.getElementById("customer_name").value=response.data.customer_name;
-                        document.getElementById("customer_addr").value=response.data.customer_addr;
-                        document.getElementById("customer_exists").value=true;
+                response=>{
+                    this.cust_no=response.data.customer_mobile,
+                    this.cust_id=response.data.customer_id,
+                    this.cust_addr=response.data.customer_addr,
+                    this.cust_name=response.data.customer_name,
+                    this.cust_exists=true;
                 }
-
-            ).catch(function (error) {
-                console.log(error);
-            })
+            ).catch(error=>
+            {
+                
+                    this.cust_id='',
+                    this.cust_addr='',
+                    this.cust_name='',
+                    this.cust_exists=false;
+            }
+            
+            );
         }
       
     }

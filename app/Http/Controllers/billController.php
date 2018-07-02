@@ -22,7 +22,7 @@ class billController extends Controller
                 return response()->json([
                     'code'=> 5,
                     'message' => 'customer not found'
-                ]);
+                ],401);
             }
             else{
                 return response()->json([
@@ -39,7 +39,7 @@ class billController extends Controller
             return response()->json([
                 'code'=> 4,
                 'message' => 'some unknown error occures'
-            ]);
+            ],501);
         }
     }
 

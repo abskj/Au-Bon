@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="row">
-            <h2 class="heading">Welcome</h2>
-        </div>
+       
         <div class="util-wrapper">
            
             <div class="row">

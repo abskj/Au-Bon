@@ -137,7 +137,7 @@ export default {
             console.log('first transaction')
                 
                if(this.cust_exists===false){
-            console.log('new customer')
+                     console.log('new customer')
                    //add customer
                             axios.post('http://127.0.0.1:8000/api/customerCreate', {
                             'mobile': this.cust_no,
@@ -149,37 +149,59 @@ export default {
                             () => {
                                 this.cust_exists=true;
                                 M.toast({html: 'Customer added'}) ;
-                            },
+                                 //initialize transaction
+                                    axios.post('http://127.0.0.1:8000/api/start-transaction', {
+                                        'cust_id': this.cust_no,
+                                        'user_name' :this.user[0]['user_name'],
+                                        'branch_id':this.user[0]['branch_id'],
+                                    },{
+                                        headers:[]
+                                    }).then(
+                                     
+                                        (response)=> {
+                                            this.tran_id=response.data.id;
+                                             M.toast({html: 'Transaction started'}) ;
+                                             this.first_tran=0;
+                                        }
 
-                        ).catch(error=()=> {
+                                    ).catch(function (error) {
+                                        console.log(error);
+                                    })
+                                   
+                                        },
+
+                        ).catch(()=> {
                               M.toast({html: 'There was some problem while communicating'})
                         });
                        
 
                        
-               }  
-                 //initialize transaction
-                //  axios.post('http://127.0.0.1:8000/api/start-transaction', {
-                //             'cust_id': this.cust_no,
-                //             'user_name' :this.user[0]['user_name'],
-                //             'branch_id':this.user[0]['branch_id'],
-                //         },{
-                //             headers:[]
-                //         }).then(
-                //             function (response) {
-                //             if(response.data.code===1){
-                //                 document.getElementById('transactionId').value=response.data.id;
-                //                 M.toast({html: 'Transaction started'})
-                //             }
-                //             }
+               }
+               else{
+                    axios.post('http://127.0.0.1:8000/api/start-transaction', {
+                                        'cust_id': this.cust_no,
+                                        'user_name' :this.user[0]['user_name'],
+                                        'branch_id':this.user[0]['branch_id'],
+                                    },{
+                                        headers:[]
+                                    }).then(
+                                     
+                                        (response)=> {
+                                            this.tran_id=response.data.id;
+                                             M.toast({html: 'Transaction started'}) ;
+                                             this.first_tran=0;
+                                        }
 
-                //         ).catch(function (error) {
-                //             console.log(error);
-                //         })
-                //         this.first_tran=0;
+                                    ).catch(function (error) {
+                                        console.log(error);
+                                    })
+
+               }  
+                
 
             }
             else{
+                alert("sjh")
                  axios.post('http://127.0.0.1:8000/api/part-transaction', {
                             'cust_id': this.cust_no,
                             'user_name' :this.user[0]['user_name'],
@@ -193,13 +215,10 @@ export default {
                         },{
                             headers:[]
                         }).then(
-                            function (response) {
-                            if(response.data.code===1){
-                                
-                                M.toast({html: 'Added to bill'})
-                            }
-                            }
+                            (response) => {
+                                 M.toast({html: 'Added to bill'})
 
+                            }
                         ).catch(function (error) {
                             console.log(error);
                         })

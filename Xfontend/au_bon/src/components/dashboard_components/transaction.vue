@@ -201,7 +201,7 @@ export default {
 
             }
             else{
-                alert("sjh")
+              
                  axios.post('http://127.0.0.1:8000/api/part-transaction', {
                             'cust_id': this.cust_no,
                             'user_name' :this.user[0]['user_name'],
@@ -210,6 +210,7 @@ export default {
                             'qty':this.item_quantity,
                             'rate':this.item_rate,
                             'tran_id':this.tran_id,
+                            'item_id':this.item_code,
 
 
                         },{

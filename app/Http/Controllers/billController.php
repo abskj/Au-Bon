@@ -46,7 +46,7 @@ class billController extends Controller
     public function partTransaction(Request $request){
         $this->validate($request,[
             'tran_id' => 'required',
-            'cat_id' => 'required',
+           
             'item_id' => 'required',
             'qty' => 'required',
 
@@ -54,13 +54,14 @@ class billController extends Controller
         ]);
         $iid=$request->input('item_id');
         $item=foodItem::where(['item_id'=>$iid])->first();
+        $cat=$item->cat_id;
 
         $rate=$item->item_rate;
         $qty=$request->input('qty');
         $total=$rate*$qty;
         $tran=new tran_detail([
             'tran_id' => $request->input('tran_id'),
-            'cat_id' => $request->input('cat_id'),
+            'cat_id' => $cat,
             'item_id' => $request->input('item_id'),
             'qty' => $request->input('qty'),
             'rate' => $rate,

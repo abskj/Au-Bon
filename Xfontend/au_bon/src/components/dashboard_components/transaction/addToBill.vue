@@ -10,7 +10,7 @@
                                               Food Category:
                                       </div>
                                         <div class="col m3">
-                                                <input @keydown.enter.prevent="" disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
+                                                <input disabled type="text" minlength="10" maxlength="200"    v-model="food_cat">
                                         </div>
                                     </div>
                                 </div>
@@ -22,12 +22,12 @@
                                         <div class="col m4">
                                              
                                             <div class="row">
-                                                      <input type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList" id="item-search-text">
+                                                      <input autocomplete="off" type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList" id="item-search-text">
                                             </div>
                                                <div class="row white ">
                                       
                                                     <ul id="item-list" v-bind:class="listClassObject">
-                                                        <li v-for="item,index in items" @mousedown="selectItemC(index)" v-bind:class="" >
+                                                        <li v-for="item,index in items" @mousedown="selectItemC(index)">
                                                          
                                                             {{item.item_name}}
                                                            

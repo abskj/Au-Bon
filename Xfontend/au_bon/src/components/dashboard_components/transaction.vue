@@ -94,10 +94,7 @@ import axios from 'axios';
 
 import addtoBill from './transaction/addToBill.vue';
 export default {
-    updated: function() {
-            this.previewControl++;
-        }
-    ,
+
      props:{
         user:{
             type: Array

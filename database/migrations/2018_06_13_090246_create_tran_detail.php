@@ -16,6 +16,7 @@ class CreateTranDetail extends Migration
         Schema::create('tran_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->string('item_name',30);
             $table->string('tran_id',15);
             $table->string('cat_id',10);
             $table->string('item_id',15);

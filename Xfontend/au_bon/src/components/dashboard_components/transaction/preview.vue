@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr v-for="item in this.items">
-                <td>{{item.item_name}}</td>
+                <!-- <td>{{item.item_name}}</td> -->
                 <td>{{item.item_id}}</td>
                 <td>{{item.rate}}</td>
                 <td>{{item.qty}}</td>
@@ -83,7 +83,7 @@ export default {
                     this.items=response.data.transactions;
                     console.log(this.items)
                     this.bill=response.data.bill;
-                     this.getItemNames();
+                   //  this.getItemNames();
 
                 }
             ).catch(function(error){

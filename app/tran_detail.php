@@ -17,5 +17,6 @@ class tran_detail extends Model
         'total',
         'date_time',
         'branch_id',
+        'item_name',
     ];
 }

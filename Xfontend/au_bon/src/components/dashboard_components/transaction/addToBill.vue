@@ -22,7 +22,7 @@
                                         <div class="col m4">
                                              
                                             <div class="row">
-                                                      <input type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList">
+                                                      <input type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList" id="item-search-text">
                                             </div>
                                                <div class="row white ">
                                       
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                   
-                                </div>
+                                </div>  
                                 <div class="row">
                                     <div class="row">
                                        <div class="col m3 label">
@@ -95,7 +95,7 @@ export default {
         }
     },
         components:{
-        
+       
        
     },
     data(){

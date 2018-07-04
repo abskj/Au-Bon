@@ -78,16 +78,9 @@
                 </form>
             </div>
             <div class="col s12 m6 container">
-                <div class="center">
-                    <h3 class="heading">Preview</h3>
-                </div>
+               
                 <div>
-                    Status
-                    <div class="thin container">
-                        Transaction id: {{tran_id}}<br>
-                        first_tran: {{first_tran}}<br>
-                        Cutomer exists : {{cust_exists}}
-                    </div>
+                   <app-preview  v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
                 </div>
             </div>
             
@@ -96,11 +89,15 @@
 </template>
 
 <script>
-
+import Preview from './transaction/preview.vue';
 import axios from 'axios';
 
 import addtoBill from './transaction/addToBill.vue';
 export default {
+    updated: function() {
+            this.previewControl++;
+        }
+    ,
      props:{
         user:{
             type: Array
@@ -109,9 +106,11 @@ export default {
     components:{
        
         'add-to-bill':addtoBill,
+         'app-preview' : Preview
     },
     data(){
         return{
+            previewControl:0,
             cust_no:'',
             cust_addr:'',
             cust_exists:false,
@@ -162,6 +161,7 @@ export default {
                                             this.tran_id=response.data.id;
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
+                                             this.previewControl++;
                                         }
 
                                     ).catch(function (error) {
@@ -190,6 +190,7 @@ export default {
                                             this.tran_id=response.data.id;
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
+                                             this.previewControl++;
                                         }
 
                                     ).catch(function (error) {
@@ -217,7 +218,8 @@ export default {
                             headers:[]
                         }).then(
                             (response) => {
-                                 M.toast({html: 'Added to bill'})
+                                 M.toast({html: 'Added to bill'});
+                                 this.previewControl--;
 
                             }
                         ).catch(function (error) {

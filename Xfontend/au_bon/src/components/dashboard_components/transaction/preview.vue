@@ -9,6 +9,7 @@
               <th>Item Price</th>
               <th>Quantity</th>
               <th>Sub Total</th>
+              <th></th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,11 @@
                 <td>{{item.rate}}</td>
                 <td>{{item.qty}}</td>
                 <td>{{item.total}}</td>
+                <td class="delete" >
+                    <div>
+                        <i class="material-icons red-text">close</i>
+                    </div>
+                </td>
             </tr>
         </tbody>
        </table>
@@ -79,7 +85,32 @@ export default {
 }
 </script>
 
-<style>
+<style >
+table{
+    line-height: 12px;
+    font-size:12px;
+}
+tr{
+    padding-top: 0px;
+    padding-bottom: 5px;
+}
+td{
+    padding:6px 6px;
+}
+tbody tr:hover{
+    font-size: 15px;
+    background-color: rgba(255, 255, 0, 0.544)!important;
+}
+.delete:hover{
+    background-color: rgba(0, 0, 255, 0.17);
+}
+
+.delete div i{
+    font-size: 12px!important;
+    line-height: 12px!important;
+}
+
 
 
 </style>
+

@@ -161,6 +161,29 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
+                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
+                                                    'cust_id': this.cust_no,
+                                                    'user_name' :this.user[0]['user_name'],
+                                                    'branch_id':this.user[0]['branch_id'],
+                                                    'cat_id':this.food_cat,
+                                                    'qty':this.item_quantity,
+                                                    'rate':this.item_rate,
+                                                    'tran_id':this.tran_id,
+                                                    'item_id':this.item_code,
+                                                    'item_name':this.item_name,
+
+
+                                                },{
+                                                    headers:[]
+                                                }).then(
+                                                    (response) => {
+                                                        M.toast({html: 'Added to bill'});
+                                                        this.previewControl--;
+
+                                                    }
+                                                ).catch(function (error) {
+                                                    console.log(error);
+                                                })
                                         }
 
                                     ).catch(function (error) {
@@ -190,6 +213,29 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
+                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
+                                                            'cust_id': this.cust_no,
+                                                            'user_name' :this.user[0]['user_name'],
+                                                            'branch_id':this.user[0]['branch_id'],
+                                                            'cat_id':this.food_cat,
+                                                            'qty':this.item_quantity,
+                                                            'rate':this.item_rate,
+                                                            'tran_id':this.tran_id,
+                                                            'item_id':this.item_code,
+                                                            'item_name':this.item_name,
+
+
+                                                        },{
+                                                            headers:[]
+                                                        }).then(
+                                                            (response) => {
+                                                                M.toast({html: 'Added to bill'});
+                                                                this.previewControl--;
+
+                                                            }
+                                                        ).catch(function (error) {
+                                                            console.log(error);
+                                                        })
                                         }
 
                                     ).catch(function (error) {
@@ -271,7 +317,7 @@ export default {
 
 <style>
 .container{
-    border: 2px blueviolet solid;
+    border: 2px rgb(21, 18, 24) solid;
 }
 #trans input{
     color:black!important;

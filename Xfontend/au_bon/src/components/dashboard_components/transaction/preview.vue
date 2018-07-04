@@ -1,7 +1,7 @@
 <template>
-<div class="container">
+<div class="">
     <p>Transaction ID: {{transactionId}}</p>
-       <table>
+       <table class="striped">
         <thead>
           <tr>
               <th>Name</th>
@@ -12,8 +12,8 @@
           </tr>
         </thead>
         <tbody>
-            <tr v-for="item in this.items">
-                <!-- <td>{{item.item_name}}</td> -->
+            <tr v-for="item in items">
+                <td>{{item.item_name}}</td>
                 <td>{{item.item_id}}</td>
                 <td>{{item.rate}}</td>
                 <td>{{item.qty}}</td>
@@ -28,10 +28,12 @@
 import axios from 'axios';
 export default {
 
-    data:{
+    data(){
+        return {
         items:[{}],
         bill:{},
         allItems:[{}],
+    }
     },
     props:{
         transactionId:{
@@ -45,31 +47,11 @@ export default {
         }
 
     },
-    created: function(){
+    updated: function(){
         
-             axios.post('http://127.0.0.1:8000/api/get-foodItem', {
-                'user_name':this.user[0]['user_name'],
-                'role': this.user[0]['role'],
-                'branch_id':this.user[0]['branch_id'],
-            },{
-                headers:[]
-            }).then((response) => {
-            this.allItems=response.data.data;
-            this.fetchItems();
-          
-        }).catch(function(err){
-            console.log('error');
-        });
+          this.fetchItems();
     },
 
-    watch:{
-        flag:{
-            handler: function(oldVal,newVal){
-                this.fetchItems();
-               console.log('kfeb')
-            }
-        }
-    },
     methods:{
         fetchItems(){
             axios.post('http://127.0.0.1:8000/api/get-transaction',{
@@ -91,17 +73,6 @@ export default {
             })
            
         },
-        getItemNames(){
-            for (var i=0;i<this.items.length;i++){
-                var x=this.items[i].item_id;
-                for(var j=0;j<this.allItems.length;j++){
-                    if(this.allItems[j].item_id===this.items[i].item_id){
-                        this.items[i].item_name=this.allItems[j].item_name;
-                        break;
-                    }
-                }
-            }
-        }
        
     }
 

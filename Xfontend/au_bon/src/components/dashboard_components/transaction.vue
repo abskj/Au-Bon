@@ -43,7 +43,7 @@
                             Table:
                         </div>
                         <div class="col m3">
-                            <input type="text" minlength="10" maxlength="200" name=""  v-model="customer_table">
+                            <input type="text" minlength="10" maxlength="200" name=""  v-model="table">
                         </div>
                     </div>
                     <div class="row container">
@@ -120,6 +120,8 @@ export default {
             first_tran:1,
             tran_id:'',
             food_cat:'',
+            table:0,
+            discount_rate:0.00,
 
         }
     },
@@ -209,6 +211,7 @@ export default {
                             'rate':this.item_rate,
                             'tran_id':this.tran_id,
                             'item_id':this.item_code,
+                            'item_name':this.item_name,
 
 
                         },{
@@ -289,9 +292,6 @@ export default {
 .label{
     
     font-weight: 600;
-}
-#trans-submit{
-    
 }
 
 </style>

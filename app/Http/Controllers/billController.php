@@ -123,8 +123,11 @@ class billController extends Controller
             'transaction_id' => 'required'
         ]);
         $transactions= tran_detail::where('tran_id', $request->input('transaction_id'))->get();
+        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->get()->first();
+        
         return response()->json([
             'transactions' => $transactions,
+            'bill' => $bill,
             'code' => 1,
         ],201);
     }

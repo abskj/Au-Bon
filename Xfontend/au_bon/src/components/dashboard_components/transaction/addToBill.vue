@@ -6,10 +6,10 @@
                                 
                                 <div class="row">
                                     <div class="row">
-                                       <div class="col m3 label">
+                                       <div class="col m5 label">
                                               Food Category:
                                       </div>
-                                        <div class="col m3">
+                                        <div class="col m4">
                                                 <input disabled type="text" minlength="10" maxlength="200"    v-model="food_cat">
                                         </div>
                                     </div>
@@ -40,10 +40,10 @@
 
                                         <div class="col m6">
                                             <div class="row">
-                                                <div class="col m2 label">
+                                                <div class="col m3 label">
                                                         Code:
                                                 </div>
-                                                <div class="col m4">
+                                                <div class="col m3">
                                                     <input   v-model="item_code">
         
                                                 </div>
@@ -54,7 +54,7 @@
                                 </div>  
                                 <div class="row">
                                     <div class="row">
-                                       <div class="col m3 label">
+                                       <div class="col m4 label">
                                               Item Quantity:
                                       </div>
                                         <div class="col m3">
@@ -76,8 +76,7 @@
                                     <div class="center">
                                         <button type="submit" class="btn red">Add to Bill</button>
                                     </div>
-                                    {{this.select}}
-                                    {{items.length}}
+                                   
                                 </div>
 
                             </div>

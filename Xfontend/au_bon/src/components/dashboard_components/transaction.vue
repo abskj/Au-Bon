@@ -70,9 +70,15 @@
                                     </div>
                                 </div>
                    
-                    <div class="row">
-                        <div class="center">
+                    <div class="row container">
+                        <div class="col m6">
+                           <div class="row"></div>
                             <button id="trans-submit" type="submit" class="btn waves green">Finish Transaction</button>
+                        </div>
+                        <div class="col m6">
+                            <div class="row">
+                                <button id="trans-reset"  @click="reset" class="btn waves blue">Reset Transaction</button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -126,6 +132,20 @@ export default {
         }
     },
     methods:{
+        reset(){
+            axios.post('http://127.0.0.1:8000/api/reset-transaction',{
+                'tran_id' :this.tran_id,
+            }).then(
+                (response) =>{
+                     M.toast({html: 'Transaction successfully reset'}) ;
+                     this.previewControl--;
+                }
+            ).catch(
+                function(err){
+                    M.toast({html: 'There was some problem communicating your request'})
+                }
+            )
+        },
         fillitems(code,qty){
             console.log('add to button pressed')
             this.item_code=code;

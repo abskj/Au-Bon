@@ -10,7 +10,7 @@
                                               Food Category:
                                       </div>
                                         <div class="col m3">
-                                                <input @keyup.enter.prevent="" disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
+                                                <input @keydown.enter.prevent="" disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
                                         </div>
                                     </div>
                                 </div>
@@ -22,7 +22,7 @@
                                         <div class="col m4">
                                              
                                             <div class="row">
-                                                      <input type="text" @keyup.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList">
+                                                      <input type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList">
                                             </div>
                                                <div class="row white ">
                                       
@@ -139,8 +139,8 @@ export default {
         },
         select:{
            handler: function(oldval,newval){
-               if(newval<0){
-                   this.select=this.items.length-1;
+               if(newval===0){
+                   this.select=this.items.length;
                }
                 if(newval>=this.items.length){
                     this.select=1;

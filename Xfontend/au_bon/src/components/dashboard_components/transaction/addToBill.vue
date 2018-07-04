@@ -10,7 +10,7 @@
                                               Food Category:
                                       </div>
                                         <div class="col m3">
-                                                <input disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
+                                                <input @keyup.enter.prevent="" disabled type="text" minlength="10" maxlength="200" name=""    v-model="food_cat">
                                         </div>
                                     </div>
                                 </div>
@@ -22,13 +22,13 @@
                                         <div class="col m4">
                                              
                                             <div class="row">
-                                                 <item-input v-bind:user="user" v-on:got-items="showItems" @keyup='nextItem'></item-input>
+                                                      <input type="text" @keyup.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList">
                                             </div>
                                                <div class="row white ">
                                       
-                                                    <ul >
-                                                        <li v-for="item in items" @click="selectItem(item)" class="">
-                                                          
+                                                    <ul id="item-list" v-bind:class="listClassObject">
+                                                        <li v-for="item,index in items" @mousedown="selectItemC(index)" v-bind:class="" >
+                                                         
                                                             {{item.item_name}}
                                                            
                                                         </li>
@@ -76,6 +76,8 @@
                                     <div class="center">
                                         <button type="submit" class="btn red">Add to Bill</button>
                                     </div>
+                                    {{this.select}}
+                                    {{items.length}}
                                 </div>
 
                             </div>
@@ -85,6 +87,7 @@
 
 <script>
 import itemInput from './item_input.vue';
+import axios from 'axios';
 export default {
          props:{
         user:{
@@ -97,6 +100,10 @@ export default {
     },
     data(){
         return {
+            listClassObject:{
+                hide: true,
+            },
+            select:1,
              item_name:'',
             items:[{}],
             item_code:'',
@@ -105,43 +112,111 @@ export default {
             first_tran:1,
             tran_id:'',
             food_cat:'',
+            allItems:[{}],
+        }
+    },
+    computed:{
+        
+    },
+    watch:{
+        item_name:{
+           handler:  function(oldval,newval){
+             while(this.items.length>0){
+                 this.items.pop()
+             }
+            console.log(this.allItems)
+
+            for(var i=0;i< this.allItems.length;i++){
+                   var temp=this.allItems[i].item_name.toLowerCase().indexOf(this.item_name.toLowerCase());
+                   if(temp>-1){
+                       this.items.push(this.allItems[i])
+                   }
+                }  
+                var elements=document.getElementById("item-list").children;
+                console.log(this.select-1)
+                elements[this.select-1].classList.add('selected');
+        }
+        },
+        select:{
+           handler: function(oldval,newval){
+               if(newval<0){
+                   this.select=this.items.length-1;
+               }
+                if(newval>=this.items.length){
+                    this.select=1;
+                }
+                 var elements=document.getElementById("item-list").children;
+                for (var i=0;i<elements.length;i++){
+                    elements[i].classList.remove('selected')
+                }
+                elements[this.select-1].classList.add('selected');
+           }
         }
     },
     methods:{
-        
-        showItems(code,array,key){
-             this.items=[{}];
-            if(code===1){
+        hideItemList(){
+            this.listClassObject.hide=true;
+        },
+            changeSelect(x){
+                this.listClassObject.hide=false;
+                console.log(x)
+               this.select=this.select+x;
                
-                for(var i=0;i< array.length;i++){
-                   var temp=array[i].item_name.indexOf(key);
-                   if(temp>-1){
-                       this.items.push(array[i])
-                   }
-                }
-                
-            }
+            },
+             getItems(){
+               
+            
+             axios.post('http://127.0.0.1:8000/api/get-foodItem', {
+                'user_name':this.user[0]['user_name'],
+                'role': this.user[0]['role'],
+                'branch_id':this.user[0]['branch_id'],
+            },{
+                headers:[]
+            }).then((response) => {
+                this.code=response.data.code;
+            this.allItems=response.data.data;
+            this.listClassObject.hide=false;
         }
-       , 
-       selectItem(item){
+
+            ).catch(function (error) {
+                console.log(error);
+            })
+        },
+        isSelected(index){
+            if((index+1)===this.select){
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
+        selectItemC(index){
+            this.select=index+1;
+            this.selectItem();
+        },
+      
+       selectItem(){
+           var item=this.items[this.select-1];
            this.item_name=item.item_name;
            this.item_code=item.item_id;
            this.food_cat=item.cat_id;
            this.item_rate=item.item_rate;
           this.items=[{}];
           document.getElementById('item-search-text').value=item.item_name;
+          this.listClassObject.hide=true;
         },
     
    addItems(){
         this.$emit('item-added',this.item_code,this.item_quantity);
-    }
+    },
+
     
 }
 }
 </script>
 
 <style>
-li:hover{
-    background-color: rgba(0, 128, 0, 0.344);
+.selected{
+    background-color: rgba(97, 252, 120, 0.905);
 }
 </style>

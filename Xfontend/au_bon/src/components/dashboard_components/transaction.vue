@@ -46,7 +46,7 @@
                             <input type="text" minlength="10" maxlength="200" name=""  v-model="customer_table">
                         </div>
                     </div>
-                    <div class="row green lighten-3">
+                    <div class="row container">
                        <!--  -->
                     <add-to-bill v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 

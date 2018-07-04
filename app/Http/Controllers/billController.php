@@ -133,4 +133,24 @@ class billController extends Controller
         ],201);
     }
 
+    public function removeItem(Request $request){
+        $this->validate($request,[
+            'tran_id' => 'required'
+        ]);
+        try{
+            $tran=tran_detail::find($request->input('tran_id'));
+            $tran->delete();
+            return response()->json([
+                'code' => 1,
+                'message' => 'item removed from list'
+            ],201);
+        }
+            catch(Throwable $e){
+                return response()->json([
+                    'code' => 3,
+                    'message' => 'item not found'
+                ],404);
+            }
+    }
+
 }

@@ -169,7 +169,9 @@ Route::post('/part-transaction',[
 Route::post('/get-transaction',[
     'uses' => 'billController@getTransaction'
 ]);
-
+Route::post('/del-item-transaction',[
+    'uses' => 'billController@removeItem'
+]);
 Route::post('/customerCreate',[
     'uses'=>'custController@create'
 ]);

@@ -19,7 +19,7 @@
                 <td>{{item.rate}}</td>
                 <td>{{item.qty}}</td>
                 <td>{{item.total}}</td>
-                <td class="delete" >
+                <td class="delete" @click="deleteItem(item)" >
                     <div>
                         <i class="material-icons red-text">close</i>
                     </div>
@@ -53,12 +53,27 @@ export default {
         }
 
     },
-    updated: function(){
+    // updated: function(){
         
-          this.fetchItems();
+    //       this.fetchItems();
+    // },
+    watch:{
+        flag: function(ov,nv){
+            this.fetchItems();
+        }
     },
-
     methods:{
+        deleteItem(item){
+            axios.post('http://127.0.0.1:8000/api/del-item-transaction',{
+                'tran_id' :item.id
+            }).then(
+                (response) => {
+                    console.log(response);
+                      M.toast({html: 'Item deleted'}) ;
+                    this.fetchItems();
+                }
+            )
+        },
         fetchItems(){
             axios.post('http://127.0.0.1:8000/api/get-transaction',{
                 'transaction_id' : transactionId,

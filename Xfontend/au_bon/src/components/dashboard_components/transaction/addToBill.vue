@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import itemInput from './item_input.vue';
+
 import axios from 'axios';
 export default {
          props:{
@@ -95,7 +95,7 @@ export default {
         }
     },
         components:{
-        'item-input':itemInput,
+        
        
     },
     data(){

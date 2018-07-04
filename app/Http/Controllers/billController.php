@@ -47,7 +47,7 @@ class billController extends Controller
     public function partTransaction(Request $request){
         $this->validate($request,[
             'tran_id' => 'required',
-            
+
             'item_id' => 'required',
             'qty' => 'required',
 
@@ -56,7 +56,7 @@ class billController extends Controller
         $iid=$request->input('item_id');
         $item=foodItem::where(['item_id'=>$iid])->first();
         $cat=$item->cat_id;
-        
+
         $rate=$item->item_rate;
         $qty=$request->input('qty');
         $total=$rate*$qty;
@@ -125,7 +125,7 @@ class billController extends Controller
         ]);
         $transactions= tran_detail::where('tran_id', $request->input('transaction_id'))->get();
         $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->get()->first();
-        
+
         return response()->json([
             'transactions' => $transactions,
             'bill' => $bill,
@@ -151,6 +151,26 @@ class billController extends Controller
                     'message' => 'item not found'
                 ],404);
             }
+    }
+    public function reset(Request $request){
+        $this->validate($request,[
+            'tran_id' => 'required'
+        ]);
+        try{
+            $transactions = tran_detail::where('tran_id', $request->input('tran_id'))->get();
+            foreach ($transactions as $tran){
+                $tran->delete();
+            }
+            return response()->json([
+                'code' => 1,
+                'message' => 'transactions deleted'
+            ]);
+        }
+        catch(Throwable $e){
+            return response()->json([
+                'code'=> 4
+            ],404);
+        }
     }
 
 }

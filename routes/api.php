@@ -172,6 +172,10 @@ Route::post('/get-transaction',[
 Route::post('/del-item-transaction',[
     'uses' => 'billController@removeItem'
 ]);
+//reset a transaction
+Route::post('/reset-transaction',[
+    'uses' => 'billController@reset'
+]);
 Route::post('/customerCreate',[
     'uses'=>'custController@create'
 ]);

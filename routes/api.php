@@ -161,7 +161,7 @@ Route::post('/start-transaction',[
     'uses' => 'billController@initiateTransaction'
 ]);
 Route::post('/complete-transaction',[
-    'uses' => 'billController@completeTransaction'
+    'uses' => 'billController@complete'
 ]);
 Route::post('/part-transaction',[
     'uses' => 'billController@partTransaction'

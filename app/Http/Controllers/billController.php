@@ -171,6 +171,30 @@ class billController extends Controller
                 'code'=> 4
             ],404);
         }
+
+    }
+    public function complete(Request $request){
+        $this->validate($request,[
+            'transaction_id' => 'required',
+            'discount_rate' => 'required',
+        ]);
+        $total=0.00;
+        $transactions =  tran_detail::where('tran_id', $request->input('tran_id'))->get();
+        foreach ($transactions as $tran){
+            $total+=$tran->total;
+        }
+        $dr=$request->input('discount_rate');
+        $net_total=$total-($dr*$total);
+        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
+        $bill->bill_amount=$total;
+        $bill->discount=$dr;
+        $bill->net_billed=$net_total;
+        $bill->save();
+        return response()->json([
+            'code'=>1,
+            'message'=>'transaction completed'
+        ]);
+
     }
 
 }

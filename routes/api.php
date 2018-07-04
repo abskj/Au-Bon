@@ -160,11 +160,14 @@ Route::post('/customer',[
 Route::post('/start-transaction',[
     'uses' => 'billController@initiateTransaction'
 ]);
-Route::post('/full-transaction',[
-    'uses' => 'billController@fullTransaction'
+Route::post('/complete-transaction',[
+    'uses' => 'billController@completeTransaction'
 ]);
 Route::post('/part-transaction',[
     'uses' => 'billController@partTransaction'
+]);
+Route::post('/get-transaction',[
+    'uses' => 'billController@getTransaction'
 ]);
 
 Route::post('/customerCreate',[

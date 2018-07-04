@@ -9,6 +9,7 @@ use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class billController extends Controller
 {
     //
@@ -116,5 +117,16 @@ class billController extends Controller
         ]);
     }
 
+    public function getTransaction(Request $request)
+    {
+        $this->validate($request, [
+            'transaction_id' => 'required'
+        ]);
+        $transactions= tran_detail::where('tran_id', $request->input('transaction_id'))->get();
+        return response()->json([
+            'transactions' => $transactions,
+            'code' => 1,
+        ],201);
+    }
 
 }

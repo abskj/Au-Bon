@@ -89,7 +89,7 @@
         </div>
         <div id="modal1" class="modal">
            
-                   <settle-bill></settle-bill>
+                   <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id"></settle-bill>
          </div>
     </div>
 </template>
@@ -137,8 +137,15 @@ export default {
         }
     },
     methods:{
+        finish(){
+            var elem=document.getElementById('modal1');
+             var instance = M.Modal.getInstance(elem);
+             instance.destroy()
+              M.toast({html: 'Collect your Bill'}) ;
+             this.reset();
+        },
         reset(){
-             this.previewControl=0;
+             this.previewControl++;
              this.cust_no='';
               this.cust_addr='';
               this.cust_exists=false;
@@ -246,13 +253,24 @@ export default {
        
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
-            var elems=document.getElementById('modal1');
-            var modal=M.Modal.init(elems, {
-                'startingTop': '25%',
-                'dismissible' :false,
+            axios.post('http://127.0.0.1:8000/api/complete-transaction',{
+                'transaction_id' :this.tran_id,
+                'discount_rate' :this.discount_rate,
+            }).then(
+                (response) =>{
+                     var elems=document.getElementById('modal1');
+                       var modal=M.Modal.init(elems, {
+                            'startingTop': '25%',
+                             'dismissible' :false,
+                                 })
+                      modal.open()
+                       document.getElementById("trans-submit").innerHTML='Finish'
+                }
+            ).catch(function(err){
+                console.log(err);
             })
-            modal.open()
-            document.getElementById("trans-submit").innerHTML='Done'
+           
+           
 
         },
        setSteward(id,name){

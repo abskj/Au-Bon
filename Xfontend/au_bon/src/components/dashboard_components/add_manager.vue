@@ -90,9 +90,7 @@
 </template>
 
 <script>
-import veevalidate from 'vee-validate';
 import Vue from 'vue';
-Vue.use(veevalidate);
 import Axios from 'axios';
 
 export default {

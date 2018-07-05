@@ -157,5 +157,27 @@ Route::delete('/foodItem',[
 Route::post('/customer',[
     'uses' => 'billController@customer'
 ]);
+Route::post('/start-transaction',[
+    'uses' => 'billController@initiateTransaction'
+]);
+Route::post('/complete-transaction',[
+    'uses' => 'billController@complete'
+]);
+Route::post('/part-transaction',[
+    'uses' => 'billController@partTransaction'
+]);
+Route::post('/get-transaction',[
+    'uses' => 'billController@getTransaction'
+]);
+Route::post('/del-item-transaction',[
+    'uses' => 'billController@removeItem'
+]);
+//reset a transaction
+Route::post('/reset-transaction',[
+    'uses' => 'billController@reset'
+]);
+Route::post('/customerCreate',[
+    'uses'=>'custController@create'
+]);
 
 

@@ -19,7 +19,7 @@ class CreateBillTransactionTable extends Migration
             $table->string('tran_id',15)->unique();
             $table->bigInteger('cust_id');
             $table->decimal('bill_amount',8,2);
-            $table->dateTime('date_time');
+
             $table->string('user_name');
             $table->decimal('discount',8,2);
             $table->decimal('net_billed',8,2);

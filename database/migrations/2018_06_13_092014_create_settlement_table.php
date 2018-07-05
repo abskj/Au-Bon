@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,8 +21,8 @@ class CreateSettlementTable extends Migration
             $table->decimal('bill_amount',8,2);
             $table->tinyInteger('settle_mode');
             $table->tinyInteger('status_flag');
-            $table->bigInteger('card_number');
-            $table->string('bank',30);
+            $table->bigInteger('card_number')->nullable();
+            $table->string('bank',30)->nullable();
 
         });
     }

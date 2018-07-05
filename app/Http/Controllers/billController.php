@@ -11,6 +11,7 @@ use App\settlement;
 use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 
 class billController extends Controller
@@ -224,7 +225,10 @@ class billController extends Controller
 
             ]);
         $settlement=null;
-        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
+        $tid=$request->input('tran_id');
+
+        $bill=DB::table('bill_transaction')->where('tran_id',$tid)->first();
+
         if($request->input('settle_mode')==0){
             //assuming 1 for card and 0 for cash
             $settlement=new settlement([

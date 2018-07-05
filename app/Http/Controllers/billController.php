@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\bill_transaction;
+use App\Branch;
 use App\customer;
 use App\foodItem;
+use App\Restro;
 use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -85,8 +87,11 @@ class billController extends Controller
             'cust_id' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
+           'steward_id' => 'required',
+           'table_no' =>'required',
 
         ]);
+       $restro=Restro::find((Branch::find($request->input('branch_id'))->restro_id));
 
 
 
@@ -107,14 +112,18 @@ class billController extends Controller
             'bill_amount'=>0,
             'branch_id'=>$request->input('branch_id'),
             'user_name'=>$request->input('user_name'),
+            'steward_id'=>$request->input('steward_id'),
+            'table_no'=>$request->input('table_no'),
             'discount'=>0,
             'net_billed'=>0,
+            'gst_comp' => $restro->gst_comp,
         ]);
         $tran->save();
         return response()->json([
             'code'=>1,
             'message'=>'Transaction initiated',
             'id'=>$id,
+            'gst_comp'=>$restro->gst_comp,
         ]);
     }
 

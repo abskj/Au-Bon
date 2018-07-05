@@ -19,7 +19,8 @@ class dashboardController extends Controller
             'user_name' => 'required',
             'role' => 'required',
             'restro_name' =>'required',
-            'gstin'=>'required'
+            'gstin'=>'required',
+            'gst_comp' =>'required',
             ]);
         if($request->input('role')!=0){
             return response()->json([
@@ -31,6 +32,7 @@ class dashboardController extends Controller
         $restro=new Restro([
             'restro_name'=> $request->input('restro_name'),
             'gstin'=> $request->input('gstin'),
+            'gst_comp'=>$request->input('gst_comp'),
         ]);
         $restro->save();
         return response()->json([

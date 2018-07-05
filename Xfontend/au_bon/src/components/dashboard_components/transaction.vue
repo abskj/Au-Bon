@@ -47,6 +47,9 @@
                         </div>
                     </div>
                     <div class="row container">
+                        <select-steward v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                    </div>
+                    <div class="row container">
                        <!--  -->
                     <add-to-bill v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
@@ -90,7 +93,7 @@
 <script>
 import Preview from './transaction/preview.vue';
 import axios from 'axios';
-
+import Steward from './transaction/steward.vue';
 import addtoBill from './transaction/addToBill.vue';
 export default {
 
@@ -102,7 +105,8 @@ export default {
     components:{
        
         'add-to-bill':addtoBill,
-         'app-preview' : Preview
+         'app-preview' : Preview,
+         'select-steward' : Steward,
     },
     data(){
         return{
@@ -121,23 +125,29 @@ export default {
             food_cat:'',
             table:0,
             discount_rate:0.00,
+            steward_id:'',
 
         }
     },
     methods:{
         reset(){
-            axios.post('http://127.0.0.1:8000/api/reset-transaction',{
-                'tran_id' :this.tran_id,
-            }).then(
-                (response) =>{
-                     M.toast({html: 'Transaction successfully reset'}) ;
-                     this.previewControl--;
-                }
-            ).catch(
-                function(err){
-                    M.toast({html: 'There was some problem communicating your request'})
-                }
-            )
+             this.previewControl=0;
+             this.cust_no='';
+              this.cust_addr='';
+              this.cust_exists=false;
+               this.cust_name='';
+             this.item_name='';
+             this.items=[{}];
+               this.item_code='';
+               this.item_rate='';
+            this.item_quantity=0;
+             this.first_tran=1;
+              this.tran_id='';
+           this.food_cat='';
+             this.table=0;
+           this. discount_rate=0.00;
+           this.steward_id='';
+
         },
         fillitems(code,qty){
             console.log('add to button pressed')
@@ -165,6 +175,9 @@ export default {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
+                                        'steward_id' :this.steward_id,
+                                        'table_no' : this.table,
+
                                     },{
                                         headers:[]
                                     }).then(
@@ -217,6 +230,8 @@ export default {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
+                        'steward_id' :this.steward_id,
+                        'table_no' : this.table,
                                     },{
                                         headers:[]
                                     }).then(
@@ -294,8 +309,10 @@ export default {
             document.getElementById("trans-submit").innerHTML='Done'
 
         },
-       nextItem(){
+       setSteward(id,name){
+            this.steward_id=id;
 
+            console.log(name);
        },
         getCustomerInfo(){
 

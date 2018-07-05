@@ -16,7 +16,7 @@ class CreateRestroTable extends Migration
         Schema::create('restro', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            
+            $table->tinyInteger('gst_comp');//1 if GST is included in rate and 0 otherwise
             $table->string('restro_name',50);
             $table->string('gstin',15);
 

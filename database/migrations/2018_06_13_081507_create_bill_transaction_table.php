@@ -19,8 +19,9 @@ class CreateBillTransactionTable extends Migration
             $table->string('tran_id',15)->unique();
             $table->bigInteger('cust_id');
             $table->decimal('bill_amount',8,2);
-
+            $table->tinyInteger('gst_comp');
             $table->string('user_name');
+            $table->integer('steward_id')->unsigned();
             $table->decimal('discount',8,2);
             $table->decimal('net_billed',8,2);
             $table->integer('branch_id')->unsigned();

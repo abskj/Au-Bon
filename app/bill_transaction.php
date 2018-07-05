@@ -17,5 +17,6 @@ class bill_transaction extends Model
         'discount',
         'net_billed',
         'branch_id',
+
     ];
 }

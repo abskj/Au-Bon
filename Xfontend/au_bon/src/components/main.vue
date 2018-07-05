@@ -24,6 +24,7 @@ export default {
                 role:0,
                 user_fullname:'abcdefg',
                 branch_id:'1',
+                restro_id:'1'
 
             }],
 

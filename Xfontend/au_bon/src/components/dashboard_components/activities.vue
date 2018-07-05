@@ -4,6 +4,7 @@
         <div class="util-wrapper">
            
 <router-view  v-bind:user='user'></router-view>
+<app-branch-add v-bind:user="user"></app-branch-add>
     </div>
     </div>
 </template>
@@ -12,11 +13,13 @@
 import Transaction from './transaction.vue';
 import RestroAdd from './add_restro.vue';
 import MangAdd from './add_manager.vue';
+import BranchAdd from './add_branch.vue';
 export default {
     components:{
         'app-restro-add':RestroAdd,
         'app-manager-add':MangAdd,
         'app-transaction' :Transaction,
+        'app-branch-add':BranchAdd,
     },
     props: {
         user: {

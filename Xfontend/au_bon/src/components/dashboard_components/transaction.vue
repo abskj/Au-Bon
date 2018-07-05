@@ -82,11 +82,15 @@
             <div class="col s12 m6 container">
                
                 <div>
-                   <app-preview  v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
+                   <app-preview v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
                 </div>
             </div>
             
         </div>
+        <div id="modal1" class="modal">
+           
+                   <settle-bill></settle-bill>
+         </div>
     </div>
 </template>
 
@@ -95,6 +99,7 @@ import Preview from './transaction/preview.vue';
 import axios from 'axios';
 import Steward from './transaction/steward.vue';
 import addtoBill from './transaction/addToBill.vue';
+import Settle from './transaction/settle.vue';
 export default {
 
      props:{
@@ -107,6 +112,7 @@ export default {
         'add-to-bill':addtoBill,
          'app-preview' : Preview,
          'select-steward' : Steward,
+         'settle-bill' : Settle,
     },
     data(){
         return{
@@ -189,29 +195,7 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
-                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                                                    'cust_id': this.cust_no,
-                                                    'user_name' :this.user[0]['user_name'],
-                                                    'branch_id':this.user[0]['branch_id'],
-                                                    'cat_id':this.food_cat,
-                                                    'qty':this.item_quantity,
-                                                    'rate':this.item_rate,
-                                                    'tran_id':this.tran_id,
-                                                    'item_id':this.item_code,
-                                                    'item_name':this.item_name,
-
-
-                                                },{
-                                                    headers:[]
-                                                }).then(
-                                                    (response) => {
-                                                        M.toast({html: 'Added to bill'});
-                                                        this.previewControl--;
-
-                                                    }
-                                                ).catch(function (error) {
-                                                    console.log(error);
-                                                })
+                                               this.addItemToBill()
                                         }
 
                                     ).catch(function (error) {
@@ -243,29 +227,7 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
-                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                                                            'cust_id': this.cust_no,
-                                                            'user_name' :this.user[0]['user_name'],
-                                                            'branch_id':this.user[0]['branch_id'],
-                                                            'cat_id':this.food_cat,
-                                                            'qty':this.item_quantity,
-                                                            'rate':this.item_rate,
-                                                            'tran_id':this.tran_id,
-                                                            'item_id':this.item_code,
-                                                            'item_name':this.item_name,
-
-
-                                                        },{
-                                                            headers:[]
-                                                        }).then(
-                                                            (response) => {
-                                                                M.toast({html: 'Added to bill'});
-                                                                this.previewControl--;
-
-                                                            }
-                                                        ).catch(function (error) {
-                                                            console.log(error);
-                                                        })
+                                               this.addItemToBill()
                                         }
 
                                     ).catch(function (error) {
@@ -277,37 +239,19 @@ export default {
 
             }
             else{
-              
-                 axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                            'cust_id': this.cust_no,
-                            'user_name' :this.user[0]['user_name'],
-                            'branch_id':this.user[0]['branch_id'],
-                            'cat_id':this.food_cat,
-                            'qty':this.item_quantity,
-                            'rate':this.item_rate,
-                            'tran_id':this.tran_id,
-                            'item_id':this.item_code,
-                            'item_name':this.item_name,
-
-
-                        },{
-                            headers:[]
-                        }).then(
-                            (response) => {
-                                 M.toast({html: 'Added to bill'});
-                                 this.previewControl--;
-
-                            }
-                        ).catch(function (error) {
-                            console.log(error);
-                        })
+                this.addItemToBill()
             }
 
         },
        
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
-            
+            var elems=document.getElementById('modal1');
+            var modal=M.Modal.init(elems, {
+                'startingTop': '25%',
+                'dismissible' :false,
+            })
+            modal.open()
             document.getElementById("trans-submit").innerHTML='Done'
 
         },
@@ -340,6 +284,31 @@ export default {
             }
             
             );
+        },
+        addItemToBill(){
+               axios.post('http://127.0.0.1:8000/api/part-transaction', {
+                            'cust_id': this.cust_no,
+                            'user_name' :this.user[0]['user_name'],
+                            'branch_id':this.user[0]['branch_id'],
+                            'cat_id':this.food_cat,
+                            'qty':this.item_quantity,
+                            'rate':this.item_rate,
+                            'tran_id':this.tran_id,
+                            'item_id':this.item_code,
+                            'item_name':this.item_name,
+
+
+                        },{
+                            headers:[]
+                        }).then(
+                            (response) => {
+                                 M.toast({html: 'Added to bill'});
+                                 this.previewControl--;
+
+                            }
+                        ).catch(function (error) {
+                            console.log(error);
+                        })
         }
       
     }

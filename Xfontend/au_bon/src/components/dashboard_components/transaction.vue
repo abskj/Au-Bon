@@ -59,14 +59,7 @@
                                         <div class="col m3">
                                                 <input type="number" step="0.01" name=""    v-model="discount_rate">
                                         </div>
-                                        <div class="col m3">Customer Type</div>
-                                        <div class="col m3">
-                                            <select class="browser-default" name="" >
-                                                <option value="">Student</option>
-                                                <option value="">Special</option>
-                                                <option value="">Student</option>
-                                            </select>
-                                        </div>
+                                      
                                     </div>
                                 </div>
                    

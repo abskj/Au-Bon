@@ -28,6 +28,23 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col s6 m2 " style="padding-top:10px;">
+                    <div class="center bold-text">
+                        GST calculation
+                    </div>
+                </div>
+                <div class="col s6 m0">
+                   <select class="browser-default" v-model="gst_comp">
+                       <option active value="0">
+                           GST is Inclusive
+                       </option>
+                       <option value="1">
+                           GST is Exclusive
+                       </option>
+                   </select>
+                </div>
+            </div>
+            <div class="row">
                 <div class="">
                     
   <button class="btn waves-effect waves-light btn-large" type="submit" name="action">Submit
@@ -46,6 +63,7 @@ import Axios from 'axios';
 export default {
     data(){
         return {
+            gst_comp:'',
             RestroName:'',
             GSTIN:''
         }
@@ -63,7 +81,8 @@ export default {
                 'restro_name':this.RestroName,
                 'gstin':this.GSTIN,
                 'user_name':this.user[0]['user_name'],
-                'role':this.user[0]['role']
+                'role':this.user[0]['role'],
+                'gst_comp':this.gst_comp,
             })
                 .then(response => {
                     this.code=response.data.code;

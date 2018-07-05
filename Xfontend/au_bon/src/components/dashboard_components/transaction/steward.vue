@@ -30,6 +30,9 @@ export default {
     props:{
         user:{
             type: Array
+        },
+        flag:{
+            type: Number
         }
     },
     data() {
@@ -47,6 +50,16 @@ export default {
         }
     },
     watch: {
+        flag:{
+            handler: function(oldval, newval){
+                this.listClassObject.hide=true;
+                this.select= 1;
+                this.steward_name= '';
+                this.stewards= [{}];
+                this.steward_id= '';   
+                this.allstewards= [{}]
+            }
+        },
         steward_name: {
             handler: function (oldval, newval) {
                 while (this.stewards.length > 0) {

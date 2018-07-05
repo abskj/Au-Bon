@@ -47,11 +47,11 @@
                         </div>
                     </div>
                     <div class="row container">
-                        <select-steward v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                        <select-steward v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
                     </div>
                     <div class="row container">
                        <!--  -->
-                    <add-to-bill v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
+                    <add-to-bill v-bind:flag="resetController" v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
                     </div>
                                  <div class="row">
@@ -126,6 +126,7 @@ export default {
             table:0,
             discount_rate:0.00,
             steward_id:'',
+            resetController:1,
 
         }
     },
@@ -147,6 +148,7 @@ export default {
              this.table=0;
            this. discount_rate=0.00;
            this.steward_id='';
+           this.resetController++;
 
         },
         fillitems(code,qty){

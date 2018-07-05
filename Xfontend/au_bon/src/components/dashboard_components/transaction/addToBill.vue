@@ -91,7 +91,10 @@ export default {
          props:{
         user:{
             type: Array
-        }
+        },
+             flag:{
+            type: Number
+             }
     },
         components:{
        
@@ -150,6 +153,21 @@ export default {
                 }
                 elements[this.select-1].classList.add('selected');
            }
+        },
+        flag:{
+            handler: function (oldval,newval) {
+                    this.listClassObject.hide=true;
+                    this.select=1;
+                    this.item_name='';
+                    this.items=[{}];
+                    this.item_code='';
+                    this.item_rate='';
+                    this.item_quantity=0;
+                    this.first_tran=1;
+                    this.tran_id='';
+                    this.food_cat='';
+                    this.allItems=[{}];
+            }
         }
     },
     methods:{

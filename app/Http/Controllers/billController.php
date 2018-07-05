@@ -7,6 +7,7 @@ use App\Branch;
 use App\customer;
 use App\foodItem;
 use App\Restro;
+use App\settlement;
 use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -215,6 +216,45 @@ class billController extends Controller
         ]);
 
     }
-    
+    public function settle(Request $request){
+        $this->validate($request,
+            [
+                'tran_id' => 'required|unique:settlement',
+                'settle_mode' => 'required',
+
+            ]);
+        $settlement=null;
+        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
+        if($request->input('settle_mode')==0){
+            //assuming 1 for card and 0 for cash
+            $settlement=new settlement([
+                'tran_id' => $bill->tran_id,
+                'customer_id'=> $bill->cust_id,
+                'bill_amount' => $bill->bill_amount,
+                'settle_mode' => 0,
+                'status_flag'=> 0,
+
+
+            ]);
+
+        }
+        else{
+
+                //assuming 1 for card and 0 for cash
+                $settlement=new settlement([
+                    'tran_id' => $bill->tran_id,
+                    'customer_id'=> $bill->cust_id,
+                    'bill_amount' => $bill->bill_amount,
+                    'settle_mode' => 1,
+                    'status_flag'=> 1,
+                    'card_number'=> $request->input('card_number'),
+                    'bank'=> $request->input('bank'),
+                    ]);
+        }
+        $settlement->save();
+        return response()->json([
+            'code'=>1
+        ]);
+    }
 
 }

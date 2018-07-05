@@ -16,7 +16,7 @@ class CreateSettlementTable extends Migration
         Schema::create('settlement', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('trans_id',15)->unique();
+            $table->string('tran_id',15)->unique();
             $table->bigInteger('customer_id');
             $table->decimal('bill_amount',8,2);
             $table->tinyInteger('settle_mode');

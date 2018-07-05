@@ -25,6 +25,7 @@ class CreateBillTransactionTable extends Migration
             $table->decimal('discount',8,2);
             $table->decimal('net_billed',8,2);
             $table->integer('branch_id')->unsigned();
+            $table->integer('table_no')->unsigned();
             $table->foreign('user_name')->references('user_name')->on('user_login');
             $table->foreign('branch_id')->references('id')->on('branch');
 

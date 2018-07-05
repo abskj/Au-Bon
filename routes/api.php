@@ -186,4 +186,7 @@ Route::post('/steward',[
 Route::post('/get-steward',[
     'uses' => 'stewardController@get'
 ]);
+Route::post('/settle',[
+    'uses' => 'billController@settle'
+])
 

@@ -195,9 +195,19 @@ class billController extends Controller
         $dr=$request->input('discount_rate');
         $net_total=$total-($dr*$total);
         $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
-        $bill->bill_amount=$total;
-        $bill->discount=$dr;
-        $bill->net_billed=$net_total;
+        $restro=Restro::find(Branch::find($bill->branch_id))->first();
+
+        $gstFlag=$restro->gst_comp;
+        if($gstFlag==1){
+            $bill->net_billed=$total;
+            $bill->bill_amount=$net_total;
+
+        }
+        else{
+            $bill->net_billed=$total;
+            $bill->bill_amount=($net_total-($net_total*0.18));
+        }
+
         $bill->save();
         return response()->json([
             'code'=>1,
@@ -205,5 +215,6 @@ class billController extends Controller
         ]);
 
     }
+    
 
 }

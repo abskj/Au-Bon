@@ -34,8 +34,16 @@ components:{
     'app-dashboard':Dashboard
 },
 methods:{
-    loginSuccess(fullname,role){
+    loginSuccess(fullname,role,restro_id,branch_id,username){
         this.logged_in=true;
+      x={
+           user_fullname:fullname,
+       restro_id:restro_id,
+       branch_id:branch_id,
+       user_name:username,
+      }
+      this.user[0]=x;
+
     }
 }
 }

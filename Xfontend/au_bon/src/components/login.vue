@@ -85,8 +85,11 @@ methods:{
         }).then(response => {this.flag=true,
         this.fullname=response.data.full_name,
         this.role=response.data.role,
-        this.$emit('login-successful',this.fullname,this.role)
+        this.restroId=response.data.restro_id,
+        this.branchId=response.data.restro_id,
+        this.$emit('login-successful',this.fullname,this.role,this.restroId,this.branchId,this.username)
         }).catch(function(error){
+            M.toast({html: 'Please check your credentials' })
             console.log(error);
         });
         }

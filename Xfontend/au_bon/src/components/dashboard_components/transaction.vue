@@ -12,7 +12,7 @@
                         <div class="col m5 label">
                             Customer Mobile Number:
                         </div>
-                        <div class="col m7">
+                        <div class="col m5">
                             <input @blur="getCustomerInfo" @keypress.enter.prevent="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="col m5 label">
                             Customer Name:
                         </div>
-                        <div class="col m7">
+                        <div class="col m5">
                             <input type="text" name="" id="customer_name" v-model="cust_name">
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <div class="col m5 label">
                             Customer Address:
                         </div>
-                        <div class="col m7">
+                        <div class="col m5">
                             <input type="text" id="customer_addr"  minlength="10" maxlength="200" name="" v-model="cust_addr">
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                        </div>
                     </div>
-                    <div class="row container">
+                    <div class="row container add-to-bill">
                        <!--  -->
                     <add-to-bill v-bind:flag="resetController" v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
@@ -407,7 +407,7 @@ export default {
 
 <style>
 .container{
-    border: 2px rgb(21, 18, 24) solid;
+    border: 0.5px rgba(21, 18, 24, 0.316) solid;
 }
 #trans input{
     color:black!important;
@@ -433,6 +433,16 @@ export default {
     height: 100px;
   
 
+}
+input{
+    border:1px solid grey!important;
+    background-color: rgba(206, 204, 204, 0.316)!important;
+    border-radius:20px; 
+    padding: 3px!important;
+
+}
+.add-to-bill{
+    box-shadow: 0px 0px 15px rgba(128, 128, 128, 0.768);
 }
 
 </style>

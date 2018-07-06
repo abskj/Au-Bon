@@ -6,7 +6,7 @@
                                 
                                 <div class="row">
                                     <div class="row">
-                                       <div class="col m5 label">
+                                       <div class="col m4 label">
                                               Food Category:
                                       </div>
                                         <div class="col m4">
@@ -58,7 +58,7 @@
                                               Item Quantity:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number"  name=""    v-model="item_quantity">
+                                                <input min="1" type="number"  name=""    v-model="item_quantity">
                                         </div>
                                     </div>
                                 </div>

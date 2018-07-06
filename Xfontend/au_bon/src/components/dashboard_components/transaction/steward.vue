@@ -3,7 +3,7 @@
                     <div class="col m4 label">
                             Steward:
                     </div>
-                    <div class="col m5">
+                    <div class="col m6">
                             
                         <div class="row">
                                     <input autocomplete="off" type="text" @keydown.enter.prevent="selectsteward" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="steward_name" @focus="getstewards" @blur="hidestewardList" id="steward-search-text">

@@ -9,10 +9,10 @@
             <div class="col s12 m6">
                 <form action="" class="" @submit.prevent="transactionSubmit">
                      <div class="row ">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Mobile Number:
                         </div>
-                        <div class="col m9">
+                        <div class="col m7">
                             <input @blur="getCustomerInfo" @keypress.enter="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
@@ -21,33 +21,38 @@
                         -->
                         <input type="hidden" id="transactionId" v-model="tran_id">
                     <div class="row ">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Name:
                         </div>
-                        <div class="col m9">
+                        <div class="col m7">
                             <input type="text" name="" id="customer_name" v-model="cust_name">
                         </div>
                     </div>
                    
                    
                     <div class="row">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Address:
                         </div>
-                        <div class="col m9">
+                        <div class="col m7">
                             <input type="text" id="customer_addr"  minlength="10" maxlength="200" name="" v-model="cust_addr">
                         </div>
                     </div>
+                   
                     <div class="row">
-                        <div class="col m3 label">
+                       <div class="col m8">
+                            <select-steward v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                       </div>
+                       <div class="col m3">
+                            <div class="row">
+                        <div class="col m6 label">
                             Table:
                         </div>
-                        <div class="col m3">
+                        <div class="col m6">
                             <input type="text" minlength="10" maxlength="200" name=""  v-model="table">
                         </div>
                     </div>
-                    <div class="row container">
-                        <select-steward v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                       </div>
                     </div>
                     <div class="row container">
                        <!--  -->
@@ -91,6 +96,9 @@
            
                    <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id"></settle-bill>
          </div>
+         <div id="activeTransactions" class="row">
+             <app-active-transactions></app-active-transactions>
+         </div>
     </div>
 </template>
 
@@ -100,6 +108,7 @@ import axios from 'axios';
 import Steward from './transaction/steward.vue';
 import addtoBill from './transaction/addToBill.vue';
 import Settle from './transaction/settle.vue';
+import ActiveTran from './transaction/activeTran.vue';
 export default {
 
      props:{
@@ -108,7 +117,7 @@ export default {
         }
     },
     components:{
-       
+        'app-active-transactions' : ActiveTran,
         'add-to-bill':addtoBill,
          'app-preview' : Preview,
          'select-steward' : Steward,
@@ -357,6 +366,11 @@ export default {
 .label{
     
     font-weight: 600;
+}
+#activeTransactions {
+    height: 100px;
+  
+
 }
 
 </style>

@@ -1,9 +1,9 @@
 <template>
     <div id="trans">
         <div class="row">
-            <h4 class="heading container">
+            <h3 class="heading container thin">
             Transaction
-        </h4>
+        </h3>
         </div>
         <div class="row ">
             <div class="col s12 m6">
@@ -49,7 +49,7 @@
                             Table:
                         </div>
                         <div class="col m6">
-                            <input type="text" minlength="10" maxlength="200" name=""  v-model="table">
+                            <input type="text"  name=""  v-model="table">
                         </div>
                     </div>
                        </div>
@@ -78,7 +78,7 @@
                         </div>
                         <div class="col m6">
                             <div class="row">
-                                <button id="trans-reset"  @click="reset" class="btn waves blue">Reset Transaction</button>
+                                <button id="trans-reset"  @click="reset" class="btn waves blue">New Transaction</button>
                             </div>
                         </div>
                     </div>
@@ -160,6 +160,7 @@ export default {
     },
     methods:{
         retrieveActive(tran){
+              this.resetController--;
                 this.reset();
                 this.tran_id= tran.tran_id;
                 this.cust_no=tran.cust_no;
@@ -171,7 +172,7 @@ export default {
                 this.discount_rate = tran.discount;
                 this.previewControl++;
                 this.steward_name=tran.steward_name
-                this.resetController--;
+              
                 this.stewardController=tran.steward_name;
                 
                  
@@ -394,6 +395,7 @@ export default {
 
                             }
                         ).catch(function (error) {
+                             M.toast({html: 'Some Error Occured'});
                             console.log(error);
                         })
         }

@@ -1,17 +1,21 @@
 <template>
-   <div>
-       <div v-for="tran in list" class="tran-tab" @click="changeActive(tran)">
+   <div class="col m6">   <h4 class="heading center thin">Active Transactions</h4>
+       <ol id="tran-list">
+           <div v-for="tran in list" class="tran-tab" @click="changeActive(tran)">
            {{tran.tran_id}} for {{tran.cust_name}}
 
          </div>
-         <div @click="startNew()">
-             New
-         </div>
+       </ol>
+       
    </div>
 </template>
 
 <script>
 export default {
+    
+    updated:function(){
+       document.getElementById('tran-list').children[0].classList.add('hide')
+    },
     props:{
         list:{
             type:Array
@@ -46,5 +50,8 @@ export default {
 <style>
 .tran-tab {
   border-bottom: 2px solid black;
+}
+.tran-tab:hover{
+    box-shadow: 2px 2px grey;
 }
 </style>

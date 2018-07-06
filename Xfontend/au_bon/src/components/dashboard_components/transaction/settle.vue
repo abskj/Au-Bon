@@ -69,10 +69,24 @@ export default {
             handler: function(oldVal, newVal){
                 
             }
+        },
+        settle_flag: {
+            handler: function(nu, old){
+                if(nu===1){
+                    document.getElementById('optional').style.visibility='hidden'
+                }
+                else {
+                     document.getElementById('optional').classList.style.visibility='visible'
+                   
+                }
+            }
         }
+       
     },
     data(){
         return {
+            //0 cash
+            //1 card
             settle_flag:0,
             card_no:0,
             bank: '',

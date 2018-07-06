@@ -13,7 +13,7 @@
                             Customer Mobile Number:
                         </div>
                         <div class="col m7">
-                            <input @blur="getCustomerInfo" @keypress.enter="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
+                            <input @blur="getCustomerInfo" @keypress.enter.prevent="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
                     <!--
@@ -171,6 +171,7 @@ export default {
                 this.discount_rate = tran.discount;
                 this.previewControl++;
                 this.steward_name=tran.steward_name
+                this.resetController--;
                 this.stewardController=tran.steward_name;
                 
                  

@@ -125,6 +125,7 @@ export default {
     },
     data(){
         return{
+            active:[{}],
             previewControl:0,
             cust_no:'',
             cust_addr:'',
@@ -146,6 +147,26 @@ export default {
         }
     },
     methods:{
+        insertIntoActive(){
+            active.push({
+                tran_id: this.tran_id,
+                cust_no:this.cust_no,
+                cust_name:this.customer_name,
+                addr: this.cust_addr,
+                steward_id: this.steward_id,
+                table:this.table,
+                discount : this.discount_rate
+            })
+        },
+        removeFromActive(){
+            for(var i;i<active.length;i++){
+                if(active[i].tran_id===this.tran_id){
+                    active.splice(i,1);
+                    break;
+                }
+            }
+        },
+
         finish(){
             var elem=document.getElementById('modal1');
              var instance = M.Modal.getInstance(elem);

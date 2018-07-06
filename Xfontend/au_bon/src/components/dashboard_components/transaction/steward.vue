@@ -33,6 +33,9 @@ export default {
         },
         flag:{
             type: Number
+        },
+        selectFlag:{
+            type:String
         }
     },
     data() {
@@ -93,6 +96,13 @@ export default {
                 }
                 elements[this.select - 1].classList.add('selected');
             }
+        },
+        selectFlag: {
+            handler: function(o,n){
+               
+               
+            }
+              
         }
     },
     methods: {
@@ -133,7 +143,7 @@ export default {
             this.select = index + 1;
             this.selectsteward();
         },
-
+       
         selectsteward() {
             var steward = this.stewards[this.select - 1];
             this.steward_name = steward.name;

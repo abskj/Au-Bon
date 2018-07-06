@@ -1,7 +1,12 @@
 <template>
-   <div class="tran-tab">
-       
+   <div>
+       <div v-for="tran in list" class="tran-tab" @click="changeActive(tran)">
+           {{tran.tran_id}} for {{tran.cust_name}}
 
+         </div>
+         <div @click="startNew()">
+             New
+         </div>
    </div>
 </template>
 
@@ -16,6 +21,23 @@ export default {
         return {
 
         }
+    },
+    methods:{
+        changeActive(tran){
+            this.$emit('changeActive',tran)
+        },
+        startNew(){
+             this.$emit('changeActive',{
+                  tran_id: '',
+                cust_no:'',
+                cust_name:'',
+                addr:'',
+                steward_id: '',
+                table:0,
+                discount : 0.00,
+                 
+             })
+        }
     }
 
 }
@@ -23,8 +45,6 @@ export default {
 
 <style>
 .tran-tab {
-    height: 50px;
-    width: 50px;
-    background-color: green;
+  border-bottom: 2px solid black;
 }
 </style>

@@ -41,7 +41,7 @@
                    
                     <div class="row">
                        <div class="col m8">
-                            <select-steward v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                            <select-steward v-bind:selectFlag="stewardController" v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
                        </div>
                        <div class="col m3">
                             <div class="row">
@@ -97,7 +97,7 @@
                    <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id"></settle-bill>
          </div>
          <div id="activeTransactions" class="row">
-             <app-active-transactions></app-active-transactions>
+             <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
          </div>
     </div>
 </template>
@@ -143,25 +143,46 @@ export default {
             discount_rate:0.00,
             steward_id:'',
             resetController:1,
+            stewardController:'',
+            steward_name:'',
 
         }
     },
     methods:{
+        retrieveActive(tran){
+                this.reset();
+                this.tran_id= tran.tran_id;
+                this.cust_no=tran.cust_no;
+                this.cust_name=tran.cust_name;
+                this.cust_addr= tran.addr;
+                this.steward_id= tran.steward_id;
+                
+                this.table=tran.table;
+                this.discount_rate = tran.discount;
+                this.previewControl++;
+                this.previewControl=0;
+                this.steward_name=tran.steward_name
+                this.stewardController=tran.steward_name;
+
+        },
         insertIntoActive(){
-            active.push({
+            this.active.push({
                 tran_id: this.tran_id,
                 cust_no:this.cust_no,
-                cust_name:this.customer_name,
+                cust_name:this.cust_name,
                 addr: this.cust_addr,
                 steward_id: this.steward_id,
                 table:this.table,
-                discount : this.discount_rate
+                discount : this.discount_rate,
+                steward_name:this.steward_name
             })
         },
         removeFromActive(){
-            for(var i;i<active.length;i++){
-                if(active[i].tran_id===this.tran_id){
-                    active.splice(i,1);
+            for(var i=0;i<this.active.length;i++){
+                
+                if(this.active[i].tran_id===this.tran_id){
+                    
+                    this.active.splice(i,1);
                     break;
                 }
             }
@@ -172,7 +193,10 @@ export default {
              var instance = M.Modal.getInstance(elem);
              instance.destroy()
               M.toast({html: 'Collect your Bill'}) ;
+              this.removeFromActive();
+             
              this.reset();
+
         },
         reset(){
              this.previewControl++;
@@ -192,6 +216,7 @@ export default {
            this. discount_rate=0.00;
            this.steward_id='';
            this.resetController++;
+           
 
         },
         fillitems(code,qty){
@@ -232,6 +257,7 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
+                                             this.insertIntoActive()
                                                this.addItemToBill()
                                         }
 
@@ -264,6 +290,7 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
+                                             this.insertIntoActive()
                                                this.addItemToBill()
                                         }
 

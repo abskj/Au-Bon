@@ -41,7 +41,7 @@
                    
                     <div class="row">
                        <div class="col m8">
-                            <select-steward v-bind:selectFlag="stewardController" v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                            <select-steward v-bind:selectFlag="stewardController" v-bind:flag="stewardResetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
                        </div>
                        <div class="col m3">
                             <div class="row">
@@ -49,12 +49,12 @@
                             Table:
                         </div>
                         <div class="col m6">
-                            <input type="text"  name=""  v-model="table">
+                            <input type="text" id="table"  v-model="table">
                         </div>
                     </div>
                        </div>
                     </div>
-                    <div class="row container add-to-bill">
+                    <div class="row container shadow">
                        <!--  -->
                     <add-to-bill v-bind:flag="resetController" v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
@@ -65,7 +65,7 @@
                                               Discount Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name=""    v-model="discount_rate">
+                                                <input type="number" step="0.01" name=""  id="drate"  v-model="discount_rate">
                                         </div>
                                       
                                     </div>
@@ -125,6 +125,7 @@ export default {
     },
     data(){
         return{
+            stewardResetController:0,
             active:[{}],
             previewControl:0,
             cust_no:'',
@@ -150,15 +151,42 @@ export default {
     },
     watch:{
         tran_id:{
-            handler : function(oldVal,newVal){
-                if(newVal===''){
+            handler : function(nu,old){
+                if(nu===''){
                     this.first_tran=0;
-                    cust_exists=true;
+                    this.cust_exists=true;
+                   
+                }
+                else{
+                    this.disableTransFields()
+                    
                 }
             }
         }
     },
     methods:{
+        disableTransFields(){
+            this.disableCustFields();
+              document.getElementById('customer_no').disabled=true;
+            document.getElementById('table').disabled=true;
+            document.getElementById('drate').disabled=true;
+
+        },
+        enableTransFields(){
+            this.enableCustFields();
+              document.getElementById('customer_no').disabled=false;
+            document.getElementById('table').disabled=false;
+            document.getElementById('drate').disabled=false;
+
+        },
+        disableCustFields(){
+            document.getElementById('customer_name').disabled=true;
+            document.getElementById('customer_addr').disabled=true;
+        },
+        enableCustFields(){
+             document.getElementById('customer_name').disabled=false;
+            document.getElementById('customer_addr').disabled=false;
+        },
         retrieveActive(tran){
               this.resetController--;
                 this.reset();
@@ -172,7 +200,7 @@ export default {
                 this.discount_rate = tran.discount;
                 this.previewControl++;
                 this.steward_name=tran.steward_name
-              
+                this.stewardController=''
                 this.stewardController=tran.steward_name;
                 
                  
@@ -228,7 +256,10 @@ export default {
              this.table=0;
            this. discount_rate=0.00;
            this.steward_id='';
+           this.stewardResetController++;
            this.resetController++;
+           this.enableTransFields();
+
            
 
         },
@@ -361,14 +392,16 @@ export default {
                     this.cust_addr=response.data.customer_addr,
                     this.cust_name=response.data.customer_name,
                     this.cust_exists=true;
+                    this.disableCustFields();
                 }
-            ).catch(error=>
+            ).catch((error)=>
             {
                 
                     this.cust_id='',
                     this.cust_addr='',
                     this.cust_name='',
                     this.cust_exists=false;
+                    this.enableCustFields();
             }
             
             );
@@ -391,7 +424,9 @@ export default {
                         }).then(
                             (response) => {
                                  M.toast({html: 'Added to bill'});
+                                  this.resetController++;
                                  this.previewControl--;
+                                
 
                             }
                         ).catch(function (error) {
@@ -406,13 +441,17 @@ export default {
 </script>
 
 <style>
-.container{
+#trans .container{
     border: 0.5px rgba(21, 18, 24, 0.316) solid;
 }
 #trans input{
     color:black!important;
     height: 1.2em;
     margin-bottom: 1px;
+    border:1px solid grey!important;
+    background-color: rgba(214, 214, 214, 0.316)!important;
+    border-radius:3px; 
+    padding: 3px!important;
 }
 
 #trans input:focus{
@@ -434,15 +473,8 @@ export default {
   
 
 }
-input{
-    border:1px solid grey!important;
-    background-color: rgba(206, 204, 204, 0.316)!important;
-    border-radius:20px; 
-    padding: 3px!important;
 
-}
-.add-to-bill{
-    box-shadow: 0px 0px 15px rgba(128, 128, 128, 0.768);
-}
+
+
 
 </style>

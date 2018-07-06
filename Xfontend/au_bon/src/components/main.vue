@@ -51,5 +51,7 @@ methods:{
 </script>
 
 <style>
-
+.shadow{
+      box-shadow: 0px 0px 15px rgba(128, 128, 128, 0.768);
+}
 </style>

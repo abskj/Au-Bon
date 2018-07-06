@@ -1,9 +1,9 @@
 <template>
     <div>
         <navbar></navbar>
-    <div class="row">
-        <div class="col m2 hide-on-small-only">
-            <sidebar class="red"></sidebar>
+    <div class="row" >
+        <div class="col m2 hide-on-small-only " style="padding-left:0px">
+            <sidebar class="grey darken-4"></sidebar>
         </div>
         <div class="col m10">
             <activities v-bind:user="user"></activities>

@@ -64,15 +64,16 @@ export default {
             }
         },
         steward_name: {
-            handler: function (oldval, newval) {
+            handler: function (newval, oldval) {
                 while (this.stewards.length > 0) {
                     this.stewards.pop()
                 }
+                
                 console.log('name changed')
                 console.log(this.allstewards)
 
                 for (var i = 0; i < this.allstewards.length; i++) {
-                    var temp = this.allstewards[i].name.toLowerCase().indexOf(this.steward_name.toLowerCase());
+                    var temp = this.allstewards[i].name.toLowerCase().indexOf(newval.toLowerCase());
                     if (temp > -1) {
                         this.stewards.push(this.allstewards[i])
                     }
@@ -98,8 +99,31 @@ export default {
             }
         },
         selectFlag: {
+            
             handler: function(o,n){
-               
+                console.log(o)
+                axios.post('http://127.0.0.1:8000/api/get-steward', {
+
+                'branch_id': this.user[0]['branch_id'],
+            }, {
+                headers: []
+                 }).then((response) => {
+                    this.code = response.data.code;
+                    this.allstewards = response.data.data;
+                    console.log(this.allstewards)
+                    this.listClassObject.hide = false;
+                    this.steward_name=o
+                     
+                     
+                     setTimeout(()=>{
+                         this.listClassObject.hide = true;
+                     },100)
+                     console.log("fehb")
+
+                }
+            ).catch(function (error) {
+                console.log(error);
+            })
                
             }
               

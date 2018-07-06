@@ -148,6 +148,16 @@ export default {
 
         }
     },
+    watch:{
+        tran_id:{
+            handler : function(oldVal,newVal){
+                if(newVal===''){
+                    this.first_tran=0;
+                    cust_exists=true;
+                }
+            }
+        }
+    },
     methods:{
         retrieveActive(tran){
                 this.reset();
@@ -160,9 +170,10 @@ export default {
                 this.table=tran.table;
                 this.discount_rate = tran.discount;
                 this.previewControl++;
-                this.previewControl=0;
                 this.steward_name=tran.steward_name
                 this.stewardController=tran.steward_name;
+                
+                 
 
         },
         insertIntoActive(){
@@ -332,7 +343,7 @@ export default {
         },
        setSteward(id,name){
             this.steward_id=id;
-
+            this.steward_name=name;
             console.log(name);
        },
         getCustomerInfo(){

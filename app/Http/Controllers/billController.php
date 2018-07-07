@@ -33,14 +33,20 @@ class billController extends Controller
         $to=date($request->input('to_date'));
        try{
            $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
+           $array=[];
+           foreach($trans as $tran){
+            $x=json_encode($tran,JSON_UNESCAPED_SLASHES,3);
+            array_push($array,$x);
+           }
+           $y=json_encode($trans,64,3);
        }catch (\Throwable $e){
            return response()->json([
                'data' => $e
-           ]);
+           ],400);
        }
 
        return response()->json([
-           'data' => json_encode($trans)
+           'data' => $y
        ]);
 
 

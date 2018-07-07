@@ -1,11 +1,12 @@
 <template>
     <div class="shadow" style="padding:5px 20px;">
+       
         <form @submit.prevent="submit">
            <div class="row">
                <div class="col m4"><h3 class="heading thin">
                    Select Date
                </h3></div>
-               
+              
            </div>
             <div class="row ">
                 <div class="col m5 shadow">
@@ -20,7 +21,7 @@
             <div class="row">
                 <div class="col m4"><button @click="setToday" style="margin-top:1vh;" class="btn-large teal">For Today</button></div>
                 <div class="center col m5">
-                    <button class="center m3 thin btn-large purple darken-4">Download</button> 
+                    <button type="submit" class="center m3 thin btn-large purple darken-4">Download</button> 
                    
                                   
                 </div>
@@ -31,8 +32,7 @@
 
 <script>
 import axios from 'axios'
-import {json2excel, excel2json} from 'js2excel';
-import JsonExcel from 'vue-json-excel'
+
 import Papa from 'papaparse';
 export default {
     props:{
@@ -50,7 +50,7 @@ export default {
     }
     },
     components:{
-        'download-excel' : JsonExcel
+        
     },
     
    
@@ -73,8 +73,10 @@ export default {
         },
         setToday(){
             var today = new Date();
-            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-            console.log(date)
+             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1);
+            this.to_date=date;
+            this.from_date=today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            this.submit()
         }
        ,
        generateExcel(){
@@ -102,12 +104,12 @@ export default {
                     delimiter: ",",
                     header: true,
                     newline: "\n"
-}
+                        }
                     });
          
           
-          console.log(csv)
-          var blob = new Blob([csv]);
+                    console.log(csv)
+                     var blob = new Blob([csv]);
                     if (window.navigator.msSaveOrOpenBlob)  // IE hack; see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
                         window.navigator.msSaveBlob(blob, "filename.csv");
                     else
@@ -118,23 +120,11 @@ export default {
                         document.body.appendChild(a);
                         a.click();  // IE: "Access is denied"; see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
                         document.body.removeChild(a);
-                    }
-        //     var blob = new Blob(csv, {type: 'text/csv'});
-        // if(window.navigator.msSaveOrOpenBlob) {
-        //     window.navigator.msSaveBlob(blob, filename);
-        // }
-        // else{
-        //     var elem = window.document.createElement('a');
-        //     elem.href = window.URL.createObjectURL(blob);
-        //     elem.download = filename;        
-        //     document.body.appendChild(elem);
-        //     elem.click();        
-        //     document.body.removeChild(elem);
-        //  }
+      
     
+                 }
     }
     }
-
 }
 </script>
 

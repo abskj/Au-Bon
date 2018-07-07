@@ -11,6 +11,9 @@
         <li><router-link to="/cat-add/">Add Food Category</router-link></li>
         <li><router-link to="/item-add/">Add Food Item</router-link></li>
         <li><router-link to="/data/">Download Data</router-link></li>
+        <li><router-link to="/steward-add/">Create Steward</router-link></li>
+        <li><router-link to="/staff-add/">Create Staff</router-link></li>
+        <li><router-link to="/manager-add/">Create Manager</router-link></li>
       </ul>
     </div>
   </nav>

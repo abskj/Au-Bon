@@ -1,5 +1,5 @@
 <template>
-        <div class="">
+        <div class="add-manager">
         <form @submit.prevent="onsubmitted">
              <div class="row">
                 <h4 class="heading condensed">
@@ -21,16 +21,13 @@
                     <label for="user_name">User Name</label>
                   </div>
              </div>
-             <div class="row">
-                 <select name="" id="">
-                     <option value="1">Restr1</option>
-                 </select>
-             </div>
+            
             
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">portrait</i>
-                        <input min='100000000000' max='999999999999' type="number" name="aadhar" id="aadhar" class="form-control" v-model="aadhar" placeholder="aadhar">
+                        <input  type="number" name="aadhar" id="aadhar" class="form-control" v-model="aadhar" >
+                        <!-- min='100000000000' max='999999999999' -->
                         <label for="aadhar">aadhar</label>
                     </div>
                 </div>
@@ -38,21 +35,16 @@
         
                     <div class="input-field col s12">
                            <i class="material-icons prefix">lock</i>
-                            <input minlength="8" type="password" id="password"  class="form-control" placeholder="Password" v-model="password">  
+                            <input minlength="8" type="password" id="password"  class="form-control" v-model="password">  
                                <label for="password">Password</label>
                     </div>
                     </div>
-            <div class="row">
-                <div class="input-field col s12">
-                        <i class="material-icons prefix">portrait</i>
-                        <input type="number" name="restro-id" id="restro-id" class="form-control" v-model="restroid" placeholder="restro-id">
-                        <label for="restro-id">restro-id</label>
-                </div>
-            </div>
+          
             <div class="row">
                 <div class="input-field col s12">
                         <i class="material-icons prefix">phone_android</i>
-                        <input min='1000000000' max='9999999999' type="number" name="mobile" id="mobile" class="form-control" v-model="mobile" placeholder="mobile">
+                        <input  type="number" name="mobile" id="mobile" class="form-control" v-model="mobile" >
+                        <!-- min='1000000000' max='9999999999' -->
                         <label for="mobile">mobile number</label>
                 </div>
             </div>
@@ -66,17 +58,11 @@
              <div class="row">
                 <div class="input-field col s12">
                         <i class="material-icons prefix">portrait</i>
-                        <input type="text" name="voter_id" id="voter_id" class="form-control" v-model="voter_id" placeholder="voter_id">
+                        <input type="text" name="voter_id" id="voter_id" class="form-control" v-model="voter_id" >
                         <label for="voter_id">voter ID </label>
                 </div>
             </div>
-             <div class="row">
-                <div class="input-field col s12">
-                        <i class="material-icons prefix">portrait</i>
-                        <input type="number" name="branch_id" id="branch_id" class="form-control" v-model="branch_id" placeholder="branch_id">
-                        <label for="banch_id">Branch ID </label>
-                </div>
-            </div>
+          
             <div class="row">
                 <div class="">
                                         
@@ -90,7 +76,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
+
 import Axios from 'axios';
 
 export default {
@@ -117,20 +103,26 @@ export default {
     },
     methods:{
         onsubmitted(){
-          alert('jhyfjy')
+         
             Axios.post('http://127.0.0.1:8000/api/manager',
             {
                 'user_name':this.username,
                 'password':this.password,
                 'aadhar_no':this.aadhar,
                 'user_fname':this.fullname,
-                'restro_id':this.restroid,
+                'restro_id':this.this.user[0]['restro_id'],
                 'address':this.address,
                 'mobile':this.mobile,
                 'voter_id':this.voter_id,
-                'branch_id':this.branch_id,
+                'branch_id':this.user[0]['branch_id'],
                 'admin_name':this.user[0]['user_name'],
 
+            }).then(
+                (response) => {
+                    M.toast({html: 'Manager Added'})
+                }
+            ).catch(function(err){
+                M.toast({html:'Some error occured'})
             })
         }
     }
@@ -140,5 +132,8 @@ export default {
 
 
 <style>
-
+.add-manager .row{
+    height: 1.3em;
+    
+}
 </style>

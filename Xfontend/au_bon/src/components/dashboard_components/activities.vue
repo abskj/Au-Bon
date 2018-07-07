@@ -3,7 +3,7 @@
        
         <div class="util-wrapper">
            
-<router-view  v-bind:user='user'></router-view>
+<router-view v-on:logout="logout" v-bind:user='user'></router-view>
 
     </div>
     </div>
@@ -24,6 +24,11 @@ export default {
     props: {
         user: {
             type: Array
+        }
+    },
+    methods:{
+        logout(){
+            this.$emit('logout')
         }
     }
 

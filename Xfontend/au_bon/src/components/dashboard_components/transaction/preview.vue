@@ -72,7 +72,7 @@ export default {
         total:function(){
             var x=0;
             for(var i=0;i<this.items.length;i++){
-                x+=this.items[i].total||0;
+                x=x+parseFloat(this.items[i].total);
             }
             return x;
         }

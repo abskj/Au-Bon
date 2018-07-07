@@ -14,6 +14,8 @@
         <li><router-link to="/steward-add/">Create Steward</router-link></li>
         <li><router-link to="/staff-add/">Create Staff</router-link></li>
         <li><router-link to="/manager-add/">Create Manager</router-link></li>
+        <li @click="logout">Logout</li>
+       
       </ul>
     </div>
   </nav>
@@ -27,7 +29,12 @@
 <script>
  
 export default {
-
+methods:
+{
+  logout(){
+    this.$emit('logout')
+  }
+}
 }
 </script>
 

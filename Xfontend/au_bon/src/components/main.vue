@@ -1,7 +1,7 @@
 <template>
 <div id="main">
      <div v-if="logged_in">
-        <app-dashboard v-bind:user='user'></app-dashboard>
+        <app-dashboard v-on:logout="logout" v-bind:user='user'></app-dashboard>
 
     </div>
     <div v-else >
@@ -36,15 +36,20 @@ components:{
 },
 methods:{
     loginSuccess(fullname,role,restro_id,branch_id,username){
+     
         this.logged_in=true;
-      x={
-           user_fullname:fullname,
-       restro_id:restro_id,
-       branch_id:branch_id,
-       user_name:username,
+             x={
+              user_fullname:fullname,
+              restro_id:restro_id,
+              branch_id:branch_id,
+              user_name:username,
       }
       this.user[0]=x;
 
+    },
+    logout(){
+                this.logged_in=false,
+                this.user.pop();
     }
 }
 }

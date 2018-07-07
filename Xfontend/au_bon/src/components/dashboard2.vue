@@ -1,12 +1,12 @@
 <template>
     <div>
-        <navbar></navbar>
+        <navbar v-on:logout="logout"></navbar>
     <div class="row" >
         <div class="col m2 hide-on-small-only " style="padding-left:0px">
             <sidebar class="grey darken-4"></sidebar>
         </div>
         <div class="col m10">
-            <activities v-bind:user="user"></activities>
+            <activities  v-bind:user="user"></activities>
             
         </div>
     </div>
@@ -28,7 +28,14 @@ props: {
     user: {
         type: Array
     }
-}
+},
+methods:{
+      logout(){
+        
+    this.$emit('logout')
+     }
+    }
+
 }
 </script>
 

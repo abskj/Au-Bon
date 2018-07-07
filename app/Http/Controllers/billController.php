@@ -29,13 +29,19 @@ class billController extends Controller
             'user_name' => 'required',
             'branch_id' => 'required',
         ]);
-        $from=$request->input('from_date');
-        $to=$request->input('to_date');
-        $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
+        $from=date($request->input('from_date'));
+        $to=date($request->input('to_date'));
+       try{
+           $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
+       }catch (\Throwable $e){
+           return response()->json([
+               'data' => $e
+           ]);
+       }
 
-        Storage::put('file1.txt','kifghekjew');
-
-        Storage::download('file1.txt');
+       return response()->json([
+           'data' => json_encode($trans)
+       ]);
 
 
 

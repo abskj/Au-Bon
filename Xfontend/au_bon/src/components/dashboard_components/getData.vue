@@ -29,6 +29,7 @@
 
 <script>
 import axios from 'axios'
+import {json2excel, excel2json} from 'js2excel';
 export default {
     props:{
         user:{
@@ -39,32 +40,25 @@ export default {
         return {
             to_date:'',
             from_date:'',
+            dataDump: '',
         }
     },
     
    
     methods:{
         submit(){
-              axios({
-              method:'post',
-              url:'http://127.0.0.1:8000/api/dataDump',
-              responseType:'blob',
-              data:  {
+              axios.post('http://127.0.0.1:8000/api/dataDump',
+               {
                     'to_date': this.to_date,
                     'from_date' : this.from_date,
                     'user_name':this.user[0]['user_name'],
                     'branch_id':this.user[0]['branch_id'],
-                }
-            })
-              .then(function(response) {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', 'report.csv');
-                    document.body.appendChild(link);
-                    link.click();
-
-            });
+                }).then(
+                    (response) => {
+                        this.dataDump=response.data.data;
+                        this.generateExcel();
+                    }
+                )
       
 
         },
@@ -73,7 +67,20 @@ export default {
             var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
             console.log(date)
         }
-       
+       ,
+       generateExcel(){
+           console.log(this.dataDump)
+           let data = this.dataDump;
+           try {
+          json2excel({
+               data,
+               name: 'user-info-data',
+                 formateDate: 'yyyy-mm-dd'
+          });
+            } catch (e) {
+                console.error('export error');
+            }
+       }
         
     }
 

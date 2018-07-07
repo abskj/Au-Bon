@@ -33,7 +33,9 @@ class userController extends Controller
             'token'=>$token,
             'status'=>$user->status,
             'role'=>$user->role,
-            'full_name'=>$user->user_fname
+            'full_name'=>$user->user_fname,
+            'restro_id' => $user->restro_id,
+            'branch_id' => $user->branch_id,
 
         ],201);
 

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\bill_transaction;
+use App\Branch;
 use App\customer;
 use App\foodItem;
+use App\Restro;
+use App\settlement;
 use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 
 class billController extends Controller
@@ -85,8 +89,11 @@ class billController extends Controller
             'cust_id' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
+           'steward_id' => 'required',
+           'table_no' =>'required',
 
         ]);
+       $restro=Restro::find((Branch::find($request->input('branch_id'))->restro_id));
 
 
 
@@ -107,14 +114,18 @@ class billController extends Controller
             'bill_amount'=>0,
             'branch_id'=>$request->input('branch_id'),
             'user_name'=>$request->input('user_name'),
+            'steward_id'=>$request->input('steward_id'),
+            'table_no'=>$request->input('table_no'),
             'discount'=>0,
             'net_billed'=>0,
+            'gst_comp' => $restro->gst_comp,
         ]);
         $tran->save();
         return response()->json([
             'code'=>1,
             'message'=>'Transaction initiated',
             'id'=>$id,
+            'gst_comp'=>$restro->gst_comp,
         ]);
     }
 
@@ -186,15 +197,68 @@ class billController extends Controller
         $dr=$request->input('discount_rate');
         $net_total=$total-($dr*$total);
         $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
-        $bill->bill_amount=$total;
-        $bill->discount=$dr;
-        $bill->net_billed=$net_total;
+        $restro=Restro::find(Branch::find($bill->branch_id))->first();
+
+        $gstFlag=$restro->gst_comp;
+        if($gstFlag==1){
+            $bill->net_billed=$total;
+            $bill->bill_amount=$net_total;
+
+        }
+        else{
+            $bill->net_billed=$total;
+            $bill->bill_amount=($net_total-($net_total*0.18));
+        }
+
         $bill->save();
         return response()->json([
             'code'=>1,
             'message'=>'transaction completed'
         ]);
 
+    }
+    public function settle(Request $request){
+        $this->validate($request,
+            [
+                'tran_id' => 'required|unique:settlement',
+                'settle_mode' => 'required',
+
+            ]);
+        $settlement=null;
+        $tid=$request->input('tran_id');
+
+        $bill=DB::table('bill_transaction')->where('tran_id',$tid)->first();
+
+        if($request->input('settle_mode')==0){
+            //assuming 1 for card and 0 for cash
+            $settlement=new settlement([
+                'tran_id' => $bill->tran_id,
+                'customer_id'=> $bill->cust_id,
+                'bill_amount' => $bill->bill_amount,
+                'settle_mode' => 0,
+                'status_flag'=> 0,
+
+
+            ]);
+
+        }
+        else{
+
+                //assuming 1 for card and 0 for cash
+                $settlement=new settlement([
+                    'tran_id' => $bill->tran_id,
+                    'customer_id'=> $bill->cust_id,
+                    'bill_amount' => $bill->bill_amount,
+                    'settle_mode' => 1,
+                    'status_flag'=> 1,
+                    'card_number'=> $request->input('card_number'),
+                    'bank'=> $request->input('bank'),
+                    ]);
+        }
+        $settlement->save();
+        return response()->json([
+            'code'=>1
+        ]);
     }
 
 }

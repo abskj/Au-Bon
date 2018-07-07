@@ -55,7 +55,7 @@ class foodCategoryController extends Controller
         catch (\Throwable $e){
             return response()->json([
                 'code'=> 4,
-                'message' => 'some error occured'
+                'message' => $e,
             ]);
         }
         return response()->json([

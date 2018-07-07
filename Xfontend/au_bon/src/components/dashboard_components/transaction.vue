@@ -1,19 +1,19 @@
 <template>
     <div id="trans">
         <div class="row">
-            <h4 class="heading container">
+            <h3 class="heading container thin">
             Transaction
-        </h4>
+        </h3>
         </div>
         <div class="row ">
             <div class="col s12 m6">
                 <form action="" class="" @submit.prevent="transactionSubmit">
                      <div class="row ">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Mobile Number:
                         </div>
-                        <div class="col m9">
-                            <input @blur="getCustomerInfo" @keypress.enter="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
+                        <div class="col m5">
+                            <input @blur="getCustomerInfo" @keypress.enter.prevent="getCustomerInfo" type="number" minlength="10"  id="customer_no" v-model="cust_no">
                         </div>
                     </div>
                     <!--
@@ -21,34 +21,42 @@
                         -->
                         <input type="hidden" id="transactionId" v-model="tran_id">
                     <div class="row ">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Name:
                         </div>
-                        <div class="col m9">
+                        <div class="col m5">
                             <input type="text" name="" id="customer_name" v-model="cust_name">
                         </div>
                     </div>
                    
                    
                     <div class="row">
-                        <div class="col m3 label">
+                        <div class="col m5 label">
                             Customer Address:
                         </div>
-                        <div class="col m9">
+                        <div class="col m5">
                             <input type="text" id="customer_addr"  minlength="10" maxlength="200" name="" v-model="cust_addr">
                         </div>
                     </div>
+                   
                     <div class="row">
-                        <div class="col m3 label">
+                       <div class="col m8">
+                            <select-steward v-bind:selectFlag="stewardController" v-bind:flag="resetController" v-bind:user="user" v-on:steward-added="setSteward"></select-steward>
+                       </div>
+                       <div class="col m3">
+                            <div class="row">
+                        <div class="col m6 label">
                             Table:
                         </div>
-                        <div class="col m3">
-                            <input type="text" minlength="10" maxlength="200" name=""  v-model="table">
+                        <div class="col m6">
+                            <input type="text"  name=""  v-model="table">
                         </div>
                     </div>
-                    <div class="row container">
+                       </div>
+                    </div>
+                    <div class="row container add-to-bill">
                        <!--  -->
-                    <add-to-bill v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
+                    <add-to-bill v-bind:flag="resetController" v-bind="items" v-bind:user="user" v-on:item-added="fillitems"></add-to-bill>
 
                     </div>
                                  <div class="row">
@@ -70,7 +78,7 @@
                         </div>
                         <div class="col m6">
                             <div class="row">
-                                <button id="trans-reset"  @click="reset" class="btn waves blue">Reset Transaction</button>
+                                <button id="trans-reset"  @click="reset" class="btn waves blue">New Transaction</button>
                             </div>
                         </div>
                     </div>
@@ -79,19 +87,28 @@
             <div class="col s12 m6 container">
                
                 <div>
-                   <app-preview  v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
+                   <app-preview v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
                 </div>
             </div>
             
         </div>
+        <div id="modal1" class="modal">
+           
+                   <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id"></settle-bill>
+         </div>
+         <div id="activeTransactions" class="row">
+             <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
+         </div>
     </div>
 </template>
 
 <script>
 import Preview from './transaction/preview.vue';
 import axios from 'axios';
-
+import Steward from './transaction/steward.vue';
 import addtoBill from './transaction/addToBill.vue';
+import Settle from './transaction/settle.vue';
+import ActiveTran from './transaction/activeTran.vue';
 export default {
 
      props:{
@@ -100,12 +117,15 @@ export default {
         }
     },
     components:{
-       
+        'app-active-transactions' : ActiveTran,
         'add-to-bill':addtoBill,
-         'app-preview' : Preview
+         'app-preview' : Preview,
+         'select-steward' : Steward,
+         'settle-bill' : Settle,
     },
     data(){
         return{
+            active:[{}],
             previewControl:0,
             cust_no:'',
             cust_addr:'',
@@ -121,23 +141,96 @@ export default {
             food_cat:'',
             table:0,
             discount_rate:0.00,
+            steward_id:'',
+            resetController:1,
+            stewardController:'',
+            steward_name:'',
 
         }
     },
+    watch:{
+        tran_id:{
+            handler : function(oldVal,newVal){
+                if(newVal===''){
+                    this.first_tran=0;
+                    cust_exists=true;
+                }
+            }
+        }
+    },
     methods:{
+        retrieveActive(tran){
+              this.resetController--;
+                this.reset();
+                this.tran_id= tran.tran_id;
+                this.cust_no=tran.cust_no;
+                this.cust_name=tran.cust_name;
+                this.cust_addr= tran.addr;
+                this.steward_id= tran.steward_id;
+                
+                this.table=tran.table;
+                this.discount_rate = tran.discount;
+                this.previewControl++;
+                this.steward_name=tran.steward_name
+              
+                this.stewardController=tran.steward_name;
+                
+                 
+
+        },
+        insertIntoActive(){
+            this.active.push({
+                tran_id: this.tran_id,
+                cust_no:this.cust_no,
+                cust_name:this.cust_name,
+                addr: this.cust_addr,
+                steward_id: this.steward_id,
+                table:this.table,
+                discount : this.discount_rate,
+                steward_name:this.steward_name
+            })
+        },
+        removeFromActive(){
+            for(var i=0;i<this.active.length;i++){
+                
+                if(this.active[i].tran_id===this.tran_id){
+                    
+                    this.active.splice(i,1);
+                    break;
+                }
+            }
+        },
+
+        finish(){
+            var elem=document.getElementById('modal1');
+             var instance = M.Modal.getInstance(elem);
+             instance.destroy()
+              M.toast({html: 'Collect your Bill'}) ;
+              this.removeFromActive();
+             
+             this.reset();
+
+        },
         reset(){
-            axios.post('http://127.0.0.1:8000/api/reset-transaction',{
-                'tran_id' :this.tran_id,
-            }).then(
-                (response) =>{
-                     M.toast({html: 'Transaction successfully reset'}) ;
-                     this.previewControl--;
-                }
-            ).catch(
-                function(err){
-                    M.toast({html: 'There was some problem communicating your request'})
-                }
-            )
+             this.previewControl++;
+             this.cust_no='';
+              this.cust_addr='';
+              this.cust_exists=false;
+               this.cust_name='';
+             this.item_name='';
+             this.items=[{}];
+               this.item_code='';
+               this.item_rate='';
+            this.item_quantity=0;
+             this.first_tran=1;
+              this.tran_id='';
+           this.food_cat='';
+             this.table=0;
+           this. discount_rate=0.00;
+           this.steward_id='';
+           this.resetController++;
+           
+
         },
         fillitems(code,qty){
             console.log('add to button pressed')
@@ -165,6 +258,9 @@ export default {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
+                                        'steward_id' :this.steward_id,
+                                        'table_no' : this.table,
+
                                     },{
                                         headers:[]
                                     }).then(
@@ -174,29 +270,8 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
-                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                                                    'cust_id': this.cust_no,
-                                                    'user_name' :this.user[0]['user_name'],
-                                                    'branch_id':this.user[0]['branch_id'],
-                                                    'cat_id':this.food_cat,
-                                                    'qty':this.item_quantity,
-                                                    'rate':this.item_rate,
-                                                    'tran_id':this.tran_id,
-                                                    'item_id':this.item_code,
-                                                    'item_name':this.item_name,
-
-
-                                                },{
-                                                    headers:[]
-                                                }).then(
-                                                    (response) => {
-                                                        M.toast({html: 'Added to bill'});
-                                                        this.previewControl--;
-
-                                                    }
-                                                ).catch(function (error) {
-                                                    console.log(error);
-                                                })
+                                             this.insertIntoActive()
+                                               this.addItemToBill()
                                         }
 
                                     ).catch(function (error) {
@@ -217,6 +292,8 @@ export default {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
+                        'steward_id' :this.steward_id,
+                        'table_no' : this.table,
                                     },{
                                         headers:[]
                                     }).then(
@@ -226,29 +303,8 @@ export default {
                                              M.toast({html: 'Transaction started'}) ;
                                              this.first_tran=0;
                                              this.previewControl++;
-                                               axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                                                            'cust_id': this.cust_no,
-                                                            'user_name' :this.user[0]['user_name'],
-                                                            'branch_id':this.user[0]['branch_id'],
-                                                            'cat_id':this.food_cat,
-                                                            'qty':this.item_quantity,
-                                                            'rate':this.item_rate,
-                                                            'tran_id':this.tran_id,
-                                                            'item_id':this.item_code,
-                                                            'item_name':this.item_name,
-
-
-                                                        },{
-                                                            headers:[]
-                                                        }).then(
-                                                            (response) => {
-                                                                M.toast({html: 'Added to bill'});
-                                                                this.previewControl--;
-
-                                                            }
-                                                        ).catch(function (error) {
-                                                            console.log(error);
-                                                        })
+                                             this.insertIntoActive()
+                                               this.addItemToBill()
                                         }
 
                                     ).catch(function (error) {
@@ -260,42 +316,37 @@ export default {
 
             }
             else{
-              
-                 axios.post('http://127.0.0.1:8000/api/part-transaction', {
-                            'cust_id': this.cust_no,
-                            'user_name' :this.user[0]['user_name'],
-                            'branch_id':this.user[0]['branch_id'],
-                            'cat_id':this.food_cat,
-                            'qty':this.item_quantity,
-                            'rate':this.item_rate,
-                            'tran_id':this.tran_id,
-                            'item_id':this.item_code,
-                            'item_name':this.item_name,
-
-
-                        },{
-                            headers:[]
-                        }).then(
-                            (response) => {
-                                 M.toast({html: 'Added to bill'});
-                                 this.previewControl--;
-
-                            }
-                        ).catch(function (error) {
-                            console.log(error);
-                        })
+                this.addItemToBill()
             }
 
         },
        
         transactionSubmit(){
             document.getElementById("trans-submit").innerHTML='Submitting ...'
-            
-            document.getElementById("trans-submit").innerHTML='Done'
+            axios.post('http://127.0.0.1:8000/api/complete-transaction',{
+                'transaction_id' :this.tran_id,
+                'discount_rate' :this.discount_rate,
+            }).then(
+                (response) =>{
+                     var elems=document.getElementById('modal1');
+                       var modal=M.Modal.init(elems, {
+                            'startingTop': '25%',
+                             'dismissible' :false,
+                                 })
+                      modal.open()
+                       document.getElementById("trans-submit").innerHTML='Finish'
+                }
+            ).catch(function(err){
+                console.log(err);
+            })
+           
+           
 
         },
-       nextItem(){
-
+       setSteward(id,name){
+            this.steward_id=id;
+            this.steward_name=name;
+            console.log(name);
        },
         getCustomerInfo(){
 
@@ -321,6 +372,32 @@ export default {
             }
             
             );
+        },
+        addItemToBill(){
+               axios.post('http://127.0.0.1:8000/api/part-transaction', {
+                            'cust_id': this.cust_no,
+                            'user_name' :this.user[0]['user_name'],
+                            'branch_id':this.user[0]['branch_id'],
+                            'cat_id':this.food_cat,
+                            'qty':this.item_quantity,
+                            'rate':this.item_rate,
+                            'tran_id':this.tran_id,
+                            'item_id':this.item_code,
+                            'item_name':this.item_name,
+
+
+                        },{
+                            headers:[]
+                        }).then(
+                            (response) => {
+                                 M.toast({html: 'Added to bill'});
+                                 this.previewControl--;
+
+                            }
+                        ).catch(function (error) {
+                             M.toast({html: 'Some Error Occured'});
+                            console.log(error);
+                        })
         }
       
     }
@@ -330,7 +407,7 @@ export default {
 
 <style>
 .container{
-    border: 2px rgb(21, 18, 24) solid;
+    border: 0.5px rgba(21, 18, 24, 0.316) solid;
 }
 #trans input{
     color:black!important;
@@ -351,6 +428,21 @@ export default {
 .label{
     
     font-weight: 600;
+}
+#activeTransactions {
+    height: 100px;
+  
+
+}
+input{
+    border:1px solid grey!important;
+    background-color: rgba(206, 204, 204, 0.316)!important;
+    border-radius:20px; 
+    padding: 3px!important;
+
+}
+.add-to-bill{
+    box-shadow: 0px 0px 15px rgba(128, 128, 128, 0.768);
 }
 
 </style>

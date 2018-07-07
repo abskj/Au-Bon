@@ -17,5 +17,9 @@ class bill_transaction extends Model
         'discount',
         'net_billed',
         'branch_id',
+        'gst_comp',
+        'table_no',
+        'steward_id',
+
     ];
 }

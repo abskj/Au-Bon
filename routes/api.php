@@ -179,5 +179,14 @@ Route::post('/reset-transaction',[
 Route::post('/customerCreate',[
     'uses'=>'custController@create'
 ]);
-
+//steward controllers
+Route::post('/steward',[
+    'uses' => 'stewardController@create'
+]);
+Route::post('/get-steward',[
+    'uses' => 'stewardController@get'
+]);
+Route::post('/settle',[
+    'uses' => 'billController@settle'
+]);
 

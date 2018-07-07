@@ -11,6 +11,7 @@ class Restro extends Model
     protected $fillable = [
         'restro_name',
         'gstin',
+        'gst_comp',
         
 
     ];

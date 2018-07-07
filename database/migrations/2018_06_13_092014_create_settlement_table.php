@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,13 +16,13 @@ class CreateSettlementTable extends Migration
         Schema::create('settlement', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('trans_id',15)->unique();
+            $table->string('tran_id',15)->unique();
             $table->bigInteger('customer_id');
             $table->decimal('bill_amount',8,2);
             $table->tinyInteger('settle_mode');
             $table->tinyInteger('status_flag');
-            $table->bigInteger('card_number');
-            $table->string('bank',30);
+            $table->bigInteger('card_number')->nullable();
+            $table->string('bank',30)->nullable();
 
         });
     }

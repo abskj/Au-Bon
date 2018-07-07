@@ -10,9 +10,7 @@
             
         </div>
     </div>
-    <div>
-        <p>role_d{{user}}</p>
-    </div>
+   
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-<div class="">
+<div class="preview">
     <p>Transaction ID: {{transactionId}}</p>
        <table class="striped">
         <thead>
@@ -25,14 +25,20 @@
                     </div>
                 </td>
             </tr>
+           
         </tbody>
+       
        </table>
+         <div class="row">
+             <div class=" col m3 offset-m6">Total : </div><div class="col m2"> {{total}}</div>
+            </div>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
 export default {
+    
 
     data(){
         return {
@@ -60,6 +66,15 @@ export default {
     watch:{
         flag: function(ov,nv){
             this.fetchItems();
+        }
+    },
+    computed:{
+        total:function(){
+            var x=0;
+            for(var i=0;i<this.items.length;i++){
+                x+=this.items[i].total||0;
+            }
+            return x;
         }
     },
     methods:{
@@ -124,7 +139,9 @@ tbody tr:hover{
     font-size: 12px!important;
     line-height: 12px!important;
 }
-
+.preview{
+min-height:60vh!important;
+}
 
 
 </style>

@@ -84,7 +84,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col s12 m6 container">
+            <div class="col s12 m6 shadow">
                
                 <div>
                    <app-preview v-bind:user="user" v-bind:transactionId="this.tran_id" v-bind:flag="previewControl"></app-preview>
@@ -454,9 +454,7 @@ export default {
 </script>
 
 <style>
-#trans .container{
-    border: 0.5px rgba(21, 18, 24, 0.316) solid;
-}
+
 #trans input{
     color:black!important;
     height: 1.2em;
@@ -481,10 +479,8 @@ export default {
     
     font-weight: 600;
 }
-#activeTransactions {
-    height: 100px;
-  
-
+app-preview{
+min-height:60vh!important;
 }
 
 

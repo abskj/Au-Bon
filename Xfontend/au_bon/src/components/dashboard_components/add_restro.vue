@@ -88,6 +88,7 @@ export default {
                     this.code=response.data.code;
                     if(this.code==1){
                         document.getElementById('restro-msg').innerHTML='Restaurant Added Successfully';
+                         M.toast({html: 'Restaurant Added Successfully'})
                         this.RestroName='';
                         this.GSTIN='';
                     }

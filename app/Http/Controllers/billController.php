@@ -12,11 +12,37 @@ use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use File;
+use Illuminate\Http\Response;
+use App\JSON2CSVutil;
 
 
 class billController extends Controller
 {
     //
+
+    public function getData(Request $request){
+        $this->validate($request, [
+            'to_date' =>'required',
+            'from_date' =>'required',
+            'user_name' => 'required',
+            'branch_id' => 'required',
+        ]);
+        $from=$request->input('from_date');
+        $to=$request->input('to_date');
+        $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
+
+        Storage::put('file1.txt','kifghekjew');
+
+        Storage::download('file1.txt');
+
+
+
+
+
+    }
+
     public function customer(Request $request){
         $this->validate($request,[
             'mobile' => 'required'
@@ -60,6 +86,22 @@ class billController extends Controller
         $iid=$request->input('item_id');
         $item=foodItem::where(['item_id'=>$iid])->first();
         $cat=$item->cat_id;
+        $tran_count=tran_detail::where(['tran_id' => $request->input('tran_id'),'item_id' => $request->input('item_id')])->count();
+        if($tran_count>0){
+            $tranx=tran_detail::where(['tran_id' => $request->input('tran_id'),'item_id' => $request->input('item_id')])->first();
+            $q=$tranx->qty;
+            $new_q=$q + $request->input('qty');
+            $tranx->qty=$new_q;
+            $rate=$tranx->rate;
+            $total=$rate*$new_q;
+            $tranx->total=$total;
+
+            $tranx->update();
+            return response()->json([
+                'code'=>1,
+                'message'=>'bill updated'
+            ]);
+        }
 
         $rate=$item->item_rate;
         $qty=$request->input('qty');
@@ -99,7 +141,7 @@ class billController extends Controller
 
         $id=null;
         while (true){
-            $y=mt_rand(0,999);
+            $y=mt_rand(100,999);
             $x=date('ymdhi');
             $nu_id=$x.$y;
             $x=tran_detail::where('tran_id',$nu_id)->count();
@@ -207,7 +249,7 @@ class billController extends Controller
         }
         else{
             $bill->net_billed=$total;
-            $bill->bill_amount=($net_total-($net_total*0.18));
+            $bill->bill_amount=($net_total+($net_total*0.05));
         }
 
         $bill->save();
@@ -260,5 +302,6 @@ class billController extends Controller
             'code'=>1
         ]);
     }
+
 
 }

@@ -44,7 +44,7 @@
                                                         Code:
                                                 </div>
                                                 <div class="col m3">
-                                                    <input   v-model="item_code">
+                                                    <input disabled  v-model="item_code">
         
                                                 </div>
                                              </div>
@@ -68,13 +68,13 @@
                                               Item Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name=""    v-model="item_rate">
+                                                <input disabled type="number" step="0.01" name=""    v-model="item_rate">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="center">
-                                        <button type="submit" class="btn red">Add to Bill</button>
+                                        <button type="submit" id="addToBillButton" class="btn red">Add to Bill</button>
                                     </div>
                                    
                                 </div>
@@ -167,6 +167,7 @@ export default {
                     this.tran_id='';
                     this.food_cat='';
                     this.allItems=[{}];
+                    document.getElementById('addToBillButton').disabled=false
             }
         }
     },
@@ -224,6 +225,7 @@ export default {
         },
     
    addItems(){
+        document.getElementById('addToBillButton').disabled=true
         this.$emit('item-added',this.item_code,this.item_quantity);
     },
 

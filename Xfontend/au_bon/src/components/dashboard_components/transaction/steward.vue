@@ -1,7 +1,7 @@
 <template>
      <div class="row">
                     <div class="col m4 label">
-                            Steward:
+                            Steward: {{select}}
                     </div>
                     <div class="col m6">
                             
@@ -102,28 +102,31 @@ export default {
             
             handler: function(o,n){
                 console.log(o)
-                axios.post('http://127.0.0.1:8000/api/get-steward', {
+                    axios.post('http://127.0.0.1:8000/api/get-steward', {
 
-                'branch_id': this.user[0]['branch_id'],
-            }, {
-                headers: []
-                 }).then((response) => {
-                    this.code = response.data.code;
-                    this.allstewards = response.data.data;
-                    console.log(this.allstewards)
-                    this.listClassObject.hide = false;
-                    this.steward_name=o
-                     
-                     
-                     setTimeout(()=>{
-                         this.listClassObject.hide = true;
-                     },100)
-                     console.log("fehb")
+                        'branch_id': this.user[0]['branch_id'],
+                         }, {
+                        headers: []
+                        }).then((response) => {
+                           
+                            this.allstewards = response.data.data;
+                            console.log(this.allstewards)
+                           
+                            this.steward_name=o
+                            this.select++;
+                            this.selectsteward()
+                            console.log(this.steward_id)
+                             this.listClassObject.hide = true;
+                            
+                            setTimeout(()=>{
+                                this.listClassObject.hide = true;
+                            },100)
+                            console.log("fehb")
 
-                }
-            ).catch(function (error) {
-                console.log(error);
-            })
+                        }
+                    ).catch(function (error) {
+                        console.log(error);
+                    })
                
             }
               

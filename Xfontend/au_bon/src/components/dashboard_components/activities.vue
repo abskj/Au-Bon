@@ -4,7 +4,7 @@
         <div class="util-wrapper">
            
 <router-view  v-bind:user='user'></router-view>
-<app-branch-add v-bind:user="user"></app-branch-add>
+
     </div>
     </div>
 </template>

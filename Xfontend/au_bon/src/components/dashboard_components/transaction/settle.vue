@@ -17,14 +17,14 @@
                             <div class="input-field col m4 ">
                                 <select class="browser-default" v-model="settle_mode">
                                 
-                                <option value="1">Card</option>
-                                <option value="0" selected>Cash</option>
+                                <option @select="showBankDetails" value="1">Card</option>
+                                <option @select="hideBankDetails" value="0" selected>Cash</option>
                             
                                 </select>
                             
                             </div>
                           </div>
-                          <div class="" id="optional">
+                          <div v-bind:class="listClassObject1">
                               <div style="margin-top:15px;" class="row">
                              <div class="col m3 offset-m1">
                                  Card Number:
@@ -70,17 +70,7 @@ export default {
                 
             }
         },
-        settle_flag: {
-            handler: function(nu, old){
-                if(nu===1){
-                    document.getElementById('optional').style.visibility='hidden'
-                }
-                else {
-                     document.getElementById('optional').classList.style.visibility='visible'
-                   
-                }
-            }
-        }
+       
        
     },
     data(){
@@ -90,9 +80,18 @@ export default {
             settle_flag:0,
             card_no:0,
             bank: '',
+            listClassObject1:{
+                hide:true,
+            },
         }
     },
     methods:{
+        showBankDetails(){
+            this.listClassObject1.hide=false
+        },
+         hideBankDetails(){
+            this.listClassObject1.hide=true
+        },
         settle(){
             axios.post('http://127.0.0.1:8000/api/settle',{
                 'tran_id' : this.tranId,

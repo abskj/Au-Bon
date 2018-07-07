@@ -104,7 +104,7 @@ export default {
     methods:{
         onsubmitted(){
          
-            Axios.post('http://127.0.0.1:8000/api/manager',
+            Axios.post(backend+'/manager',
             {
                 'user_name':this.username,
                 'password':this.password,

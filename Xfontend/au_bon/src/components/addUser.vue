@@ -54,7 +54,7 @@
         methods:{
             onFormSubmit(){
                 console.log(this.username);
-                axios.post('http://127.0.0.1:8000/api/user',{
+                axios.post(backend+'/user',{
                     user_name : this.username,
                     password : this.password,
                     user_fname : this.fullname,

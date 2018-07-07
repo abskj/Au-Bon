@@ -184,7 +184,7 @@ export default {
              getItems(){
                
             
-             axios.post('http://127.0.0.1:8000/api/get-foodItem', {
+             axios.post(backend+'/get-foodItem', {
                 'user_name':this.user[0]['user_name'],
                 'role': this.user[0]['role'],
                 'branch_id':this.user[0]['branch_id'],

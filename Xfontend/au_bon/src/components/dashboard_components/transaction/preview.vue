@@ -79,7 +79,7 @@ export default {
     },
     methods:{
         deleteItem(item){
-            axios.post('http://127.0.0.1:8000/api/del-item-transaction',{
+            axios.post(backend+'/del-item-transaction',{
                 'tran_id' :item.id
             }).then(
                 (response) => {
@@ -90,7 +90,7 @@ export default {
             )
         },
         fetchItems(){
-            axios.post('http://127.0.0.1:8000/api/get-transaction',{
+            axios.post(backend+'/get-transaction',{
                 'transaction_id' : transactionId,
             },{
                 headers:[

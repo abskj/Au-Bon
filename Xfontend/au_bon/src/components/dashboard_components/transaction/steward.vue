@@ -102,7 +102,7 @@ export default {
             
             handler: function(o,n){
                 console.log(o)
-                    axios.post('http://127.0.0.1:8000/api/get-steward', {
+                    axios.post(backend+'/get-steward', {
 
                         'branch_id': this.user[0]['branch_id'],
                          }, {
@@ -143,7 +143,7 @@ export default {
 
         },
         getstewards() {
-            axios.post('http://127.0.0.1:8000/api/get-steward', {
+            axios.post(backend+'/get-steward', {
 
                 'branch_id': this.user[0]['branch_id'],
             }, {

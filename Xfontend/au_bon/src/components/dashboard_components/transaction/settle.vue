@@ -93,7 +93,7 @@ export default {
             this.listClassObject1.hide=true
         },
         settle(){
-            axios.post('http://127.0.0.1:8000/api/settle',{
+            axios.post(backend+'/settle',{
                 'tran_id' : this.tranId,
                 'settle_mode' : this.settle_flag,
                  'card_number':this.card_no,

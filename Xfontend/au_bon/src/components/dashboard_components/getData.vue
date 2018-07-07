@@ -56,7 +56,7 @@ export default {
    
     methods:{
         submit(){
-              axios.post('http://127.0.0.1:8000/api/dataDump',
+              axios.post(backend+'/dataDump',
                {
                     'to_date': this.to_date,
                     'from_date' : this.from_date,

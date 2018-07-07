@@ -287,7 +287,7 @@ export default {
                if(this.cust_exists===false){
                      console.log('new customer')
                    //add customer
-                            axios.post('http://127.0.0.1:8000/api/customerCreate', {
+                            axios.post(backend+'/customerCreate', {
                             'mobile': this.cust_no,
                             'name' :this.cust_name,
                             'address':this.cust_addr,
@@ -298,7 +298,7 @@ export default {
                                 this.cust_exists=true;
                                 M.toast({html: 'Customer added'}) ;
                                  //initialize transaction
-                                    axios.post('http://127.0.0.1:8000/api/start-transaction', {
+                                    axios.post(backend+'/start-transaction', {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
@@ -332,7 +332,7 @@ export default {
                        
                }
                else{
-                    axios.post('http://127.0.0.1:8000/api/start-transaction', {
+                    axios.post(backend+'/start-transaction', {
                                         'cust_id': this.cust_no,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
@@ -367,7 +367,7 @@ export default {
        
         transactionSubmit(){
            
-            axios.post('http://127.0.0.1:8000/api/complete-transaction',{
+            axios.post(backend+'/complete-transaction',{
                 'transaction_id' :this.tran_id,
                 'discount_rate' :this.discount_rate,
             }).then(
@@ -394,7 +394,7 @@ export default {
        },
         getCustomerInfo(){
 
-            axios.post('http://127.0.0.1:8000/api/customer', {
+            axios.post(backend+'/customer', {
                 'mobile': this.cust_no,
             },{
                 headers:[]
@@ -420,7 +420,7 @@ export default {
             );
         },
         addItemToBill(){
-               axios.post('http://127.0.0.1:8000/api/part-transaction', {
+               axios.post(backend+'/part-transaction', {
                             'cust_id': this.cust_no,
                             'user_name' :this.user[0]['user_name'],
                             'branch_id':this.user[0]['branch_id'],
@@ -479,9 +479,7 @@ export default {
     
     font-weight: 600;
 }
-app-preview{
-min-height:60vh!important;
-}
+
 
 
 

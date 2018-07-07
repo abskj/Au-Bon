@@ -199,19 +199,20 @@ export default {
             document.getElementById('customer_addr').disabled=false;
         },
         retrieveActive(tran){
-              this.resetController--;
+            this.stewardController=tran.steward_name;
+              
                 this.reset();
                 this.tran_id= tran.tran_id;
                 this.cust_no=tran.cust_no;
                 this.cust_name=tran.cust_name;
                 this.cust_addr= tran.addr;
-                this.steward_id= tran.steward_id;
+               
                 
                 this.table=tran.table;
                 this.discount_rate = tran.discount;
                 this.previewControl++;
-                this.steward_name=tran.steward_name
-                this.stewardController=''
+                
+               
                 this.stewardController=tran.steward_name;
                 
                  
@@ -268,6 +269,7 @@ export default {
            this. discount_rate=0.00;
            this.steward_id='';
            this.stewardResetController++;
+           this.stewardController=''
            this.resetController++;
            this.enableTransFields();
 

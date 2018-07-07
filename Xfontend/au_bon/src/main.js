@@ -11,6 +11,7 @@ import MangAdd from './components/dashboard_components/add_manager.vue';
 import BranchAdd from './components/dashboard_components/add_branch.vue';
 import CatAdd from './components/dashboard_components/add_cat.vue';
 import ItemAdd from './components/dashboard_components/add_items.vue';
+import DataDump from './components/dashboard_components/getData.vue';
 Vue.use(VueRouter);
 Vue.use(VueRouter);
 const routes = [
@@ -22,6 +23,8 @@ const routes = [
     { path: '/branch-add/', component: BranchAdd,},
     { path: '/cat-add/', component: CatAdd,},
     { path: '/item-add/', component: ItemAdd,},
+    { path: '/data/', component: DataDump,},
+    
   ]
 },
   { path: '/dashboard', component: New_dashboard},

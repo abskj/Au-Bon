@@ -366,7 +366,7 @@ export default {
         },
        
         transactionSubmit(){
-            document.getElementById("trans-submit").innerHTML='Submitting ...'
+           
             axios.post('http://127.0.0.1:8000/api/complete-transaction',{
                 'transaction_id' :this.tran_id,
                 'discount_rate' :this.discount_rate,
@@ -378,7 +378,7 @@ export default {
                              'dismissible' :false,
                                  })
                       modal.open()
-                       document.getElementById("trans-submit").innerHTML='Finish'
+                      
                 }
             ).catch(function(err){
                 console.log(err);

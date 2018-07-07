@@ -10,6 +10,7 @@
         <li><router-link to="/branch-add/">Add Branch</router-link></li>
         <li><router-link to="/cat-add/">Add Food Category</router-link></li>
         <li><router-link to="/item-add/">Add Food Item</router-link></li>
+        <li><router-link to="/data/">Download Data</router-link></li>
       </ul>
     </div>
   </nav>

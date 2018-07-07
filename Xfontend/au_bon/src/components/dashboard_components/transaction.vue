@@ -152,13 +152,24 @@ export default {
     watch:{
         tran_id:{
             handler : function(nu,old){
-                if(nu===''){
+                if(old===''){
+                     
                     this.first_tran=0;
                     this.cust_exists=true;
+                     this.disableTransFields()
                    
                 }
                 else{
-                    this.disableTransFields()
+                   if(nu===''){
+                         this.first_tran=1;
+                     
+                      this.enableTransFields()
+                   }
+                   else{
+                       this.first_tran=0;
+                       this.cust_exists=true;
+                       this.disableTransFields();
+                   }
                     
                 }
             }

@@ -189,4 +189,7 @@ Route::post('/get-steward',[
 Route::post('/settle',[
     'uses' => 'billController@settle'
 ]);
+Route::post('/dataDump',[
+    'uses' => 'billController@getData'
+]);
 

@@ -12,11 +12,37 @@ use App\tran_detail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use File;
+use Illuminate\Http\Response;
+use App\JSON2CSVutil;
 
 
 class billController extends Controller
 {
     //
+
+    public function getData(Request $request){
+        $this->validate($request, [
+            'to_date' =>'required',
+            'from_date' =>'required',
+            'user_name' => 'required',
+            'branch_id' => 'required',
+        ]);
+        $from=$request->input('from_date');
+        $to=$request->input('to_date');
+        $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
+
+        Storage::put('file1.txt','kifghekjew');
+
+        Storage::download('file1.txt');
+
+
+
+
+
+    }
+
     public function customer(Request $request){
         $this->validate($request,[
             'mobile' => 'required'
@@ -276,5 +302,6 @@ class billController extends Controller
             'code'=>1
         ]);
     }
+
 
 }

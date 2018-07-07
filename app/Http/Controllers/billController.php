@@ -22,72 +22,70 @@ class billController extends Controller
 {
     //
 
-    public function getData(Request $request){
+    public function getData(Request $request)
+    {
         $this->validate($request, [
-            'to_date' =>'required',
-            'from_date' =>'required',
+            'to_date' => 'required',
+            'from_date' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
         ]);
-        $from=date($request->input('from_date'));
-        $to=date($request->input('to_date'));
-       try{
-           $trans=bill_transaction::whereBetween('created_at',[$from, $to])->get();
-           $array=[];
-           foreach($trans as $tran){
-            $x=json_encode($tran,JSON_UNESCAPED_SLASHES,3);
-            array_push($array,$x);
-           }
-           $y=json_encode($trans,64,3);
-       }catch (\Throwable $e){
-           return response()->json([
-               'data' => $e
-           ],400);
-       }
+        $from = date($request->input('from_date'));
+        $to = date($request->input('to_date'));
+        try {
+            $trans = bill_transaction::whereBetween('created_at', [$from, $to])->get();
+            $array = [];
+            foreach ($trans as $tran) {
+                $x = json_encode($tran, JSON_UNESCAPED_SLASHES, 3);
+                array_push($array, $x);
+            }
+            $y = json_encode($trans, 64, 3);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'data' => $e
+            ], 400);
+        }
 
-       return response()->json([
-           'data' => $y
-       ]);
-
-
-
+        return response()->json([
+            'data' => $y
+        ]);
 
 
     }
 
-    public function customer(Request $request){
-        $this->validate($request,[
+    public function customer(Request $request)
+    {
+        $this->validate($request, [
             'mobile' => 'required'
         ]);
-        try{
-            $customer=customer::where('mobile',$request->input('mobile'))->get()->first();
-            if ($customer === null){
+        try {
+            $customer = customer::where('mobile', $request->input('mobile'))->get()->first();
+            if ($customer === null) {
                 return response()->json([
-                    'code'=> 5,
+                    'code' => 5,
                     'message' => 'customer not found'
-                ],401);
-            }
-            else{
+                ], 401);
+            } else {
                 return response()->json([
-                    'code'=> 1,
+                    'code' => 1,
                     'customer_name' => $customer->name,
                     'customer_id' => $customer->id,
-                    'customer_mobile'=>$customer->mobile,
-                    'customer_addr'=>$customer->address,
+                    'customer_mobile' => $customer->mobile,
+                    'customer_addr' => $customer->address,
                 ]);
             }
 
-        }
-        catch (\Throwable $e){
+        } catch (\Throwable $e) {
             return response()->json([
-                'code'=> 4,
+                'code' => 4,
                 'message' => 'some unknown error occures'
-            ],501);
+            ], 501);
         }
     }
 
-    public function partTransaction(Request $request){
-        $this->validate($request,[
+    public function partTransaction(Request $request)
+    {
+        $this->validate($request, [
             'tran_id' => 'required',
 
             'item_id' => 'required',
@@ -95,30 +93,30 @@ class billController extends Controller
 
             'branch_id' => 'required',
         ]);
-        $iid=$request->input('item_id');
-        $item=foodItem::where(['item_id'=>$iid])->first();
-        $cat=$item->cat_id;
-        $tran_count=tran_detail::where(['tran_id' => $request->input('tran_id'),'item_id' => $request->input('item_id')])->count();
-        if($tran_count>0){
-            $tranx=tran_detail::where(['tran_id' => $request->input('tran_id'),'item_id' => $request->input('item_id')])->first();
-            $q=$tranx->qty;
-            $new_q=$q + $request->input('qty');
-            $tranx->qty=$new_q;
-            $rate=$tranx->rate;
-            $total=$rate*$new_q;
-            $tranx->total=$total;
+        $iid = $request->input('item_id');
+        $item = foodItem::where(['item_id' => $iid])->first();
+        $cat = $item->cat_id;
+        $tran_count = tran_detail::where(['tran_id' => $request->input('tran_id'), 'item_id' => $request->input('item_id')])->count();
+        if ($tran_count > 0) {
+            $tranx = tran_detail::where(['tran_id' => $request->input('tran_id'), 'item_id' => $request->input('item_id')])->first();
+            $q = $tranx->qty;
+            $new_q = $q + $request->input('qty');
+            $tranx->qty = $new_q;
+            $rate = $tranx->rate;
+            $total = $rate * $new_q;
+            $tranx->total = $total;
 
             $tranx->update();
             return response()->json([
-                'code'=>1,
-                'message'=>'bill updated'
+                'code' => 1,
+                'message' => 'bill updated'
             ]);
         }
 
-        $rate=$item->item_rate;
-        $qty=$request->input('qty');
-        $total=$rate*$qty;
-        $tran=new tran_detail([
+        $rate = $item->item_rate;
+        $qty = $request->input('qty');
+        $total = $rate * $qty;
+        $tran = new tran_detail([
             'item_name' => $item->item_name,
             'tran_id' => $request->input('tran_id'),
             'cat_id' => $cat,
@@ -132,54 +130,55 @@ class billController extends Controller
 
         $tran->save();
         return response()->json([
-            'code'=>1,
-            'message'=>'bill updated'
+            'code' => 1,
+            'message' => 'bill updated'
         ]);
 
-}
+    }
 
-    public function initiateTransaction(Request $request){
-       $this->validate($request,[
+    public function initiateTransaction(Request $request)
+    {
+        $this->validate($request, [
             'cust_id' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
-           'steward_id' => 'required',
-           'table_no' =>'required',
+            'steward_id' => 'required',
+            'table_no' => 'required',
 
         ]);
-       $restro=Restro::find((Branch::find($request->input('branch_id'))->restro_id));
+        $restro = Restro::find((Branch::find($request->input('branch_id'))->restro_id));
 
 
+        $id = null;
+        while (true) {
+            $y = mt_rand(100, 999);
+            $x = date('ymdhi');
+            $nu_id = $x . $y;
+            $x = tran_detail::where('tran_id', $nu_id)->count();
 
-        $id=null;
-        while (true){
-            $y=mt_rand(100,999);
-            $x=date('ymdhi');
-            $nu_id=$x.$y;
-            $x=tran_detail::where('tran_id',$nu_id)->count();
-
-            if($x==0){
-                $id=$nu_id;
-                break;}
+            if ($x == 0) {
+                $id = $nu_id;
+                break;
+            }
         }
-        $tran=new bill_transaction([
-            'tran_id'=> $id,
-            'cust_id'=>$request->input('cust_id'),
-            'bill_amount'=>0,
-            'branch_id'=>$request->input('branch_id'),
-            'user_name'=>$request->input('user_name'),
-            'steward_id'=>$request->input('steward_id'),
-            'table_no'=>$request->input('table_no'),
-            'discount'=>0,
-            'net_billed'=>0,
+        $tran = new bill_transaction([
+            'tran_id' => $id,
+            'cust_id' => $request->input('cust_id'),
+            'bill_amount' => 0,
+            'branch_id' => $request->input('branch_id'),
+            'user_name' => $request->input('user_name'),
+            'steward_id' => $request->input('steward_id'),
+            'table_no' => $request->input('table_no'),
+            'discount' => 0,
+            'net_billed' => 0,
             'gst_comp' => $restro->gst_comp,
         ]);
         $tran->save();
         return response()->json([
-            'code'=>1,
-            'message'=>'Transaction initiated',
-            'id'=>$id,
-            'gst_comp'=>$restro->gst_comp,
+            'code' => 1,
+            'message' => 'Transaction initiated',
+            'id' => $id,
+            'gst_comp' => $restro->gst_comp,
         ]);
     }
 
@@ -188,132 +187,139 @@ class billController extends Controller
         $this->validate($request, [
             'transaction_id' => 'required'
         ]);
-        $transactions= tran_detail::where('tran_id', $request->input('transaction_id'))->get();
-        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->get()->first();
+        $transactions = tran_detail::where('tran_id', $request->input('transaction_id'))->get();
+        $bill = bill_transaction::where('tran_id', $request->input('transaction_id'))->get()->first();
 
         return response()->json([
             'transactions' => $transactions,
             'bill' => $bill,
             'code' => 1,
-        ],201);
+        ], 201);
     }
 
-    public function removeItem(Request $request){
-        $this->validate($request,[
+    public function removeItem(Request $request)
+    {
+        $this->validate($request, [
             'tran_id' => 'required'
         ]);
-        try{
-            $tran=tran_detail::find($request->input('tran_id'));
+        try {
+            $tran = tran_detail::find($request->input('tran_id'));
             $tran->delete();
             return response()->json([
                 'code' => 1,
                 'message' => 'item removed from list'
-            ],201);
+            ], 201);
+        } catch (Throwable $e) {
+            return response()->json([
+                'code' => 3,
+                'message' => 'item not found'
+            ], 404);
         }
-            catch(Throwable $e){
-                return response()->json([
-                    'code' => 3,
-                    'message' => 'item not found'
-                ],404);
-            }
     }
-    public function reset(Request $request){
-        $this->validate($request,[
+
+    public function reset(Request $request)
+    {
+        $this->validate($request, [
             'tran_id' => 'required'
         ]);
-        try{
+        try {
             $transactions = tran_detail::where('tran_id', $request->input('tran_id'))->get();
-            foreach ($transactions as $tran){
+            foreach ($transactions as $tran) {
                 $tran->delete();
             }
             return response()->json([
                 'code' => 1,
                 'message' => 'transactions deleted'
             ]);
-        }
-        catch(Throwable $e){
+        } catch (Throwable $e) {
             return response()->json([
-                'code'=> 4
-            ],404);
+                'code' => 4
+            ], 404);
         }
 
     }
-    public function complete(Request $request){
-        $this->validate($request,[
+
+    public function complete(Request $request)
+    {
+        $this->validate($request, [
             'transaction_id' => 'required',
             'discount_rate' => 'required',
         ]);
-        $total=0.00;
-        $transactions =  tran_detail::where('tran_id', $request->input('tran_id'))->get();
-        foreach ($transactions as $tran){
-            $total+=$tran->total;
+        $total = 0.00;
+        $transactions = tran_detail::where('tran_id', $request->input('tran_id'))->get();
+        foreach ($transactions as $tran) {
+            $total += $tran->total;
         }
-        $dr=$request->input('discount_rate');
-        $net_total=$total-($dr*$total);
-        $bill=bill_transaction::where('tran_id',$request->input('transaction_id'))->first();
-        $restro=Restro::find(Branch::find($bill->branch_id))->first();
+        $dr = $request->input('discount_rate');
+        $net_total = $total - ($dr * $total);
+        $bill = bill_transaction::where('tran_id', $request->input('transaction_id'))->first();
+        $restro = Restro::find(Branch::find($bill->branch_id))->first();
 
-        $gstFlag=$restro->gst_comp;
-        if($gstFlag==1){
-            $bill->net_billed=$total;
-            $bill->bill_amount=$net_total;
+        $gstFlag = $restro->gst_comp;
+        if ($gstFlag == 1) {
+            $bill->net_billed = $total;
+            $bill->bill_amount = $net_total;
 
-        }
-        else{
-            $bill->net_billed=$total;
-            $bill->bill_amount=($net_total+($net_total*0.05));
+        } else {
+            $bill->net_billed = $total;
+            $bill->bill_amount = ($net_total + ($net_total * 0.05));
         }
 
         $bill->save();
         return response()->json([
-            'code'=>1,
-            'message'=>'transaction completed'
+            'code' => 1,
+            'message' => 'transaction completed'
         ]);
 
     }
-    public function settle(Request $request){
+
+    public function settle(Request $request)
+    {
         $this->validate($request,
             [
                 'tran_id' => 'required|unique:settlement',
                 'settle_mode' => 'required',
 
             ]);
-        $settlement=null;
-        $tid=$request->input('tran_id');
+        $settlement = null;
+        $tid = $request->input('tran_id');
 
-        $bill=DB::table('bill_transaction')->where('tran_id',$tid)->first();
+        $bill = DB::table('bill_transaction')->where('tran_id', $tid)->first();
 
-        if($request->input('settle_mode')==0){
+        if ($request->input('settle_mode') == 0) {
             //assuming 1 for card and 0 for cash
-            $settlement=new settlement([
+            $settlement = new settlement([
                 'tran_id' => $bill->tran_id,
-                'customer_id'=> $bill->cust_id,
+                'customer_id' => $bill->cust_id,
                 'bill_amount' => $bill->bill_amount,
                 'settle_mode' => 0,
-                'status_flag'=> 0,
+                'status_flag' => 0,
 
 
             ]);
 
-        }
-        else{
+        } else {
 
-                //assuming 1 for card and 0 for cash
-                $settlement=new settlement([
-                    'tran_id' => $bill->tran_id,
-                    'customer_id'=> $bill->cust_id,
-                    'bill_amount' => $bill->bill_amount,
-                    'settle_mode' => 1,
-                    'status_flag'=> 1,
-                    'card_number'=> $request->input('card_number'),
-                    'bank'=> $request->input('bank'),
-                    ]);
+            //assuming 1 for card and 0 for cash
+            $settlement = new settlement([
+                'tran_id' => $bill->tran_id,
+                'customer_id' => $bill->cust_id,
+                'bill_amount' => $bill->bill_amount,
+                'settle_mode' => 1,
+                'status_flag' => 1,
+                'card_number' => $request->input('card_number'),
+                'bank' => $request->input('bank'),
+            ]);
         }
         $settlement->save();
         return response()->json([
-            'code'=>1
+            'code' => 1
         ]);
+//    }
+//    public function getActiveTrans(Request $request){
+//
+//    }
+
+
     }
-
-
 }

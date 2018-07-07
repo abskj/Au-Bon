@@ -192,4 +192,7 @@ Route::post('/settle',[
 Route::post('/dataDump',[
     'uses' => 'billController@getData'
 ]);
+Route::post('/activeTrans',[
+    'uses' => 'billController@getActiveTrans'
+]);
 

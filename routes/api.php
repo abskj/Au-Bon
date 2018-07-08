@@ -196,3 +196,6 @@ Route::post('/activeTrans',[
     'uses' => 'billController@getActiveTrans'
 ]);
 
+Route::post('/printTest',[
+    'uses' => 'billController@printBill'
+]);

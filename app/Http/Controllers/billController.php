@@ -9,6 +9,7 @@ use App\foodItem;
 use App\Restro;
 use App\settlement;
 use App\tran_detail;
+use App\Bill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use File;
 use Illuminate\Http\Response;
 use App\JSON2CSVutil;
+use function MongoDB\BSON\toJSON;
 
 
 class billController extends Controller
@@ -321,5 +323,78 @@ class billController extends Controller
 //    }
 
 
+    }
+    public function printBill(Request $request){
+        $this->validate($request, [
+            'tran_id' => 'required'
+        ]);
+
+        $tranid=$request->input('tran_id');
+        $transactions=tran_detail::where('tran_id', $tranid)->get();
+        $bill=bill_transaction::where('tran_id',($tranid))->first();
+        $branch=branch::find($bill->branch_id);
+        $restro=restro::find($branch->restro_id);
+        $items=[];
+        $rest_info=new \stdClass();
+        $rest_info->name=$restro->restro_name;
+        $rest_info->no=$restro->phone;
+        $headerS=new \stdClass();
+        $headerS->header="Celebrate Birthday with Us";
+        $headerS->body="We also take party order and provide banquet hall for various party arrangements";
+
+
+        $cust=customer::where('mobile',$bill->cust_id)->first();
+        $cust_info=new \stdClass();
+        $cust_info->name=$cust->name;
+        $cust_info->mobile=$cust->mobile;
+        $cust_info->address=$cust->address;
+
+        $bill_date=$this->dateFormat(substr("($bill->updated_at)",1,10));
+        foreach($transactions as $tran){
+
+            $x=new \stdClass();
+            $x->name=$tran->item_name;
+            $x->rate=$tran->rate;
+            $x->total=$tran->total;
+            $x->quantity=$tran->qty;
+            array_push($items,$x);
+
+        }
+        $itemsJSON=json_encode($items);
+        $discount=($bill->bill_amount)*($bill->discount);
+        $main=json_encode([
+            "logo"=> public_path()."/logo.png",
+              "phone"=> $branch->phone,
+              "gst"=> $restro->gstin,
+              "address"=> $branch->address,
+              "billNumber" => $tranid,
+              "billDate"=> $bill_date,
+              "customerDetails"=> $cust_info,
+              "restaurantInfo"=> $rest_info,
+              "items"=> json_decode($itemsJSON),
+              "netAmount"=> $bill->bill_amount,
+              "discount"=> $discount,
+              "grandTotal"=> $bill->net_billed,
+              "additionalInfo"=> $headerS,
+        ])  ;
+
+        $printerbill=new Bill(json_decode($main));
+        $printerbill->print();
+        return response()->json([
+            'date' =>substr("($bill->updated_at)",1,10),
+            'main' =>$main
+
+        ]);
+
+
+
+
+
+    }
+    public function dateFormat($stringDate){
+                           $year=substr($stringDate,0,4);
+                           $month=substr($stringDate,5,2);
+                           $day=substr($stringDate,8,2);
+                           return $day."/".$month."/".$year  ;
     }
 }

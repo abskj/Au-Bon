@@ -102,7 +102,7 @@ class userController extends Controller
         }
         $manager= new User([
             'user_name' => $request->input('user_name'),
-            'password' => $request->input('password'),
+            'password' => bcrypt($request->input('password')),
             'user_fname' => $request->input('user_fname'),
             'restro_id' => $request->input('restro_id'),
             'aadhar_no' => $request->input('aadhar_no'),
@@ -174,7 +174,7 @@ class userController extends Controller
         }
         $staff= new User([
             'user_name' => $request->input('user_name'),
-            'password' => $request->input('password'),
+            'password' => bcrypt($request->input('password')),
             'user_fname' => $request->input('user_fname'),
             'restro_id' => $request->input('restro_id'),
             'aadhar_no' => $request->input('aadhar_no'),

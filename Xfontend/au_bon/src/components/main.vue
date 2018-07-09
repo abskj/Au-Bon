@@ -21,7 +21,7 @@ export default {
             logged_in:false,
              user: [{
                 user_name:'admin',
-                role:0,
+                role:5,
                 user_fullname:'abcdefg',
                 branch_id:'1',
                 restro_id:'1'
@@ -38,18 +38,19 @@ methods:{
     loginSuccess(fullname,role,restro_id,branch_id,username){
      
         this.logged_in=true;
-             x={
+             var x={
               user_fullname:fullname,
               restro_id:restro_id,
               branch_id:branch_id,
               user_name:username,
       }
-      this.user[0]=x;
+      this.user.aplice(0,0,x);
 
     },
     logout(){
-                this.logged_in=false,
-                this.user.pop();
+                this.logged_in=false;
+               
+                
     }
 }
 }

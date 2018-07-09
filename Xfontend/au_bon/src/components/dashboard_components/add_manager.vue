@@ -77,7 +77,7 @@
 
 <script>
 
-import Axios from 'axios';
+import axios from 'axios';
 
 export default {
     data(){
@@ -104,7 +104,7 @@ export default {
     methods:{
         onsubmitted(){
          
-            Axios.post(backend+'/manager',
+            axios.post(backend+'/manager',
             {
                 'user_name':this.username,
                 'password':this.password,

@@ -122,10 +122,10 @@ svg path{
     font-size: 10em;
     font-weight: bold;
 }
-input:focus{
+#full * input:focus{
     color: white!important;
 }
-input{
+#full * input{
     color:white!important;
 }
 

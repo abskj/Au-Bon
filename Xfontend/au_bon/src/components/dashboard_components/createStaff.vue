@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <form @submit.prevent='Onsubmitted' class="col s12">
+            <form @submit.prevent="Onsubmitted" class="col s12">
               <div class="row">
                 <div class="input-field col s6">
                   <i class="material-icons prefix">account_circle</i>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import Axios from 'axios';
+import axios from 'axios';
 export default {
     data(){
         return{
@@ -75,7 +75,8 @@ export default {
     },
     methods:{
         Onsubmitted(){
-            Axios.post("http://127.0.0.1:8000/api/staff",
+          
+            axios.post(backend+"/staff",
             {
             'user_name':this.name,
             'password':this.password,
@@ -87,11 +88,15 @@ export default {
             'mobile':this.mobile,
             'voter_id':this.voterid,
             'branch_id':this.user[0]['branch_id']
-            })
+            },{
+            headers:{}
+        })
             .then(function(response){
                 console.log(response);
+                 M.toast({html: 'Staff Added'})
             }).catch(function(error){
                 console.log(error);
+                 M.toast({html: 'Staff could not be Added'})
             });
         }
     }

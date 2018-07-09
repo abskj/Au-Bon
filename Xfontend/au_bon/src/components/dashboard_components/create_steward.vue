@@ -31,8 +31,8 @@ export default {
             mobile:""
         }
     },
- props: {
-        user: {
+    props:{
+        user:{
             type: Array
         }
     },
@@ -50,9 +50,11 @@ export default {
                     document.getElementById('clearname').innerHTML='added successfully';
                     this.name='';
                     this.mobile='';
+                      M.toast({html: 'Steward Added'})
                 }})
             .catch(function(error){
                 console.log(error);
+                  M.toast({html: 'Steward could not be Added'})
             });
         },
         clearmsg(){

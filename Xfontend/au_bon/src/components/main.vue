@@ -20,7 +20,7 @@ export default {
         return {
             logged_in:false,
              user: [{
-                user_name:'admin',
+                user_name:'root',
                 role:0,
                 user_fullname:'abcdefg',
                 branch_id:'1',

@@ -58,7 +58,7 @@ export default {
     methods:{
         Onsubmitted(){
             document.getElementById("branch-msg").innerHTML="submitting your request",
-            Axios.post("http://127.0.0.1:8000/api/foodCategory",
+            Axios.post(backend+"/foodCategory",
             {
                 'user_name':this.user[0]['user_name'],
                 'role':this.user[0]['role'],

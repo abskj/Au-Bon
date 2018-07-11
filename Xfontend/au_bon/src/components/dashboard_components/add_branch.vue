@@ -25,6 +25,13 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s10">
+                            <i class="material-icons prefix">phone</i>
+                            <input id="icon_telephone" type="number" class="validate" v-model="restroID">
+                            <label for="icon_telephone">RestroId</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s10">
                             <i class="material-icons prefix">pin_drop</i>
                             <input id="icon_telephone" type="number" class="validate" v-model="pin">
                             <label for="icon_telephone">pin</label>
@@ -47,7 +54,8 @@ export default {
         return{
             address:'',
             telephone:'',
-            pin:''
+            pin:'',
+            restroID:'',
         }
     },
     props:{
@@ -58,14 +66,14 @@ export default {
     methods:{
         Onsubmitted(){
             document.getElementById("branch-msg").innerHTML="submitting your request",
-            Axios.post("http://127.0.0.1:8000/api/branch",
+            Axios.post(backend+"/branch",
             {
                 'user_name':this.user[0]['user_name'],
                 'role':this.user[0]['role'],
                 'address':this.address,
                 'pin':this.pin,
                 'phone':this.telephone,
-                'restro_id':this.user[0]['restro_id']
+                'restro_id':this.restroID,
             })
             .then(response =>{
                 this.code=response.data.code;

@@ -39,6 +39,7 @@ class dashboardController extends Controller
             'valid'=>true,
             'restro added'=> $request->input('restro_name'),
             'code'=>1,
+            'restro' => $restro,
 
         ],200);
     }

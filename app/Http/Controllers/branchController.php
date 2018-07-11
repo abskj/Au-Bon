@@ -37,7 +37,8 @@ class branchController extends Controller
         $branch->save();
         return response()->json([
             'code'=> 1,
-            'message'=>'branch created successfully'
+            'message'=>'branch created successfully',
+            'details' => $branch,
         ]);
 
 

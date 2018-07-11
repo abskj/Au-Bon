@@ -35,7 +35,8 @@ components:{
     'app-dashboard':Dashboard
 },
 methods:{
-    loginSuccess(fullname,role,restro_id,branch_id,username){
+    loginSuccess(fullname,role1,restro_id,branch_id,username){
+        console.log(branch_id)
      
         this.logged_in=true;
              var x={
@@ -43,8 +44,9 @@ methods:{
               restro_id:restro_id,
               branch_id:branch_id,
               user_name:username,
+              role:role1,
       }
-      this.user.aplice(0,0,x);
+      this.user.splice(0,0,x);
 
     },
     logout(){

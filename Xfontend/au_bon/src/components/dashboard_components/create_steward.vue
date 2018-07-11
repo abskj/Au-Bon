@@ -39,7 +39,7 @@ export default {
     methods:{
         Onsubmitted(){
             document.getElementById('clearname').innerHTML="submitting your request",
-            Axios.post("http://127.0.0.1:8000/api/steward",{
+            Axios.post(backend+"/steward",{
                 'name':this.name,
                 'mobile':this.mobile,
                 'branch_id':this.user[0]['branch_id']

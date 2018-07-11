@@ -62,6 +62,20 @@
                         <label for="voter_id">voter ID </label>
                 </div>
             </div>
+             <div class="row">
+                <div class="input-field col s12">
+                        <i class="material-icons prefix">portrait</i>
+                        <input type="text" name="restro_id" id="restro_id" class="form-control" v-model="restroid" >
+                        <label for="restro_id">Restro ID </label>
+                </div>
+            </div>
+             <div class="row">
+                <div class="input-field col s12">
+                        <i class="material-icons prefix">portrait</i>
+                        <input type="text" name="voter_id" id="branch_id" class="form-control" v-model="branch_id" >
+                        <label for="branch_id">Branch ID </label>
+                </div>
+            </div>
           
             <div class="row">
                 <div class="">
@@ -110,11 +124,11 @@ export default {
                 'password':this.password,
                 'aadhar_no':this.aadhar,
                 'user_fname':this.fullname,
-                'restro_id':this.this.user[0]['restro_id'],
+                'restro_id':this.restroid,
                 'address':this.address,
                 'mobile':this.mobile,
                 'voter_id':this.voter_id,
-                'branch_id':this.user[0]['branch_id'],
+                'branch_id':this.branch_id,
                 'admin_name':this.user[0]['user_name'],
 
             }).then(

@@ -1,7 +1,7 @@
 <template>
      <div class="row">
                     <div class="col m4 label">
-                            Steward: {{select}}
+                            Steward: 
                     </div>
                     <div class="col m6">
                             

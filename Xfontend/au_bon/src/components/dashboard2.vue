@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar v-on:logout="logout"></navbar>
+        <navbar v-on:logout="logout"  v-bind:user="user"></navbar>
     <div class="row" >
         <div class="col m2 hide-on-small-only " style="padding-left:0px">
             <sidebar class="grey darken-4"></sidebar>

@@ -108,7 +108,7 @@ export default {
         }
         ,
         getCat(){
-            Axios.post("http://127.0.0.1:8000/api/get-foodCategory",{
+            Axios.post(backend+"/get-foodCategory",{
                 'user_name':this.user[0]['user_name'],
                 'role':this.user[0]['role'],
                 'branch_id':this.user[0]['branch_id'],
@@ -121,7 +121,7 @@ export default {
         },
         Onsubmitted(){
             document.getElementById("branch-msg").innerHTML="submitting your request",
-            Axios.post("http://127.0.0.1:8000/api/foodItem",
+            Axios.post(backend+"/foodItem",
             {
                 'user_name':this.user[0]['user_name'],
                 'role':this.user[0]['role'],

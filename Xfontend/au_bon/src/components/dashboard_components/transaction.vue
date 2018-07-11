@@ -78,7 +78,7 @@
                         </div>
                         <div class="col m6">
                             <div class="row">
-                                <button id="trans-reset"  @click="reset" class="btn waves blue">New Transaction</button>
+                                <button id="trans-reset" style="margin-top:9px;" @click="reset" class="btn waves blue">New Transaction</button>
                             </div>
                         </div>
                     </div>

@@ -76,7 +76,7 @@ export default {
     methods:{
         RestroAdd(){
              document.getElementById('restro-msg').innerHTML='Submitting your request';
-            Axios.post("http://127.0.0.1:8000/api/restro",
+            Axios.post(backend+"/restro",
             {
                 'restro_name':this.RestroName,
                 'gstin':this.GSTIN,

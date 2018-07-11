@@ -11,10 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::post('/login', 'loginController@login');
-Route::get('dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/{any}', 'spaController@index')->where('any', '.*');

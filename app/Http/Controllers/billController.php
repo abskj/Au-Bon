@@ -8,6 +8,7 @@ use App\customer;
 use App\foodItem;
 use App\Restro;
 use App\settlement;
+use App\steward;
 use App\tran_detail;
 use App\Bill;
 use Illuminate\Http\Request;
@@ -315,15 +316,47 @@ class billController extends Controller
         }
         $settlement->save();
         return response()->json([
-            'code' => 1
+            'code' => 1,
         ]);
-//    }
-//    public function getActiveTrans(Request $request){
-//
-//    }
-
-
     }
+   public function getActiveTrans(Request $request){
+       $this->validate($request, [
+           'user_name' =>'required',
+           'branch_id' => 'required',
+       ]);
+       $trans=bill_transaction::where('user_name',$request->input('user_name'))
+           ->where('branch_id',$request->input('branch_id'))
+            ->whereDate('updated_at',date('20y-m-d'))
+           ->get();
+       $all_transactions=[];
+       foreach($trans as $tran){
+           $settled=settlement::where('tran_id',$tran->tran_id)->count();
+           if($settled>0){
+               continue;
+           }
+
+           $tranObject=new \stdClass();
+           $tranObject->tran_id=$tran->tran_id;
+           $tranObject->cust_id=$tran->cust_id;
+           $customer=customer::where('mobile',$tran->cust_id)->first();
+           $tranObject->cust_addr=$customer->address;
+           $tranObject->cust_name=$customer->name;
+           $tranObject->steward_id=$tran->steward_id;
+           $steward=steward::find($tran->steward_id);
+           $tranObject->steward_name=$steward->name;
+
+           array_push($all_transactions,$tranObject);
+       }
+       return response()->json([
+           'code' => 1,
+           'activeTransactions' => $all_transactions,
+           'date' => date('20y-m-d'),
+       ]);
+//
+   }
+
+
+
     public function printBill(Request $request){
         $this->validate($request, [
             'tran_id' => 'required'

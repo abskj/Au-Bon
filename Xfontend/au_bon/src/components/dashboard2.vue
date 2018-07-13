@@ -6,8 +6,8 @@
             <sidebar class="grey darken-4"></sidebar>
         </div>
         <div class="col m10">
-            <activities  v-bind:user="user"></activities>
-            
+            <activities  v-bind:loginControl="loginControl" v-bind:user="user"></activities>
+       
         </div>
     </div>
    
@@ -27,7 +27,10 @@ components:{
 props: {
     user: {
         type: Array
-    }
+    },
+    loginControl:{
+            type: Boolean
+        }
 },
 methods:{
       logout(){

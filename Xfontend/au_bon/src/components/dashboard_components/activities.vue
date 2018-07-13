@@ -3,7 +3,7 @@
        
         <div class="util-wrapper">
            
-<router-view v-on:logout="logout" v-bind:user='user'></router-view>
+<router-view v-bind:loginControl="loginControl" v-on:logout="logout" v-bind:user='user'></router-view>
 
     </div>
     </div>
@@ -24,6 +24,9 @@ export default {
     props: {
         user: {
             type: Array
+        },
+        loginControl:{
+            type: Boolean
         }
     },
     methods:{

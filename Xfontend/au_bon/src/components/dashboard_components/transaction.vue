@@ -114,6 +114,9 @@ export default {
      props:{
         user:{
             type: Array
+        },
+        loginControl:{
+            type: Boolean
         }
     },
     components:{
@@ -173,9 +176,48 @@ export default {
                     
                 }
             }
-        }
+        },
+      
+    },
+    created: function(){
+        setInterval(this.initActiveTrans(),5000)      
     },
     methods:{
+        initActiveTrans(){
+             axios.post(backend+'/activeTrans', {
+                                       
+                                        'user_name' :this.user[0]['user_name'],
+                                        'branch_id':this.user[0]['branch_id'],
+                                       
+
+                                    },{
+                                        headers:[]
+                                    }).then(
+                                     
+                                        (response)=> {
+                                            this.active=[{}];
+                                            console.log(response.data.activeTransactions[0].tran_id)
+                                          response.data.activeTransactions.forEach(element => {
+                                                this.active.push({
+                                                tran_id: element.tran_id,
+                                                cust_no:element.cust_no,
+                                                cust_name:element.cust_name,
+                                                addr: element.addr,
+                                                steward_id: element.steward_id,
+                                                table:element.table,
+                                                discount : element.discount,
+                                                steward_name:element.steward_name
+                                            })
+                                          });
+                                                                        
+                                        }
+
+                                    ).catch(function (error) {
+                                        console.log(error);
+                                    })
+          
+            ///uygtuy
+        },
         disableTransFields(){
             this.disableCustFields();
               document.getElementById('customer_no').disabled=true;

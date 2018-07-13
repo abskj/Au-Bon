@@ -1,7 +1,7 @@
 <template>
 <div id="main">
      <div v-if="logged_in">
-        <app-dashboard v-on:logout="logout" v-bind:user='user'></app-dashboard>
+        <app-dashboard v-on:logout="logout" v-bind:loginControl="logged_in" v-bind:user='user'></app-dashboard>
 
     </div>
     <div v-else >

@@ -337,13 +337,15 @@ class billController extends Controller
 
            $tranObject=new \stdClass();
            $tranObject->tran_id=$tran->tran_id;
-           $tranObject->cust_id=$tran->cust_id;
+           $tranObject->cust_no=$tran->cust_id;
            $customer=customer::where('mobile',$tran->cust_id)->first();
-           $tranObject->cust_addr=$customer->address;
+           $tranObject->addr=$customer->address;
            $tranObject->cust_name=$customer->name;
            $tranObject->steward_id=$tran->steward_id;
            $steward=steward::find($tran->steward_id);
            $tranObject->steward_name=$steward->name;
+           $tranObject->discount=$tran->discount;
+           $tranObject->table=$tran->table_no;
 
            array_push($all_transactions,$tranObject);
        }

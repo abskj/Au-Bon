@@ -101,6 +101,17 @@ export default {
             }).then((response)=>{
                 M.toast({html:'Transaction completed'})
                 document.getElementsByTagName("body")[0].style.overflow="auto";
+                                axios.post(backend+'/printTest',{
+                                'tran_id' :this.tranId,
+                               
+                            }).then(
+                                (response) =>{
+                                   console.log(response)
+                                    
+                                }
+                            ).catch(function(err){
+                                console.log(err);
+                            })
                 this.$emit('complete')
             }).catch(function(err){
                  console.log(err)

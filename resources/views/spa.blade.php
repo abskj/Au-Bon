@@ -15,6 +15,11 @@
     <div id="app"></div>
     <script src="/dist/build.js"></script>
   </body>
+  <style>
+  body {
+  overflow:scroll!important;
+}</style>
   <script>
+    
   const backend="http://127.0.0.1:8000/api"</script>
 </html>

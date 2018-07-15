@@ -249,7 +249,7 @@ class billController extends Controller
             'discount_rate' => 'required',
         ]);
         $total = 0.00;
-        $transactions = tran_detail::where('tran_id', $request->input('tran_id'))->get();
+        $transactions = tran_detail::where('tran_id', $request->input('transaction_id'))->get();
         foreach ($transactions as $tran) {
             $total += $tran->total;
         }

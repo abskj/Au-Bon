@@ -1,9 +1,9 @@
 <template>
     <div id="trans">
         <div class="row">
-            <h3 class="heading container thin">
+            <h4 class="heading container ">
             Transaction
-        </h3>
+        </h4>
         </div>
         <div class="row ">
             <div class="col s12 m6">
@@ -65,7 +65,7 @@
                                               Discount Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name=""  id="drate"  v-model="discount_rate">
+                                                <input type="number" step="0.01" name="" max="0.99" id="drate"  v-model="discount_rate">
                                         </div>
                                       
                                     </div>

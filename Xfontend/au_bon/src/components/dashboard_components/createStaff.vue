@@ -42,7 +42,7 @@
                 <div class="input-field col s6">
                   <i class="material-icons prefix">account_circle</i>
                   <input id="adahar_no" type="text" class="validate" v-model="adahar">
-                  <label for="adahar_no">adahar no</label>
+                  <label for="adahar_no">Aadhar no</label>
                 </div>
               </div>
               <div>

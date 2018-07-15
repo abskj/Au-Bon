@@ -4,7 +4,7 @@
                    <div class="center">
                         <h4>SETTLE THE TRANSACTION</h4>
                    </div>
-                    <p>A bunch of text</p>
+                    <p>Powered by TechBongo</p>
                     </div>
                   <form @submit.prevent="settle">
                           <div class="row">
@@ -17,8 +17,8 @@
                             <div class="input-field col m4 ">
                                 <select class="browser-default" v-model="settle_mode">
                                 
-                                <option @select="showBankDetails" value="1">Card</option>
-                                <option @select="hideBankDetails" value="0" selected>Cash</option>
+                                <option @click="showBankDetails" value="1">Card</option>
+                                <option @click="hideBankDetails" value="0" selected>Cash</option>
                             
                                 </select>
                             
@@ -100,6 +100,7 @@ export default {
                  'bank':this.bank,
             }).then((response)=>{
                 M.toast({html:'Transaction completed'})
+                document.getElementsByTagName("body")[0].style.overflow="auto";
                 this.$emit('complete')
             }).catch(function(err){
                  console.log(err)

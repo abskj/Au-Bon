@@ -56,7 +56,7 @@
                            <div class="row">
                                 <div class="col s3" style="font-size:1.2em">Category</div>
                             <div class="col s9"> <select class="browser-default" @focus="getCat" v-model="cat_id">
-                                <option v-for="cat in cats" @click="setCat(cat)">
+                                <option v-for="cat in cats">
                                    {{cat.cat_name}}
                                    {{cat.cat_id}}
                                 </option>
@@ -166,10 +166,10 @@ export default {
 </script>
 
 <style>
-input{
+input,select{
     color: black!important;
 }
-input:focus{
+input,select:focus{
     color:black!important;
 }
 .add-form{

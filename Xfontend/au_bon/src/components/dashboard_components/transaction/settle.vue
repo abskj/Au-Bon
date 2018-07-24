@@ -62,12 +62,17 @@ export default {
     props: {
         tranId:{
             type: String
+        },
+        flag:{
+            type:Number
         }
     },
     watch:{
-        tran_id: {
+        flag: {
             handler: function(oldVal, newVal){
-                
+                this.settle_flag=0;
+                this.card_no=0;
+                this.bank=0;
             }
         },
        

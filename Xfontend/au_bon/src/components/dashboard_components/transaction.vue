@@ -94,7 +94,7 @@
         </div>
         <div id="modal1" class="modal">
            
-                   <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id"></settle-bill>
+                   <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id" v-bind:flag="settlementControl"></settle-bill>
          </div>
          <div id="activeTransactions" class="row">
              <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
@@ -149,6 +149,7 @@ export default {
             resetController:1,
             stewardController:'',
             steward_name:'',
+            settlementControl:0,
 
         }
     },
@@ -415,9 +416,10 @@ export default {
             }).then(
                 (response) =>{
                      var elems=document.getElementById('modal1');
+                   this.settlementControl++;
                        var modal=M.Modal.init(elems, {
                             'startingTop': '25%',
-                             'dismissible' :false,
+                             'dismissible' :true,
                                  })
                       modal.open()
                       

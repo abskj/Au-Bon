@@ -18,8 +18,8 @@ class CreateTranDetail extends Migration
             $table->timestamps();
             $table->string('item_name',30);
             $table->string('tran_id',15);
-            $table->string('cat_id',10);
-            $table->string('item_id',15);
+            $table->string('cat_id',50);
+            $table->string('item_id',50);
             $table->integer('qty');
             $table->decimal('rate',8,2);
             $table->decimal('total',8,2);

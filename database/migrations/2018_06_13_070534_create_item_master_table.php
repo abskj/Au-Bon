@@ -17,7 +17,7 @@ class CreateItemMasterTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('cat_id');
-            $table->string('item_id',15)->unique();
+            $table->string('item_id',50)->unique();
             $table->string('HSN_code',10);
             $table->integer('SGST');
             $table->integer('CGST');

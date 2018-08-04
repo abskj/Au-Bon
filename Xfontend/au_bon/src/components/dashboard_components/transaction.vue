@@ -1,5 +1,8 @@
 <template>
     <div id="trans">
+         <div id="activeTransactions" class="row">
+             <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
+         </div>
         <div class="row">
             <h4 class="heading container ">
             Transaction
@@ -96,9 +99,7 @@
            
                    <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id" v-bind:flag="settlementControl"></settle-bill>
          </div>
-         <div id="activeTransactions" class="row">
-             <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
-         </div>
+        
     </div>
 </template>
 
@@ -523,7 +524,17 @@ export default {
     
     font-weight: 600;
 }
-
+#activeTransactions{
+    position: fixed;
+    overflow-y: scroll;
+    overflow-wrap: normal;
+    border: 1px solid black;
+    top: 5em;
+    left: 0px;
+    color:white;
+   max-height: 85vh;
+   width: 15vw;
+}
 
 
 

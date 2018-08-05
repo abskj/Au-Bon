@@ -14,6 +14,7 @@
         <li><router-link to="/data/">Download Data</router-link></li>
         <li><router-link to="/steward-add/">Create Steward</router-link></li>
         <li ><router-link to="/staff-add/">Create Staff</router-link></li>
+        <li ><router-link to="/editItems/">Modify Items</router-link></li>
         <li v-if="isAdmin"><router-link to="/manager-add/">Create Manager</router-link></li>
         <li @click="logout">Logout</li>
        

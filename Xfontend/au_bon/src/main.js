@@ -15,6 +15,7 @@ import DataDump from './components/dashboard_components/getData.vue';
 import CreateStaff from './components/dashboard_components/createStaff.vue';
 import CreateSteward from './components/dashboard_components/create_steward.vue';
 import History from './components/tran_history.vue';
+import EditTran from './components/editItems.vue';
 Vue.use(VueRouter);
 Vue.use(VueRouter);
 const routes = [
@@ -30,6 +31,7 @@ const routes = [
     { path: '/staff-add/', component: CreateStaff,},
     { path: '/steward-add/', component: CreateSteward,},
     {path: '/history/',component: History},
+    {path:'/editItems/', component:EditTran},
     
   ]
 },

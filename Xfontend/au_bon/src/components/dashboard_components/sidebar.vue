@@ -14,6 +14,7 @@ export default {
 <style>
 #sidenav{
     height: 95vh;
+    
 }
 
 </style>

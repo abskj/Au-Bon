@@ -132,6 +132,9 @@ Route::put('/foodItem',[
 Route::delete('/foodItem',[
     'uses' => 'foodItemController@delete'
 ]);
+Route::post('/foodItemsByCat',[
+    'uses' => 'foodItemController@getByCat'
+]);
 
 /*
  * Routes for billing

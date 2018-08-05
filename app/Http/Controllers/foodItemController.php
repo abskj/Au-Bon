@@ -16,10 +16,24 @@ class foodItemController extends Controller
             'branch_id' =>'required',
 
         ]);
-        $items=foodItem::where('branch_id',$r->input('branch_id'))->get();
+        $items=foodItem::where('branch_id',$r->input('branch_id'))->where('status',1)->get();
         return response()->json([
             'code' => 1,
             'data' => $items,
+        ]);
+    }
+
+    public function getByCat(Request $r){
+        $this->validate($r,[
+            'user_name' => 'required',
+            'role' =>'required',
+            'branch_id' =>'required',
+            'cat_id' =>'required',
+
+        ]);
+        $items=foodItem::where('branch_id', $r->input('branch_id'))->where('cat_id',$r->input('cat_id'))->get();
+        return response()->json([
+            'data' => $items
         ]);
     }
 
@@ -53,6 +67,8 @@ class foodItemController extends Controller
             'CGST' => $r->input('CGST'),
             'item_name' => $r->input('item_name'),
             'item_rate' => $r->input('item_rate'),
+            'status' => 1,
+
         ]);
 
         try{
@@ -82,6 +98,7 @@ class foodItemController extends Controller
             'CGST' =>'required',
             'item_name' =>'required',
             'item_rate' =>'required',
+            'status' => 'required',
 
         ]);
         if($r->input('role')>2){
@@ -98,7 +115,7 @@ class foodItemController extends Controller
                 'cat_id' => $r->input('cat_id'),
                 'user_name' => $r->input('user_name'),
 
-
+                'status' => $r->input('status'),
                 'HSN_code' => $r->input('HSN_code'),
                 'SGST' => $r->input('SGST'),
                 'CGST' => $r->input('CGST'),

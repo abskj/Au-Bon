@@ -38,6 +38,7 @@
               <th>Net Billed</th>
               <th>Table</th>
               <th>Steward id</th>
+              <th>Date Time</th>
               <th class="center">Reprint Bill</th>
           </tr>
         </thead>
@@ -49,9 +50,10 @@
                 <td>{{tran.net_billed}}</td>
                 <td>{{tran.table_no}}</td>
                 <td>{{tran.steward_id}}</td>
-                <td  @click="printBill(item)" >
+                <td>{{tran.created_at}}</td>
+                <td class="reprint" @click="printBill(tran)" >
                     <div class="center">
-                        <i class="material-icons black-text">print</i>
+                       <button> <i class="material-icons">print</i></button>
                     </div>
                 </td>
             </tr>
@@ -127,6 +129,9 @@ export default {
                'username' :this.user[0]['user_name'],
                 'branch_id':this.user[0]['branch_id'],
                 'type':this.type,
+                'cust_id':this.cust_no,
+                'fromDate':this.beginDate,
+                'toDate':this.endDate,
           }).then(
               (response) =>{
                  this.makePaginate(response.data.data);
@@ -134,7 +139,19 @@ export default {
               }
           )
       },
-
+        printBill(tran){
+             axios.post(backend+'/printTest',{
+                                'tran_id' :tran.tran_id,
+                               
+                            }).then(
+                                (response) =>{
+                                   M.toast({html: 'Collect the Bill'}) ;
+                                    
+                                }
+                            ).catch(function(err){
+                                console.log(err);
+                            })
+        },
 
       makePaginate(data){
           
@@ -156,7 +173,5 @@ export default {
 </script>
 
 <style >
-div:hover{
-    /* border:1px dashed blue; */
-}
+
 </style>

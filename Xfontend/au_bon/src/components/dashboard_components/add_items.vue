@@ -56,7 +56,7 @@
                            <div class="row">
                                 <div class="col s3" style="font-size:1.2em">Category</div>
                             <div class="col s9"> <select class="browser-default" @focus="getCat" v-model="cat_id">
-                                <option v-for="cat in cats">
+                                <option v-for="cat in cats" v-bind:value="cat.cat_id">
                                    {{cat.cat_name}}
                                    {{cat.cat_id}}
                                 </option>

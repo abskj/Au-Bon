@@ -11,8 +11,8 @@
                         <label for=""> To</label><input v-model="endDate" type="date" name="" id="">
                    </div>
                    <div class="col m4">
-                       <div class="input-field">
-                           <input type="number" class="validate" v-model="cust_no" id="search-query">
+                       <div class="input-field" style="padding-top:8px;">
+                           <input  type="number" class="validate" v-model="cust_no" id="search-query">
                            <label for="search-query">Search by Customer Phone Number</label>
                        </div>
                    </div>

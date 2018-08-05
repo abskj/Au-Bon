@@ -2,7 +2,15 @@
    <div class="col m12">   <h5 class=" center thin">Active Transactions</h5>
        <ol id="tran-list">
            <div v-for="tran in list" class="tran-tab" @click="changeActive(tran)">
-           {{tran.tran_id}} for {{tran.cust_name}} at {{tran.table}}
+               <div class="row">
+                   <div class="col s8">
+                       {{tran.tran_id}} for {{tran.cust_name}} 
+                   </div>
+                   <div class="col s4" style="font-size:2em;">
+                       {{tran.table}}
+                   </div>
+               </div>
+           <!-- {{tran.tran_id}} for {{tran.cust_name}} at <h6>Table {{tran.table}}</h6> -->
 
          </div>
        </ol>

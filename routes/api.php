@@ -199,3 +199,9 @@ Route::post('/activeTrans',[
 Route::post('/printTest',[
     'uses' => 'billController@printBill'
 ]);
+/*
+Transactions
+*/
+Route::post('/retrieveTransactions',[
+    'uses' => 'TransactionController@getList'
+]);

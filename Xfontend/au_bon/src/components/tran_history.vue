@@ -12,7 +12,7 @@
                    </div>
                    <div class="col m4">
                        <div class="input-field">
-                           <input type="number" class="validate" id="search-query">
+                           <input type="number" class="validate" v-model="cust_no" id="search-query">
                            <label for="search-query">Search by Customer Phone Number</label>
                        </div>
                    </div>
@@ -29,17 +29,36 @@
                 
             </form>
             <div>
-                <ul>
-                <li v-for="tran in transactions">
-                    <p>
-                        {{tran.tran_id}}
-                    {{tran.created_at}}
-                    {{tran.bill_amount}}
-                    {{tran.cust_id}}
-                    {{tran.net_billed}}
-                    </p>
-                </li>
-            </ul>
+                <table class="striped">
+        <thead>
+          <tr>
+              <th>Transaction Id</th>
+              <th>Customer Id</th>
+              <th>Bill Amount</th>
+              <th>Net Billed</th>
+              <th>Table</th>
+              <th>Steward id</th>
+              <th class="center">Reprint Bill</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr v-for="tran in transactions">
+                <td>{{tran.tran_id}}</td>
+                <td>{{tran.cust_id}}</td>
+                <td>{{tran.bill_amount}}</td>
+                <td>{{tran.net_billed}}</td>
+                <td>{{tran.table_no}}</td>
+                <td>{{tran.steward_id}}</td>
+                <td  @click="printBill(item)" >
+                    <div class="center">
+                        <i class="material-icons black-text">print</i>
+                    </div>
+                </td>
+            </tr>
+           
+        </tbody>
+       
+       </table>
             </div>
             <div class="row">
                <div class="center">
@@ -69,10 +88,24 @@ export default {
             type: Array
         },
     },
+    computed:{
+        type:function(){
+            let x=1;
+            if(this.beginDate)
+            x=x*2;
+            if(this.endDate)
+            x=x*3;
+            if(this.cust_no)
+            x=x*5;
+            return x;
+        }
+    },
     data(){
+        var today = new Date();
         return{
-            beginDate:"",
-            endDate:"",
+            cust_no:'',
+            beginDate:today.toISOString().substr(0, 10),
+            endDate:today.toISOString().substr(0, 10),
             pagination:{
                 'prev_page_url':'',
                 'next_page_url':'',
@@ -85,14 +118,15 @@ export default {
         }
     },
     created:function(){
-    
+ 
+  
     },
     methods:{
       getTrans(url){
           axios.post(url,{
                'username' :this.user[0]['user_name'],
                 'branch_id':this.user[0]['branch_id'],
-                'type':1
+                'type':this.type,
           }).then(
               (response) =>{
                  this.makePaginate(response.data.data);

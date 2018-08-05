@@ -15,7 +15,7 @@
                                 </div>
                             </div>
                             <div class="input-field col m4 ">
-                                <select class="browser-default" v-model="settle_mode">
+                                <select class="browser-default" v-model="settle_flag">
                                 
                                 <option @click="showBankDetails" value="1">Card</option>
                                 <option @click="hideBankDetails" value="0" selected>Cash</option>

@@ -5,6 +5,7 @@
     <div class="nav-wrapper purple darken-4 ">
       <a href="#" class="brand-logo thin" style="padding:2px;padding-left:5px;">AU-BON</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li v-if=""><router-link to="/history">View Transactions</router-link></li>
         <li v-if="isAdmin" ><router-link to="/restro-add">Add Restro</router-link></li>
         <li ><router-link to="/">Transaction</router-link></li>
         <li v-if="isAdmin"><router-link to="/branch-add/">Add Branch</router-link></li>

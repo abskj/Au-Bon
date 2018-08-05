@@ -16,6 +16,8 @@ class CreateItemMasterTable extends Migration
         Schema::create('item_master', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->tinyInteger('status');
+
             $table->string('cat_id');
             $table->string('item_id',50)->unique();
             $table->string('HSN_code',10);

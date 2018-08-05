@@ -224,14 +224,14 @@ export default {
             this.disableCustFields();
               document.getElementById('customer_no').disabled=true;
             document.getElementById('table').disabled=true;
-            document.getElementById('drate').disabled=true;
+            // document.getElementById('drate').disabled=true;
 
         },
         enableTransFields(){
             this.enableCustFields();
               document.getElementById('customer_no').disabled=false;
             document.getElementById('table').disabled=false;
-            document.getElementById('drate').disabled=false;
+            // document.getElementById('drate').disabled=false;
 
         },
         disableCustFields(){

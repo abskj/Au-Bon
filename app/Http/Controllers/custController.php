@@ -28,6 +28,16 @@ class custController extends Controller
                'message'=>'customer could not be created',
            ],400);
        }
+        // $username = urlencode("DUMMY"); 
+        //
+        // $msg_token = urlencode("DUMMY"); 
+        // $sender_id = urlencode("TKBNGO"); // optional (compulsory in transactional sms) 
+        // $message = urlencode("Message".$x."text will be provided"); 
+        // $mobile = urlencode($request->input('cust_id')); 
+
+        // $api = "http://managed.sms.techbongo.com/api/send_transactional_sms.php?username=".$username."&msg_token=".$msg_token."&sender_id=".$sender_id."&message=".$message."&mobile=".$mobile.""; 
+
+        // $response = file_get_contents($api);
        return response()->json([
            'code'=>1,
            'message'=>'customer created successfully',

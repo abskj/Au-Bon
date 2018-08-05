@@ -36,7 +36,19 @@ class foodItemController extends Controller
             'data' => $items
         ]);
     }
+    public function getAll(Request $r){
+        $this->validate($r,[
+            'user_name' => 'required',
+            'role' =>'required',
+            'branch_id' =>'required',
+            
 
+        ]);
+        $items=foodItem::where('branch_id', $r->input('branch_id'))->get();
+        return response()->json([
+            'data' => $items
+        ]);
+    }
     public function create(Request $r){
         $this->validate($r,[
             'user_name' => 'required',

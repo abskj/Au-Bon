@@ -120,6 +120,9 @@ Route::delete('/foodCategory',[
 Route::post('/get-foodItem',[
     'uses' => 'foodItemController@get'
 ]);
+Route::post('/allfoodItem',[
+    'uses' => 'foodItemController@getAll'
+]);
 
 Route::post('/foodItem',[
     'uses' => 'foodItemController@create'

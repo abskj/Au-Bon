@@ -17,5 +17,6 @@ class foodItem extends Model
         'user_name',
         'branch_id',
         'item_rate',
+        'status'
     ];
 }

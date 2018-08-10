@@ -211,3 +211,6 @@ Transactions
 Route::post('/retrieveTransactions',[
     'uses' => 'TransactionController@getList'
 ]);
+Route::post('/statTransactions',[
+    'uses' => 'TransactionController@getStat'
+]);

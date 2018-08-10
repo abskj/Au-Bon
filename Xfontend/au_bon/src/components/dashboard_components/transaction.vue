@@ -68,7 +68,7 @@
                                               Discount Rate:
                                       </div>
                                         <div class="col m3">
-                                                <input type="number" step="0.01" name="" max="0.99" id="drate"  v-model="discount_rate">
+                                                <input type="number" step="0.01" name="" max="100" id="drate"  v-model="discount_rate">
                                         </div>
                                       
                                     </div>
@@ -270,7 +270,7 @@ export default {
                 addr: this.cust_addr,
                 steward_id: this.steward_id,
                 table:this.table,
-                discount : this.discount_rate,
+                discount : this.discount_rate * 100,
                 steward_name:this.steward_name
             })
         },
@@ -413,7 +413,7 @@ export default {
            
             axios.post(backend+'/complete-transaction',{
                 'transaction_id' :this.tran_id,
-                'discount_rate' :this.discount_rate,
+                'discount_rate' :this.discount_rate/100,
             }).then(
                 (response) =>{
                      var elems=document.getElementById('modal1');

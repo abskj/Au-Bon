@@ -45,4 +45,27 @@ class TransactionController extends Controller{
 
         ]);
     }
+    public function getStat(Request $request){
+        $this->validate($request, [
+            'to_date' => 'required',
+            'from_date' => 'required',
+            'user_name' => 'required',
+            'branch_id' => 'required',
+        ]);
+        $from = date($request->input('from_date'));
+        $to = date($request->input('to_date'));
+        $trans = DB::table('settlement');
+        $trans=$trans->whereDate('created_at','>=',$from);
+        $trans=$trans->whereDate('created_at','<=',$to);
+        $total_val=$trans->sum('bill_amount');
+        $cash_val=$trans->where('settle_mode',0)->sum('bill_amount');
+        $card_val=DB::table('settlement')->whereDate('created_at','>=',$from)
+        ->whereDate('created_at','<=',$to)->where('settle_mode',1)->sum('bill_amount');
+        return response()->json([
+            'total' => $total_val,
+            'cash_val' => $cash_val,
+            'card_val' => $card_val,
+        ]);
+
+    }
 }

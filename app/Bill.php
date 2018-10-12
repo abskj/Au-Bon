@@ -98,7 +98,13 @@ class Bill
 
         $printer->text("-----------------------------------------------\n");
         $printer->text("Restaurant: " . $this->restaurantInfo->name . "\n");
-        $printer->text("No: " . $this->restaurantInfo->no . "\n");
+        if(($this->restaurantInfo->no) == "0"){
+            $printer->text("Parcel Order ". "\n");
+        }
+        else{
+            $printer->text("Table No: " . $this->restaurantInfo->no . "\n");
+        }
+        // $printer->text("No: " . $this->restaurantInfo->no . "\n");
         $printer->text("-----------------------------------------------\n");
 
         $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
@@ -114,13 +120,13 @@ class Bill
         }
         $printer->text("-----------------------------------------------\n");
 
-        $printer->text(str_pad("Net Amount: ", 33, ' ', STR_PAD_RIGHT) . str_pad($this->netAmount, 13, ' ', STR_PAD_LEFT) ."\n");
+        $printer->text(str_pad("Grand Total: ", 33, ' ', STR_PAD_RIGHT) . str_pad($this->grandTotal, 13, ' ', STR_PAD_LEFT) ."\n");
         $printer->text(str_pad("Discount: ", 33, ' ', STR_PAD_RIGHT) . str_pad($this->discount, 13, ' ', STR_PAD_LEFT) ."\n");
         $printer->text("-----------------------------------------------\n");
 
         $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer->setEmphasis(true);
-        $printer->text(str_pad("Grand Total: ", 33, ' ', STR_PAD_RIGHT) . str_pad($this->grandTotal, 13, ' ', STR_PAD_LEFT) ."\n");
+        $printer->text(str_pad("Net Billed: ", 33, ' ', STR_PAD_RIGHT) . str_pad($this->netAmount, 13, ' ', STR_PAD_LEFT) ."\n");
         $printer->setEmphasis(false);
         $printer->selectPrintMode();
 

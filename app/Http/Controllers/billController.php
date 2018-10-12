@@ -267,10 +267,11 @@ class billController extends Controller
         $dr = $request->input('discount_rate');
         $net_total = $total - ($dr * $total);
         $bill = bill_transaction::where('tran_id', $request->input('transaction_id'))->first();
+        $bill->discount = $dr * $total;
         $restro = Restro::find(Branch::find($bill->branch_id))->first();
 
         $gstFlag = $restro->gst_comp;
-        if ($gstFlag == 1) {
+        if ($gstFlag == 0) {
             $bill->net_billed = $total;
             $bill->bill_amount = $net_total;
 
@@ -393,7 +394,7 @@ class billController extends Controller
         $items=[];
         $rest_info=new \stdClass();
         $rest_info->name=$restro->restro_name;
-        $rest_info->no=$restro->phone;
+        $rest_info->no=$bill->table_no;
         $headerS=new \stdClass();
         $headerS->header="Celebrate Birthday with Us";
         $headerS->body="We also take party order and provide banquet hall for various party arrangements";
@@ -417,9 +418,9 @@ class billController extends Controller
 
         }
         $itemsJSON=json_encode($items);
-        $discount=($bill->bill_amount)*($bill->discount);
+        $discount=($bill->discount);
         $main=json_encode([
-            "logo"=> public_path()."/logo.png",
+            "logo"=> base_path()."\logo.png",
               "phone"=> $branch->phone,
               "gst"=> $restro->gstin,
               "address"=> $branch->address,

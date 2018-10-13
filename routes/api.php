@@ -216,5 +216,5 @@ Route::post('/statTransactions',[
     'uses' => 'TransactionController@getStat'
 ]);
 Route::post('/updateTransction',[
-    'uses' => 'TransactionController@updateTrans'
+    'uses' => 'billController@updateTrans'
 ]);

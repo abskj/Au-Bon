@@ -52,7 +52,7 @@
                             Table:
                         </div>
                         <div class="col m6">
-                            <input type="text" id="table"  v-model="table">
+                            <input @blur="updateTable" max-length=5 type="text" id="table"  v-model="table">
                         </div>
                     </div>
                        </div>
@@ -185,6 +185,18 @@ export default {
         setInterval(this.initActiveTrans(),5000)      
     },
     methods:{
+        updateTable(){
+            axios.post(backend+'/updateTransction',{
+                'transaction_id':this.tran_id,
+                'table_no': this.table,
+            }).then((response)=>{
+                 this.initActiveTrans();
+                  M.toast({html: 'Table no updated'}) ;
+            }).catch((err)=>{
+                 
+                  console.log(err);
+            });
+        },
         initActiveTrans(){
              axios.post(backend+'/activeTrans', {
                                        
@@ -223,14 +235,14 @@ export default {
         disableTransFields(){
             this.disableCustFields();
               document.getElementById('customer_no').disabled=true;
-            document.getElementById('table').disabled=true;
+           // document.getElementById('table').disabled=true;
             // document.getElementById('drate').disabled=true;
 
         },
         enableTransFields(){
             this.enableCustFields();
               document.getElementById('customer_no').disabled=false;
-            document.getElementById('table').disabled=false;
+           // document.getElementById('table').disabled=false;
             // document.getElementById('drate').disabled=false;
 
         },

@@ -24,14 +24,19 @@ use function MongoDB\BSON\toJSON;
 class billController extends Controller
 {
     //
-    public function updateTrans(Request $r){
-        $this->validate($r,[
+    public function updateTrans(Request $request){
+        $this->validate($request,[
             'table_no' => 'required',
-            'transaction_id' =>'reuqired'
+            'transaction_id' =>'required'
         ]);
         $bill = bill_transaction::where('tran_id', $request->input('transaction_id'))->get()->first();
-        $bill->table_no =  $request->input('transaction_id');
+        $bill->table_no =  $request->input('table_no');
         $bill->save();
+        
+        return response()->json([
+            'status' =>1,
+            'table no' => $bill->table_no,
+        ]);
 
     }
     public function getData(Request $request)
@@ -41,13 +46,24 @@ class billController extends Controller
             'from_date' => 'required',
             'user_name' => 'required',
             'branch_id' => 'required',
+            'item_code' => 'nullable',
         ]);
         $from = date($request->input('from_date'));
         $to = date($request->input('to_date'));
-        try {
+        $array = [];
+          
+        if($request->input('item_code')!=''){
+            $details = tran_detail::whereBetween('created_at', [$from, $to])->where('item_id',$request->input('item_code'))->get();
+
+            return response()->json([
+                'status'=>1,
+                'data' => $details,
+            ]);
+            
+        }
+         try {
             $trans = bill_transaction::whereBetween('created_at', [$from, $to])->get();
-            $array = [];
-            foreach ($trans as $tran) {
+             foreach ($trans as $tran) {
                 $x = json_encode($tran, JSON_UNESCAPED_SLASHES, 3);
                 array_push($array, $x);
             }
@@ -56,7 +72,9 @@ class billController extends Controller
             return response()->json([
                 'data' => $e
             ], 400);
-        }
+        };
+
+        
 
         return response()->json([
             'data' => $y

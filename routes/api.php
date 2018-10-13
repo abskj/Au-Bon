@@ -160,6 +160,7 @@ Route::post('/foodItemsByCat',[
  * sends code=5 if he doesn't
  * sends customer data if he doea
  */
+
 Route::post('/customer',[
     'uses' => 'billController@customer'
 ]);
@@ -213,4 +214,7 @@ Route::post('/retrieveTransactions',[
 ]);
 Route::post('/statTransactions',[
     'uses' => 'TransactionController@getStat'
+]);
+Route::post('/updateTransction',[
+    'uses' => 'TransactionController@updateTrans'
 ]);

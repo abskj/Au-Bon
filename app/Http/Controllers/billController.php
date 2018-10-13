@@ -24,7 +24,16 @@ use function MongoDB\BSON\toJSON;
 class billController extends Controller
 {
     //
+    public function updateTrans(Request $r){
+        $this->validate($r,[
+            'table_no' => 'required',
+            'transaction_id' =>'reuqired'
+        ]);
+        $bill = bill_transaction::where('tran_id', $request->input('transaction_id'))->get()->first();
+        $bill->table_no =  $request->input('transaction_id');
+        $bill->save();
 
+    }
     public function getData(Request $request)
     {
         $this->validate($request, [

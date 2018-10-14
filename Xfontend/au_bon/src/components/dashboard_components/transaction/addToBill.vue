@@ -58,7 +58,7 @@
                                               Item Quantity:
                                       </div>
                                         <div class="col m3">
-                                                <input min="1" type="number"  name=""    v-model="item_quantity">
+                                                <input min="0" type="number" step="0.01" name=""    v-model="item_quantity">
                                         </div>
                                     </div>
                                 </div>

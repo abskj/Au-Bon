@@ -1,4 +1,4 @@
-au_ban
+Au Bon is restaurant management system. It has the functionality that can serve a single restaurant as well as a chain. Its primary task has been to efficiently allow for billing a cutomer(using only keyboard operations) but compared to most such software this runs in a browser and keeps saving data continuously to the server which can either be on cloud or running locally via XAMPP.This can easily print bill for thermal printers but you may need to configure the Bill.php file in app folder. Feel welcome to submit any issues. 
 ## Running this project
     1. run `php artisan serve` at the root
     2. run `npm run dev` at Xfontend/au_bon
@@ -8,33 +8,3 @@ au_ban
     6. create a  admin entry from localhost:8080/create-admin
     7. Use your id to login into dashboard from homepage
     
-## Things to Do:
-    [*]Add restro
-    [*]add branch
-    [*]add Category
-    [*]add items
-    [ ]add tables
-    [*]add staffs
-    [*]add managers
-    [ ]transaction window
-    [ ]print billing
-    [ ]steward table
-    [ ]customer table
-    
-#issues
-    [ ] on create branch if restro id is wrong
-        send error response
-/*
- * Routes for billing
- * 1.add to bill an item
- * 2.finish transaction
- * check if customer exist in DB based on mobile number
- * fetch his data if he does
- * add him if he doesn't
- * create select based on get category
- * fetch items based on branch display according to category
- *  * with item details
- * with add item send it to bill transaction and with the transaction id create tran_detail
- *
- *
- */
